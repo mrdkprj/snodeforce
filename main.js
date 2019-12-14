@@ -11,6 +11,20 @@ const main = function() {
   const GET = "get";
   const POST = "post";
 
+  // --test
+  $("#test").on("click", function(e){
+    const head = ["id","name","MailingPostalCode"," MailingState","MailingCity"," MailingStreet"];
+    const rows = [];
+    for(let i = 0; i < 100; i++){
+      rows.push(["a" + i, "b"+i,"c"+i,"d"+i,"e"+i ,"f"+i]);
+    }
+    var _selectedTabId = $(".tab-area .ui-tabs-panel:visible").attr("tabId");
+    const elementId = "#soqlArea #grid" + _selectedTabId;
+
+    new GridTable(document.querySelector(elementId), {header:head,rows:rows});
+  });
+  // -----------
+
   //------------------------------------------------
   // grid
   //------------------------------------------------
