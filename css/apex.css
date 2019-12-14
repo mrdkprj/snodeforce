@@ -1,0 +1,10 @@
+#debugOptions{
+    display: none;
+    padding-top: 10px;
+    margin-bottom: 20px;
+    font-size:12px;
+}
+
+.debug-only{
+	vertical-align: bottom;
+}

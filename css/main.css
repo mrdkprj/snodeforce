@@ -1,0 +1,379 @@
+.filtered{
+    display:none !important;
+}
+
+/* ------------------------------
+    Table
+------------------------------ */
+.tbl{
+    display:table; 
+}
+
+.row {
+    display:table-row;
+}
+
+.row>div {
+    display:table-cell;
+    height: inherit;
+    padding-right: 15px;
+}
+
+.cell-wrapper{
+    display: inline-block;
+    overflow:auto;
+}
+
+.grid-table {
+	width: 500px;
+	display: inline-grid;
+	grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+}
+.grid-table>.row{
+	display: contents;
+}
+
+.header-cell {
+    border-bottom: solid 1px #aaa;
+    border-right: solid 1px #aaa;
+    background-color: #eee;
+    text-align: center;
+    color: #000000;
+    white-space: nowrap;
+    padding: 4px 6px;
+    height: 22px;
+}
+
+.grid{
+    border-top: 1px solid #aaa;
+    border-left: 1px solid #aaa;
+    font-size: 12px;
+    cursor: default;
+}
+
+.value-cell{
+
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    height: 22px;
+    empty-cells: show;
+    line-height: 21px;
+    padding: 0 4px;
+    background-color: #fff;
+    vertical-align: top;
+    overflow: hidden;
+    outline-width: 0;
+    white-space: nowrap;
+    background-clip: padding-box;
+}
+
+.current { 
+    outline: 2px solid #7000ff;
+    outline-offset: -1px;
+}
+.highlight{
+    background-color: rgb(112, 0, 255,0.1);
+}
+
+/* ------------------------------
+   #Areas
+------------------------------ */
+#mainArea .ui-tabs-anchor{
+    font-size:12px !important;
+}
+
+#localeArea{
+    display: none;
+}
+
+#contentsArea{
+    width:100%;
+    position:absolute;
+    top: 45px;
+    left: 0px;
+    bottom: 10px;
+    overflow-y: auto;
+    padding-top: 30px;
+}
+
+#userLocalOption{
+    display: none;
+}
+
+.error-page{
+  text-align:center;
+  white-space: pre;
+  color: red;
+  font-weight: bold;  
+}
+
+/* ------------------------------
+   Menu display
+------------------------------ */
+#soqlContent,
+#describeContent, 
+#metadataContent, 
+#toolingContent,
+#apexContent{
+    display:none;   
+}
+
+.soql #soqlContent, 
+.describe #describeContent, 
+.metadata #metadataContent, 
+.tooling #toolingContent,
+.apex #apexContent{
+    display:block;   
+}
+
+/* ------------------------------
+   MenuList
+------------------------------ */
+#menuList {
+    width: 100%;
+    height: 45px;
+    border-bottom: #aaa 1px solid;
+    z-index: 3000;
+    background-color: #0c549c;
+    display: flex;
+    font-size:10pt;
+    box-shadow: 0 3px 6px rgba(0,0,0,.225)
+}
+
+#menus {
+    height: 45px;
+    margin-left: auto;
+    list-style: none;
+    padding-right: 10px;
+}
+ 
+#menus li {
+    width: 120px;
+    height: 44px;
+    float: left;
+    border-left: #aaa 1px solid;
+    box-sizing: border-box;
+}
+ 
+#menus li:last-child {
+    border-right: #aaa 1px solid;
+}
+ 
+#menus li a {
+    height: 44px;
+    line-height: 44px;
+    display: block;
+    text-align: center;
+    transition: all 0.2s linear;
+    text-decoration: none;
+    color: #fff;
+}
+
+#menus li:hover > a {
+    background-color: #1579c0;
+}
+
+.displayed{
+    background-color: #1579c0;
+}
+
+/* ------------------------------
+    Overlay
+------------------------------ */
+.requesting-overlay {  
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    background-color: #408080;
+    opacity: 0.8;
+    overflow-x: hidden;
+    display:none;
+}
+
+.overlay-content {
+    position: relative;
+    top: 42%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+    color:#80ffff;
+    font-weight: bold;
+}
+
+/* ------------------------------
+    Progress bar
+------------------------------ */
+#progress{
+      visibility: hidden;
+      height: 2px;
+      width: 100%;
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      z-index: 3500;
+}
+
+.progress-line, .progress-line:before {
+    height: 2px;
+    width: 100%;
+    margin: 0;
+}
+
+.progress-line {
+    display: -webkit-flex;
+    display: flex;
+}
+
+.progress-line:before {
+    background-color: #f0ad4e;
+    content: '';
+    -webkit-animation: running-progress 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation: running-progress 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @-webkit-keyframes running-progress {
+    0% { margin-left: 0px; margin-right: 100%; }
+    50% { margin-left: 25%; margin-right: 0%; }
+    100% { margin-left: 100%; margin-right: 0; }
+    }
+
+    @keyframes running-progress {
+    0% { margin-left: 0px; margin-right: 100%; }
+    50% { margin-left: 25%; margin-right: 0%; }
+    100% { margin-left: 100%; margin-right: 0; }
+}
+
+/* ------------------------------
+   UserInfo Dropdown
+------------------------------ */
+#username{
+    margin-left:10px;
+    margin-top:7px;
+    line-height: 1.35 !important;
+}
+
+.dropdown-item-font{
+    font-size: 0.875rem;
+}
+
+.dropdown-btn:hover{
+    color: black;
+}
+
+.disabled-dropdown{
+    color: #bdbcbc;
+}
+
+.header{
+    position: fixed;
+    top:0px;
+    height: 45px;
+    z-index: 3000;
+    width: 100%;
+}
+
+.dropdown-btn{
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    border-radius: 12px;
+    border: #aaa 1px solid;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .175);
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 5px;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #000;
+    margin-top: 2px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #aaa;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+.dropdown-submenu>.dropdown-menu a{
+    padding-left: 25px;
+}
+
+.checkmark{
+    position: relative;
+    display: inline-block;
+    padding-left: 15px;
+}
+
+.checkmark:before,
+.checkmark:after {
+    position: absolute;
+    content: "";
+    display: inline-block;
+}
+
+/*Outer box of the fake checkbox*/
+.checkmark:before{
+    height: 5px;
+    width: 9px;
+    border-left: 2px solid #aaa;
+    border-bottom: 2px solid #aaa;
+    transform: rotate(-45deg);    
+    left: 10px;
+    top: 7px;
+}
+
+/*Checkmark of the fake checkbox*/
+.checkmark:after {
+    height: 5px;
+    width: 9px;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    transform: rotate(-45deg);    
+    left: 10px;
+    top: 7px;
+}
+
+.user a{
+	padding-left: 25px !important;
+}

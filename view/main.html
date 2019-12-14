@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" media="all" href="../css/bootstrap.css"/>
+		<link rel="stylesheet" media="all" href="../css/smoothness/jquery-ui-1.9.2.custom.css">
+		<link rel="stylesheet" media="all" href="../css/common.css"/>
+		<link rel="stylesheet" media="all" href="../css/main.css"/>	
+		<link rel="stylesheet" media="all" href="../css/soql.css">
+		<link rel="stylesheet" media="all" href="../css/apex.css">
+		<script src="../js/jquery-1.11.2.min.js"></script>
+		<script src="../js/bootstrap.js"></script>
+		<script src="../js/jquery-ui-1.11.3.min.js"></script>
+		<script type="module" src="../main.js"></script>
+		<!--<script type="module" src="../soql.js"></script>-->
+		<script src="../js/ajaxUtils.js"></script>
+		<script src="../lib/GridTable.js"></script>
+	</head>
+	<body>
+		<div id="mainArea" class="soql" current-locale-option="">
+
+		    <div id="overlay" class="requesting-overlay">
+		        <div id="overlayContent" class="overlay-content noselect">Requesting...</div>
+		        <div class="loader"></div>
+		    </div>
+
+		    <div class="header">
+		        <div id="progress">
+		          <div id="progress-line" class="progress-line"></div>
+		        </div>
+
+		        <div id="menuList">
+            <div class="btn-group">
+                <button id="username" class="btn btn-secondary btn-sm dropdown-toggle dropdown-btn paper-raise" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <ul id="dropdownMenu" class="dropdown-menu">
+                </ul>
+            </div>
+		            <ul id="menus">
+		                <li><a id="soql" href="javascript:void(0)" class="menu-item displayed">SOQL</a></li>
+		                <!--<li><a id="describe" href="javascript:void(0)" class="menu-item">Describe</a></li>-->
+		                <li><a id="apex" href="javascript:void(0)" class="menu-item">Apex</a></li>
+		            </ul>
+		        </div>
+		    </div>
+
+		    <div id="contentsArea">
+
+        		<div id="soqlContent">
+                    <div id="soqlHistory" class="sidenav">
+            			<div class="tbl soql-history-title noselect">
+            				<div class="row"><button class="closebtn noselect">&times;</button></div>
+            				<div class="row">SOQL History</div>
+            			</div>
+            			<div class="soql-list">
+            				<ul></ul>
+            			</div>
+            		</div>
+
+            		<div id="soqlArea">
+
+            			<div class="form-area soql-form">
+            				<div>
+            					<textarea id="inputSoql" class="code-input" spellcheck="false" cols="120" rows="5">select id,name,MailingPostalCode, MailingState,MailingCity, MailingStreet, build2__c from contact limit 100</textarea>
+            				</div>
+            				<div>
+            					<button type="button" id="executeSoqlBtn" class="btn btn-sm btn-primary">Execute</button>
+            					<label class="soql-options"><input type="checkbox" id="useTooling"/> Use Tooling API</label>
+            					<!--<label class="soql-options"><input type="checkbox" id="queryAll"/> Query all</label>-->
+            				</div>		
+            				<p><div class="message-area"></div></p>
+            			</div>
+            			
+            			<div class="tab-area">
+            				<ul id="soqlTabs">
+            					<li class="add-tab-li">
+            						<div class="add-tab-btn icon-plus"></div>
+            					</li>
+            				</ul>
+            			</div>	
+            		</div>
+            	</div>
+
+		        <div id="describeContent">efg</div>
+
+		        <div id="apexContent">
+					<div id="apexArea">
+						<div class="form-area execute-anonymous-form">
+							<div>
+								<textarea id="apexCode" class="code-input" spellcheck="false" cols="120" rows="5">string x = 'a'; system.debug(x);</textarea>
+							</div>
+							<div>
+								<button type="button" id="executeAnonymousBtn" class="btn btn-sm btn-primary">Execute Anonymous</button>
+								<button type="button" id="debugOptionBtn" class="btn btn-xs btn-default">Debug options</button>
+							</div>
+							<div id="debugOptions">
+							</div>		
+							<p><div class="message-area"></div></p>
+						</div>
+						
+						<div class="tab-area">
+							<ul id="apexTabs">
+								<li class="add-tab-li">
+									<div class="add-tab-btn icon-plus"></div>
+								</li>
+							</ul>
+						</div>
+					</div>		        	
+		        </div>
+
+		    </div>
+		</div>
+	</body>
+</html>
