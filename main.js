@@ -16,7 +16,11 @@ const main = function() {
     const head = ["id","name","MailingPostalCode"," MailingState","MailingCity"," MailingStreet"];
     const rows = [];
     for(let i = 0; i < 101; i++){
-      rows.push(["a" + i, "b"+i,"c"+i,"d"+i,"e"+i ,"f"+i]);
+      if(i==100){
+        rows.push(["a" + i, "b"+i,"c"+i,"daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+i,"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"+i ,"fffffffffffffffffffffffffffffffffffff"+i]);
+      }else{
+        rows.push(["a" + i, "b"+i,"c"+i,"d"+i,"e"+i ,"f"+i]);
+      }
     }
     var _selectedTabId = $(".tab-area .ui-tabs-panel:visible").attr("tabId");
     const elementId = "#soqlArea #grid" + _selectedTabId;
@@ -152,6 +156,7 @@ const main = function() {
   prepareUser();
   prepareSoql();
   prepareApex();
+  $("#test").click();
 };
 
 $(document).ready(main);

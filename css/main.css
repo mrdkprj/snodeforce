@@ -9,20 +9,14 @@
     display:table; 
     font-size: 12px;
     cursor: default;
+    table-layout: fixed;
     position: relative;
+    width: 100%;
 }
 
 .gtbl-row {
     display:table-row;
 }
-.sticky {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    display: table-header-group;
-  }
   
 /*
 .gtbl-row:before {
@@ -43,18 +37,32 @@
     display:table-cell;
 }
 
-.gtbl-col-header{
-    display: table-header-group;
-    position: sticky;
-    top: 0;
-    left:0;
-}
-
 .gtbl-row-header{
+    /*
     position: sticky;
     top: 0;
     left: 0;
+    */
     z-index: 9999;
+}
+
+.stick{
+    position:sticky;
+    top:0;
+    z-index: 9999;
+}
+
+.gtbl-hidden-row-header{
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    font-size: 12px;
+    height: 27px;
+    table-layout: fixed;
+    width: 100%;
+    display: table;
 }
 
 .gtbl-header-cell {
