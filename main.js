@@ -2,7 +2,7 @@ import * as constants from "./lib/constants.js";
 import { prepareSoql, executeSoql } from "./soql.js";
 import { prepareApex, executeAnonymous } from "./apex.js";
 
-const main = function() {  
+const main = function() {
   let _selectedAnchor = null;
   let _anchorObject = null;
   let _selectedTabId = null;
@@ -12,12 +12,13 @@ const main = function() {
   const POST = "post";
 
   // --test
+  let _grid = null;
   $("#test").on("click", function(e){
     const head = ["id","name","MailingPostalCode"," MailingState","MailingCity"," MailingStreet"];
     const rows = [];
     for(let i = 0; i < 101; i++){
-      if(i==100){
-        rows.push(["a" + i, "b"+i,"c"+i,"daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+i,"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"+i ,"fffffffffffffffffffffffffffffffffffff"+i]);
+      if(i==10){
+        rows.push(["a" + i, "b"+i,"c"+i,"daaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+i,"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"+i ,"fffffffffffffffffffffffffffffffffffff"+i]);
       }else{
         rows.push(["a" + i, "b"+i,"c"+i,"d"+i,"e"+i ,"f"+i]);
       }
@@ -25,7 +26,11 @@ const main = function() {
     var _selectedTabId = $(".tab-area .ui-tabs-panel:visible").attr("tabId");
     const elementId = "#soqlArea #grid" + _selectedTabId;
 
-    new GridTable(document.querySelector(elementId), {header:head,rows:rows});
+    _grid = new GridTable(document.querySelector(elementId), {header:head,rows:rows});
+  });
+
+  $("#testfilter").on("click", function(e){
+    _grid.filter(3, "d11");
   });
   // -----------
 
@@ -43,17 +48,33 @@ const main = function() {
     });
   }
 
-  $(document).on("keydown", ".value-cell", (e) => {
-    if (e.ctrlKey && e.key === "a"){
-      console.log("doc");
-      console.log(e);
-    }    
-  });
+  const prepareDebugLevels = () => {
+
+    for(let i = 0; i < constants.logCategory.length; i++){
+
+      const logCategory = constants.logCategory[i];
+      const label = $("<label>", {text: logCategory});
+      const select = $("<select>", {name: logCategory, id: logCategory});
+
+      constants.logCategoryLevel.forEach((item) => {
+        if(item == constants.defaultLogLevel[i]){
+          select.append( $("<option>", {text: item, selected:"selected"}) );
+        }else{
+          select.append( $("<option>", {text: item}) );
+        }
+      });
+
+      $("#debugOptions").append(label);
+      $("#debugOptions").append(select);
+
+    }
+
+  }
   //------------------------------------------------
   // Shortcut keys
   //------------------------------------------------
   $(document).on("keydown", (e) => {
-    
+
     if (e.ctrlKey && (e.key === "r" || e.keyCode === 13)) {
       e.preventDefault();
 
@@ -66,7 +87,7 @@ const main = function() {
         executeAnonymous();
       }
     }
-    
+
 
     // escape
     if (e.keyCode === 27) {
@@ -74,7 +95,7 @@ const main = function() {
         $("#soqlOverRay").hide();
       }
     }
-  
+
     // tab
     if (e.keyCode === 9) {
       if (e.target.id === "inputSoql" || e.target.id === "apexCode") {
@@ -96,7 +117,7 @@ const main = function() {
     const start = elem.selectionStart;
     const end = elem.selectionEnd;
     elem.value = "" + (elem.value.substring(0, start)) + "\t" + (elem.value.substring(end));
-    elem.selectionStart = elem.selectionEnd = start + 1;    
+    elem.selectionStart = elem.selectionEnd = start + 1;
   };
 
   //------------------------------------------------
@@ -113,13 +134,13 @@ const main = function() {
     _selectedAnchor = clickedAnchor;
     _anchorObject = this;
 
-    changeDisplayDiv(_selectedAnchor);      
-    return;    
+    changeDisplayDiv(_selectedAnchor);
+    return;
 
   });
-  
+
   const changeDisplayDiv = (target) => {
-    
+
     changeAnchorClass(_anchorObject);
 
     $("div#mainArea").prop("class", target);
@@ -154,6 +175,7 @@ const main = function() {
   // page load actions
   //------------------------------------------------
   prepareUser();
+  prepareDebugLevels();
   prepareSoql();
   prepareApex();
   $("#test").click();

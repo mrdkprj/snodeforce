@@ -59,11 +59,12 @@
 
             			<div class="form-area soql-form">
             				<div>
-            					<textarea id="inputSoql" class="code-input" spellcheck="false" cols="120" rows="5">select id,name,MailingPostalCode, MailingState,MailingCity, MailingStreet, build2__c from contact limit 100</textarea>
+            					<textarea id="inputSoql" class="code-input" spellcheck="false" cols="120" rows="5">select id,name,MailingPostalCode, MailingState,MailingCity, MailingStreet,MyExtID__c from contact</textarea>
             				</div>
             				<div>
             					<button type="button" id="executeSoqlBtn" class="btn btn-sm btn-primary">Execute</button>
-            					<button type="button" id="test" class="btn btn-sm btn-primary">Test</button>
+								<button type="button" id="test" class="btn btn-sm btn-primary">Test</button>								
+								<button type="button" id="testfilter" class="btn btn-sm btn-primary">Filter</button>
             					<label class="soql-options"><input type="checkbox" id="useTooling"/> Use Tooling API</label>
             					<!--<label class="soql-options"><input type="checkbox" id="queryAll"/> Query all</label>-->
             				</div>		

@@ -1,10 +1,1 @@
-map<string,string> m = new map<string,string>();
-string a = '150-0002 東京都渋谷区３ −１ A-PLACE渋谷金王';
-for(integer i = 0; i < 3000;i++){
-if(m.containsKey(a + string.valueof(i))){
-	
-}else{
-m.put(a + string.valueof(i), a);
-}
-system.debug(i);
-}
+string x = 'a'; system.debug(x);

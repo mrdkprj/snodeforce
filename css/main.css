@@ -1,12 +1,8 @@
-.filtered{
-    display:none !important;
-}
-
 /* ------------------------------
     Table
 ------------------------------ */
 .gtbl{
-    display:table; 
+    display:table;
     font-size: 12px;
     cursor: default;
     table-layout: fixed;
@@ -17,7 +13,7 @@
 .gtbl-row {
     display:table-row;
 }
-  
+
 /*
 .gtbl-row:before {
     display: table;
@@ -35,16 +31,20 @@
 .gtbl-row .gtbl-col-header-cell,
 .gtbl-row .gtbl-header-cell {
     display:table-cell;
+    /*max-width: 500px;*/
 }
 
+/*
 .gtbl-row-header{
-    /*
+
     position: sticky;
     top: 0;
     left: 0;
-    */
+
     z-index: 9999;
+
 }
+*/
 
 .stick{
     position:sticky;
@@ -55,8 +55,9 @@
 .gtbl-hidden-row-header{
     position: sticky;
     top: 0;
-    left: 0;
+    /*left: 0;
     right: 0;
+    */
     z-index: 9999;
     font-size: 12px;
     height: 27px;
@@ -65,12 +66,36 @@
     display: table;
 }
 
+.gtbl-hidden-col-header{
+    /*position: sticky;
+    left: 0;*/
+    z-index: 9999;
+    font-size: 12px;
+    width:20px;
+    float: left;
+    /*height: 0px;*/
+    display: block;
+}
+
+.blocking{
+    display:block !important;
+    position: sticky;
+    left: 0;
+    top: 0;
+}
+
+.translation{
+    overflow-y: hidden;
+    z-index: 10005;
+}
+
 .gtbl-header-cell {
     background-color: #eee;
     text-align: center;
     color: #000000;
     white-space: nowrap;
     height: 22px;
+    user-select: none;
 }
 
 .gtbl-col-header-cell{
@@ -86,12 +111,15 @@
     border-left: 1px solid #aaa;
 }
 
-.gtbl-corder-cell{
+.gtbl-corner-cell{
     border-top: solid 1px #aaa;
     border-left: 1px solid #aaa;
     border-right: solid 1px #aaa;
-    border-bottom: solid 1px #aaa;    
+    border-bottom: solid 1px #aaa;
     min-width: 45px;
+    z-index: 10001;
+    top:0;
+    left:0;
 }
 
 .node-container{
@@ -112,14 +140,27 @@
     vertical-align: top;
     overflow: hidden;
     outline-width: 0;
-    white-space: nowrap;
+    
+    white-space: pre-wrap;
+    /*
+    overflow-wrap: break-word;
+    word-break: break-word;
+    */
+    user-select: none;
     background-clip: padding-box;
 }
 
-.current { 
+.current {
     outline: 2px solid #7000ff;
     outline-offset: -1px;
 }
+
+.edit{
+    outline: 2px solid red !important;
+    outline-offset: -1px;
+    user-select: text;
+}
+
 .highlight{
     background-color: rgb(112, 0, 255,0.1);
 }
@@ -153,26 +194,26 @@
   text-align:center;
   white-space: pre;
   color: red;
-  font-weight: bold;  
+  font-weight: bold;
 }
 
 /* ------------------------------
    Menu display
 ------------------------------ */
 #soqlContent,
-#describeContent, 
-#metadataContent, 
+#describeContent,
+#metadataContent,
 #toolingContent,
 #apexContent{
-    display:none;   
+    display:none;
 }
 
-.soql #soqlContent, 
-.describe #describeContent, 
-.metadata #metadataContent, 
+.soql #soqlContent,
+.describe #describeContent,
+.metadata #metadataContent,
 .tooling #toolingContent,
 .apex #apexContent{
-    display:block;   
+    display:block;
 }
 
 /* ------------------------------
@@ -195,7 +236,7 @@
     list-style: none;
     padding-right: 10px;
 }
- 
+
 #menus li {
     width: 120px;
     height: 44px;
@@ -203,11 +244,11 @@
     border-left: #aaa 1px solid;
     box-sizing: border-box;
 }
- 
+
 #menus li:last-child {
     border-right: #aaa 1px solid;
 }
- 
+
 #menus li a {
     height: 44px;
     line-height: 44px;
@@ -229,7 +270,7 @@
 /* ------------------------------
     Overlay
 ------------------------------ */
-.requesting-overlay {  
+.requesting-overlay {
     height: 100%;
     width: 100%;
     position: fixed;
@@ -404,7 +445,7 @@
     width: 9px;
     border-left: 2px solid #aaa;
     border-bottom: 2px solid #aaa;
-    transform: rotate(-45deg);    
+    transform: rotate(-45deg);
     left: 10px;
     top: 7px;
 }
@@ -415,7 +456,7 @@
     width: 9px;
     border-left: 1px solid;
     border-bottom: 1px solid;
-    transform: rotate(-45deg);    
+    transform: rotate(-45deg);
     left: 10px;
     top: 7px;
 }
