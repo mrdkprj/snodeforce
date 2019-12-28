@@ -45,13 +45,13 @@ button:disabled {
     text-decoration: none;
 }
 
-.ui-tabs .ui-tabs-nav:focus {    
-    padding-left: 0px; 
-    background: transparent; 
-    border-width: 0px 0px 1px 0px; 
-    -moz-border-radius: 0px; 
-    -webkit-border-radius: 0px; 
-    border-radius: 0px;    
+.ui-tabs .ui-tabs-nav:focus {
+    padding-left: 0px;
+    background: transparent;
+    border-width: 0px 0px 1px 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
 }
 
 .tab-area ul li a {
@@ -59,13 +59,13 @@ button:disabled {
 }
 
 .tab-area ul li {
-    outline: none; 
+    outline: none;
 }
 
 .ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor,
 .ui-tabs .ui-tabs-nav li.ui-state-disabled .ui-tabs-anchor,
 .ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
-     cursor: pointer; 
+     cursor: pointer;
 }
 
 .add-tab-li{
@@ -121,8 +121,8 @@ button:disabled {
 
 .tab-area li .ui-icon-close {
     float: left;
-    margin: 0.4em 0.2em 0 0;
-    cursor: pointer; 
+    margin: 0.2em 0.2em 0 0;
+    cursor: pointer;
 }
 
 
@@ -140,7 +140,7 @@ span.select2-selection.select2-selection--single {
  }
 
 .select2-results {
-    max-height: 290px;   
+    max-height: 290px;
 }
 
 .select2-selection__rendered{

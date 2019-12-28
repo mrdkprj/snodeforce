@@ -1,43 +1,48 @@
-const http = require('http');
-const fs = require('fs');
-const handleRequest = require('./app.js');
+    const http = require('http');
+    const fs = require('fs');
+    const path = require('path');
+    const handleRequest = require('./app.js');
 
-// サーバーを生成
-const myServer = http.createServer(requestListener = (req, res) => {
-    // アクセス情報をターミナルに出力
-    //console.log(`url:${req.url}`);
-    //console.log(`method:${req.method}`);
-    // http ヘッダーを出力
-  var url = req.url; //リクエストからURLを取得
-  var tmp = url.split('.'); //splitで . で区切られた配列にする 
-  var ext = tmp[tmp.length - 1]; //tmp配列の最後の要素(外部ファイルの拡張子)を取得
-  var path = '.' + url; //リクエストされたURLをサーバの相対パスへ変換する
+    var mime = {
+        html: 'text/html',
+        css: 'text/css',
+        gif: 'image/gif',
+        jpg: 'image/jpeg',
+        png: 'image/png',
+        js: 'application/javascript'
+    };
 
-  switch(ext){
-    case 'js': //拡張子がjsならContent-Typeをtext/javascriptにする
-       fs.readFile(path,function(err,data){
-         res.writeHead(200,{"Content-Type":"text/javascript"});
-         res.end(data,'utf-8');
-       });
-       break;
-     case 'css':
-       fs.readFile(path,function(err,data){
-         res.writeHead(200,{"Content-Type":"text/css"});
-         res.end(data,'utf-8');
-       });
-       break;     
-     default:
-      handleRequest.handleRequest(req, res);
-     /*
-       fs.readFile('main.html',function(err,data){
-         res.writeHead(200,{"Content-Type":"text/html"});
-         res.end(data,'utf-8');
-       })
-       */
-       break;
-  }  
-});
+    // サーバーを生成
+    const myServer = http.createServer(requestListener = (req, res) => {
 
-// ポート番号:8081で受け付け開始
-console.log("Server listening on port 8081");
-myServer.listen(port = 8081);
+        var reqpath = req.url.toString().split('?')[0];
+        var type = mime[path.extname(reqpath).slice(1)] || 'text/html';
+
+        switch(type){
+            case "text/html":
+                handleRequest.handleRequest(req, res);
+                break;
+            default:
+                if (req.method !== 'GET') {
+                    res.statusCode = 501;
+                    res.setHeader('Content-Type', 'text/plain');
+                    return res.end('Method not implemented');
+                }
+                var file = path.join(__dirname, reqpath)
+                var s = fs.createReadStream(file);
+                s.on('open', function () {
+                    res.setHeader('Content-Type', type);
+                    s.pipe(res);
+                });
+                s.on('error', function () {
+                    res.setHeader('Content-Type', 'text/plain');
+                    res.statusCode = 404;
+                    res.end('Not found');
+                });
+                break;
+        }
+    });
+
+    // ポート番号:8081で受け付け開始
+    console.log("Server listening on port 8081");
+    myServer.listen(port = 8081);
