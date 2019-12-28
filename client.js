@@ -24,7 +24,7 @@ module.exports = {
     executeAnonymous: function(req, res, callback){
         fs.writeFileSync("./resource/code.txt", req.code);
 
-        const command = `${ APEX_COMMAND } -f ${ CODE_FILE } -u ${ req.username } --json`;
+        const command = `${ APEX_COMMAND } -f ${ CODE_FILE } -u ${ req.username } --loglevel debug --json`;
 
         exec(command,{maxBuffer: 1024*1024*10}, (error, stdout, stderr) => {
             if (error) {
@@ -34,5 +34,5 @@ module.exports = {
             }
         });
     }
-      
+
 };
