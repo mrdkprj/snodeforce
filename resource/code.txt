@@ -1,1 +1,3 @@
-string x = 'a'; system.debug(x);
+for(integer i = 0; i<500; i++){
+system.debug(i);
+}

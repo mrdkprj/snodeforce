@@ -26,8 +26,9 @@ module.exports = {
 
         const command = `${ APEX_COMMAND } -f ${ CODE_FILE } -u ${ req.username } --loglevel debug --json`;
 
-        exec(command,{maxBuffer: 1024*1024*10}, (error, stdout, stderr) => {
+        exec(command,{maxBuffer: 1024*1024*100}, (error, stdout, stderr) => {
             if (error) {
+                console.log(error)
                 return callback(res, {error:JSON.parse(stderr).message})
             }else{
                 return callback(res, stdout);
