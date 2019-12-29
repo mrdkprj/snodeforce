@@ -1,2 +1,5 @@
 /test/*
+/resource/*
+!/resource/.code.txt
+
 run.bat
