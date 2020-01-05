@@ -14,6 +14,7 @@ const main = function() {
   // --test
   let _grid = null;
   $("#test").on("click", function(e){
+        /*
     const head = ["id","name","MailingPostalCode"," MailingState","MailingCity"," MailingStreet"];
     const rows = [];
     for(let i = 0; i < 101; i++){
@@ -27,7 +28,18 @@ const main = function() {
     const elementId = "#soqlArea #grid" + _selectedTabId;
 
     _grid = new GridTable(document.querySelector(elementId), {header:head,rows:rows});
+    */
+    const options = $.getAjaxOptions("/test", POST, {}, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
+    const callbacks = $.getAjaxCallbacks(displayQueryResult, displayQueryResult, null);
+    $.executeAjax(options, callbacks);
   });
+
+  const displayQueryResult = (json) => {
+    var _selectedTabId = $(".tab-area .ui-tabs-panel:visible").attr("tabId");
+    const elementId = "#soqlArea #grid" + _selectedTabId;
+    _grid = new GridTable(document.querySelector(elementId), json);
+  };
+
 
   $("#testfilter").on("click", function(e){
     _grid.filter(3, "d11");

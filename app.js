@@ -14,6 +14,9 @@
                 case '/':
                     renderHTML('./view/main.html', response);
                     break;
+                case '/test':
+                    parseQueryResultTest(response);
+                    break;
                 case '/soql':
                     onPostRequest(request, body => client.query(body, response, parseQueryResult));
                     break;
@@ -55,7 +58,13 @@
         request.on('end', function () {
             //client.query(JSON.parse(body), response, parseQueryResult);
             callback(JSON.parse(body));
-        });        
+        });
+    };
+
+    const parseQueryResultTest  = (response) => {
+        const text = fs.readFileSync("sample.json");
+        response.writeHead(200, {'Content-Type': 'text/json'});
+        response.end(text);
     };
 
     const parseQueryResult = (response, result) => {
