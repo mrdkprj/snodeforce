@@ -1,5 +1,5 @@
 //const soql = function() {
-  
+
   let _selectedTabId = null;
   let _currentTabIndex = 0;
   const _grids = {};
@@ -24,19 +24,19 @@
       openSoqlHistory();
     }
   });
-      
+
   $("#soqlHistory .closebtn").on("click", (e) => {
     closeSoqlHistory();
   });
-    
+
   $("#soqlHistory").on("mouseover", "li", function(e) {
     $(this).attr("title", $(this).text());
   });
-    
+
   $("#soqlHistory").on("mouseout", "li", function(e) {
     $(this).attr("title", "");
   });
-  
+
   $("#soqlHistory").on("dblclick", "li", function(e) {
     $("#soqlArea #inputSoql").val($(this).text());
   });
@@ -50,26 +50,26 @@
   const closeSoqlHistory = () => {
     $(".closebtn").hide();
     $("#soqlHistory").width("0");
-    $("#soqlArea").css("margin-left","0");    
+    $("#soqlArea").css("margin-left","0");
   };
-    
+
   //------------------------------------------------
   // Execute SOQL
   //------------------------------------------------
   $("#executeSoqlBtn").on("click", function(e){
     executeSoql();
   });
-  
+
   export function executeSoql() {
     if ($.isAjaxBusy()) {
       return false;
     }
-      
+
     hideMessageArea();
     var soql = $("#soqlArea #inputSoql").val();
     var tooling = $("#soqlArea #useTooling").is(":checked");
     _selectedTabId = $(".tab-area .ui-tabs-panel:visible").attr("tabId");
-      
+
     const val = {soql: soql, tooling: tooling};
     const options = $.getAjaxOptions("/soql", POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
     const callbacks = $.getAjaxCallbacks(displayQueryResult, displayError, null);
@@ -78,18 +78,14 @@
 
   //------------------------------------------------
   // Query callbacks
-  //------------------------------------------------  
-  const afterQuerySuccessAfterCrud = (json) => {
-    displayQueryResult(json);
-  };
-
+  //------------------------------------------------
   const displayQueryResult = (json) => {
     //const selectedTabId = json.soql_info.tab_id;
     //$("#soqlArea #soql-info" + selectedTabId).html(json.soql_info.timestamp);
     const elementId = "#soqlArea #grid" + _selectedTabId;
 
-    new GridTable(document.querySelector(elementId), json);
-    
+    _grids[elementId] = new GridTable(document.querySelector(elementId), json);
+
     //$("#soqlHistory ul").append('<li>' + json.soql_info.soql + '</li>');
 
   };
@@ -101,14 +97,28 @@
     if ($.isAjaxBusy()) {
       return;
     }
-    
+
     const elementId = getActiveGridElementId();
-    
+
     if (_sObjects[elementId]) {
       executeSoql({soql_info:_sObjects[elementId].soql_info, afterCrud: false});
     }
   });
-      
+
+  //------------------------------------------------
+  // Export
+  //------------------------------------------------
+  $("#soqlArea .export").on("click", (e) => {
+    const elementId = getActiveGridElementId();
+    const grid = _grids[elementId];
+    if(grid){
+      grid.export({
+        fileName: "query_result",
+        bom: true
+      });
+    }
+  });
+
   //------------------------------------------------
   // Close tab
   //------------------------------------------------
@@ -116,7 +126,7 @@
     if ($.isAjaxBusy()) {
       return;
     }
-    
+
     if ($("#soqlArea .tab-area ul li").length <= 2) {
       return;
     }
@@ -133,7 +143,7 @@
   $("#soqlArea .add-tab-btn").on("click", (e) => {
     createTab();
   });
-  
+
   const createTab = () => {
     _currentTabIndex = _currentTabIndex + 1;
     const newTabId = _currentTabIndex;
@@ -148,25 +158,25 @@
     inputArea += '<textarea name="inputSoql" id="inputSoql' + newTabId + '" style="width:100%" rows="5"></textarea>';
     inputArea += '</div>';
 
-    let soqlArea = '<div class="result-info" tabId="' + newTabId + '">';    
+    let soqlArea = '<div class="result-info" tabId="' + newTabId + '">';
     soqlArea += '<div id="soql' + newTabId + '">';
     soqlArea += '<button name="rerunBtn" type="button" class="rerun btn btn-xs btn-default grid-btn">Rerun</button>';
     soqlArea += '</div>';
     soqlArea += '<div id="soql-info" + newTabId + "">0 rows</div>';
     soqlArea += '</div>';
-    
+
     $("#soqlArea .tab-area").append(
       '<div id="tab' + newTabId + '" class="result-tab" tabId="' + newTabId + '">' +
-      //inputArea + 
+      //inputArea +
       soqlArea +
       '<div id="grid' + newTabId + '" class="result-grid" tabId="' + newTabId + '"></div>' +
       '</div>'
     );
-    
+
     $("#soqlArea .tab-area").tabs("refresh");
-        
+
     setSortableAttribute();
-    
+
     const newTabIndex = $("#soqlArea .tab-area ul li").length - 2;
     const selectedTabId = newTabIndex;
     $("#soqlArea .tab-area").tabs({ active: newTabIndex});
@@ -179,7 +189,23 @@
       $("#soqlTabs").sortable("disable");
     }
   };
-      
+
+  //------------------------------------------------
+  // Active grid
+  //------------------------------------------------
+  const getActiveTabElementId = () => {
+    return $("#apexArea .tab-area .ui-tabs-panel:visible").attr("tabId");
+  };
+
+  const getActiveGridElementId = () => {
+    return "#apexArea #apexGrid" + getActiveTabElementId();
+  };
+
+  const getActiveGrid = () => {
+    const elementId = getActiveGridElementId();
+    return _grids[elementId];
+  };
+
   //------------------------------------------------
   // message
   //------------------------------------------------
@@ -187,7 +213,7 @@
     $("#soqlArea .message-area").html(json.error);
     $("#soqlArea .message-area").show();
   };
-  
+
   const hideMessageArea = () => {
     $("#soqlArea .message-area").empty();
     $("#soqlArea .message-area").hide();
@@ -197,7 +223,7 @@
   // page load actions
   //------------------------------------------------
   export const prepareSoql = () =>{
-    $("#soqlArea .tab-area").tabs(); 
+    $("#soqlArea .tab-area").tabs();
     $("#soqlTabs").sortable({items: "li:not(.add-tab-li)", delay: 150});
     createTab();
   }

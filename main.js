@@ -40,6 +40,10 @@ const main = function() {
     _grid = new GridTable(document.querySelector(elementId), json);
   };
 
+  $("#soqlArea .export").on("click", (e) => {
+    _grid.export({        fileName: "query_result",
+    bom: true});
+  });
 
   $("#testfilter").on("click", function(e){
     _grid.filter(3, "d11");

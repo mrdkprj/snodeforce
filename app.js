@@ -5,6 +5,7 @@
     const Log_split_char = "|";
     const Log_split_limit = 3;
     const Log_headers = ["Timestamp", "Event", "Details"];
+    const QUERY_NO_RESULT = "Your query returned no results.";
 
     module.exports = {
         handleRequest: function(request, response) {
@@ -72,10 +73,17 @@
             response.writeHead(400, {'Content-Type': 'text/json'});
             response.end(JSON.stringify(result));
         }else{
-            let txt = csv.CSVToArray(result, ",");
-            txt.pop();
-            response.writeHead(200, {'Content-Type': 'text/json'});
-            response.end(JSON.stringify({header:txt[0],rows:txt.slice(1)}));
+
+            if(result.startsWith(QUERY_NO_RESULT)){
+                response.writeHead(400, {'Content-Type': 'text/json'});
+                response.end(JSON.stringify({error:result}));
+            }else{
+                const txt = csv.CSVToArray(result, ",");
+                txt.pop();
+                response.writeHead(200, {'Content-Type': 'text/json'});
+                response.end(JSON.stringify({header:txt[0],rows:txt.slice(1)}));
+            }
+
         }
     };
 
@@ -87,9 +95,14 @@
         }else{
             let logs = JSON.parse(apexResult).result.logs.split("\n").map(str => splitLimit(str));
             logs = logs.filter(log => log.length >= 1).map(log => fill_blank(log));
-
             response.writeHead(200, {'Content-Type': 'text/json'});
-            response.end(JSON.stringify({header:Log_headers, rows:logs}));
+            response.end(JSON.stringify(
+                {
+                    logName: "executeAnonymous@" + new Date().toLocaleString('ja-JP'),
+                    header:Log_headers,
+                    rows:logs
+                }
+            ));
         }
     };
 
@@ -106,10 +119,10 @@
 
     const fill_blank = (log) => {
         if(log.length == 1){
-            return ["","",log[0]];
+            return ["","",csv.escapeXml(log[0])];
         }else if(log.length == 2){
             return [log[0],log[1],""];
         }else{
-            return log;
+            return log.map(item => csv.escapeXml(item));
         }
     };

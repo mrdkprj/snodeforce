@@ -7,7 +7,7 @@
     cursor: default;
     table-layout: fixed;
     position: relative;
-    width: 100%;
+    /*width: 100%;*/
 }
 
 .gtbl-row {
@@ -62,7 +62,7 @@
     font-size: 12px;
     height: 27px;
     table-layout: fixed;
-    width: 100%;
+    /*width: 100%;*/
     display: table;
 }
 
@@ -116,7 +116,7 @@
     border-left: 1px solid #aaa;
     border-right: solid 1px #aaa;
     border-bottom: solid 1px #aaa;
-    min-width: 45px;
+    /*min-width: 45px;*/
     z-index: 10001;
     top:0;
     left:0;
@@ -140,7 +140,7 @@
     vertical-align: top;
     overflow: hidden;
     outline-width: 0;
-    
+
     white-space: pre-wrap;
     /*
     overflow-wrap: break-word;
@@ -153,6 +153,10 @@
 .current {
     outline: 2px solid #7000ff;
     outline-offset: -1px;
+}
+
+.current-row{
+    background-color: #ccc;
 }
 
 .edit{

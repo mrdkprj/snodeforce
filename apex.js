@@ -17,44 +17,44 @@
     if ($.isAjaxBusy() || !$("#apexArea #apexCode").val()) {
       return false;
     }
-  
+
     e.preventDefault();
     executeAnonymous();
   });
-    
+
   export const executeAnonymous = () => {
     hideMessageArea();
     _selectedTabId = $("#apexArea .tab-area .ui-tabs-panel:visible").attr("tabId");
 
-    const debugOptions = {};    
+    const debugOptions = {};
     $("#debugOptions option:selected").each(function() {
       const category = $(this).parent().attr("id");
       const level = $(this).val();
       debugOptions[category] = level;
     });
-      
+
     const val = {code: $("#apexArea #apexCode").val(), debug_options: debugOptions};
     const action = "/apex";
     const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
     const callbacks = $.getAjaxCallbacks(afterExecuteAnonymous, displayError, null);
     $.executeAjax(options, callbacks);
   };
-  
+
   const afterExecuteAnonymous = (json) => {
     const elementId = "#apexArea #apexGrid" + _selectedTabId;
-    _logNames[elementId] = json.log_name;    
+    _logNames[elementId] = json.logName;
     $("#apexArea #logInfo" + _selectedTabId).html(getLogResult(json));
-    
+
     _grids[elementId] = new GridTable(document.querySelector(elementId), json);
   };
 
   const getLogResult = (json) => {
-    return json.log_name + '&nbsp;&nbsp;<label><input type="checkbox" class="debug-only"/>&nbsp;Debug only</label>';
+    return json.logName + '&nbsp;&nbsp;<label><input type="checkbox" class="debug-only"/>&nbsp;Debug only</label>';
   }
 
   //------------------------------------------------
   // Debug options
-  //------------------------------------------------  
+  //------------------------------------------------
   $("#apexArea #debugOptionBtn").on("click", (e) => {
     if ($("#debugOptions").is(":visible")) {
       $("#debugOptions").hide();
@@ -76,15 +76,29 @@
 
   const filterLog = () => {
     const elementId = getActiveGridElementId();
-    const hotElement = _grids[elementId];    
+    const hotElement = _grids[elementId];
     hotElement.filter(EVENT_COLUMN_INDEX,USER_DEBUG);
   };
 
   const clearFilter = () => {
     const elementId = getActiveGridElementId();
-    const hotElement = _grids[elementId];    
+    const hotElement = _grids[elementId];
     hotElement.clearFilter();
   };
+
+  //------------------------------------------------
+  // Export
+  //------------------------------------------------
+  $("#apexArea .export").on("click", (e) => {
+    const elementId = getActiveGridElementId();
+    const grid = _grids[elementId];
+    if(grid){
+      grid.export({
+        fileName: _logNames[elementId],
+        bom: true
+      });
+    }
+  });
 
   //------------------------------------------------
   // Close tab
@@ -106,7 +120,7 @@
   $("#apexArea .add-tab-btn").on("click", (e) => {
     createTab();
   });
-  
+
   const createTab = () => {
     _currentTabIndex = _currentTabIndex + 1;
     const newTabId = _currentTabIndex;
@@ -118,18 +132,18 @@
     );
 
     const logInfoArea = '<div id="logInfo' + newTabId + '" class="result-info" tabId="' + newTabId + '"></div>';
-    
+
     $("#apexArea .tab-area").append(
       '<div id="apexTab' + newTabId + '" class="result-tab" tabId="' + newTabId + '">' +
       logInfoArea +
       '<div id="apexGrid' + newTabId + '" class="result-grid" tabId="' + newTabId + '"></div>' +
       '</div>'
-    );  
-    
+    );
+
     $("#apexArea .tab-area").tabs("refresh");
 
     setSortableAttribute();
-    
+
     const newTabIndex = $("#apexArea .tab-area ul li").length - 2;
     _selectedTabId = newTabIndex;
     $("#apexArea .tab-area").tabs({ active: newTabIndex});
@@ -153,12 +167,12 @@
   const getActiveGridElementId = () => {
     return "#apexArea #apexGrid" + getActiveTabElementId();
   };
-    
+
   const getActiveGrid = () => {
     const elementId = getActiveGridElementId();
     return _grids[elementId];
   };
-     
+
   //------------------------------------------------
   // message
   //------------------------------------------------
@@ -166,12 +180,12 @@
     $("#apexArea .message-area").html(json.error);
     $("#apexArea .message-area").show();
   };
-  
+
   const hideMessageArea = () => {
     $("#apexArea .message-area").empty();
     $("#apexArea .message-area").hide();
   };
-    
+
   //------------------------------------------------
   // page load actions
   //------------------------------------------------
@@ -179,7 +193,7 @@
     $("#apexArea .tab-area").tabs();
     $("#apexTabs").sortable({items: "li:not(.add-tab-li)", delay: 150});
     createTab();
-  };  
+  };
 //};
 
 //$(document).ready(apex);
