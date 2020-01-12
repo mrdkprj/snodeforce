@@ -52,6 +52,7 @@
     z-index: 9999;
 }
 
+
 .gtbl-hidden-row-header{
     position: sticky;
     top: 0;
@@ -75,18 +76,6 @@
     float: left;
     /*height: 0px;*/
     display: block;
-}
-
-.blocking{
-    display:block !important;
-    position: sticky;
-    left: 0;
-    top: 0;
-}
-
-.translation{
-    overflow-y: hidden;
-    z-index: 10005;
 }
 
 .gtbl-header-cell {
@@ -155,11 +144,11 @@
     outline-offset: -1px;
 }
 
-.current-row{
-    background-color: #ccc;
+.row-highlight{
+    background-color: #ddd;
 }
 
-.edit{
+.selectable{
     outline: 2px solid red !important;
     outline-offset: -1px;
     user-select: text;
