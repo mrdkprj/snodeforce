@@ -1,53 +1,28 @@
 import * as constants from "./lib/constants.js";
 import { prepareSoql, executeSoql } from "./soql.js";
+import { prepareDescribe, executeDescribe } from "./describe.js";
 import { prepareApex, executeAnonymous } from "./apex.js";
 
 const main = function() {
   let _selectedAnchor = null;
   let _anchorObject = null;
-  let _selectedTabId = null;
   const DEFAULT_DATA_TYPE = "";
   const DEFAULT_CONTENT_TYPE = null;
-  const GET = "get";
   const POST = "post";
 
   // --test
   let _grid = null;
   $("#test").on("click", function(e){
-        /*
-    const head = ["id","name","MailingPostalCode"," MailingState","MailingCity"," MailingStreet"];
-    const rows = [];
-    for(let i = 0; i < 101; i++){
-      if(i==10){
-        rows.push(["a" + i, "b"+i,"c"+i,"daaaa\naaaaaaaaaaa\naa\naaaaaaadaaaa\naaaaaaaaaaaaaaaaaaaa"+i,"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"+i ,"fffffffffffffffffffffffffffffffffffff"+i]);
-      }else{
-        rows.push(["a" + i, "b"+i,"c"+i,"d"+i,"e"+i ,"f"+i]);
-      }
-    }
-    var _selectedTabId = $(".tab-area .ui-tabs-panel:visible").attr("tabId");
-    const elementId = "#soqlArea #grid" + _selectedTabId;
-
-    _grid = new GridTable(document.querySelector(elementId), {header:head,rows:rows});
-    */
     const options = $.getAjaxOptions("/test", POST, {}, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
-    const callbacks = $.getAjaxCallbacks(displayQueryResult, displayQueryResult, null);
+    const callbacks = $.getAjaxCallbacks(displayQueryResult3, displayQueryResult3, null);
     $.executeAjax(options, callbacks);
   });
 
-  const displayQueryResult = (json) => {
-    var _selectedTabId = $(".tab-area .ui-tabs-panel:visible").attr("tabId");
-    const elementId = "#soqlArea #grid" + _selectedTabId;
+  const displayQueryResult3 = (json) => {
+    var _selectedTabId = $("#soqlArea .tab-area .ui-tabs-panel:visible").attr("tabId");
+    const elementId = "#soqlArea #soqlGrid" + _selectedTabId;
     _grid = new GridTable(document.querySelector(elementId), json);
   };
-
-  $("#soqlArea .export").on("click", (e) => {
-    _grid.export({        fileName: "query_result",
-    bom: true});
-  });
-
-  $("#testfilter").on("click", function(e){
-    _grid.filter(3, "d11");
-  });
   // -----------
 
   //------------------------------------------------
@@ -64,28 +39,6 @@ const main = function() {
     });
   }
 
-  const prepareDebugLevels = () => {
-
-    for(let i = 0; i < constants.logCategory.length; i++){
-
-      const logCategory = constants.logCategory[i];
-      const label = $("<label>", {text: logCategory});
-      const select = $("<select>", {name: logCategory, id: logCategory});
-
-      constants.logCategoryLevel.forEach((item) => {
-        if(item == constants.defaultLogLevel[i]){
-          select.append( $("<option>", {text: item, selected:"selected"}) );
-        }else{
-          select.append( $("<option>", {text: item}) );
-        }
-      });
-
-      $("#debugOptions").append(label);
-      $("#debugOptions").append(select);
-
-    }
-
-  }
   //------------------------------------------------
   // Shortcut keys
   //------------------------------------------------
@@ -104,14 +57,6 @@ const main = function() {
       }
     }
 
-
-    // escape
-    if (e.keyCode === 27) {
-      if ($("#soqlOverRay").is(":visible")) {
-        $("#soqlOverRay").hide();
-      }
-    }
-
     // tab
     if (e.keyCode === 9) {
       if (e.target.id === "inputSoql" || e.target.id === "apexCode") {
@@ -120,9 +65,14 @@ const main = function() {
       }
     }
 
-    //if (e.ctrlKey && e.key === "a"){
-      //console.log(e);
-    //}
+    if ($("#describeArea").is(":visible")) {
+
+      if (e.ctrlKey && (e.key === "r" || e.keyCode === 13)) {
+        executeDescribe();
+        return false;
+      }
+    }
+
   });
 
   //------------------------------------------------
@@ -191,10 +141,11 @@ const main = function() {
   // page load actions
   //------------------------------------------------
   prepareUser();
-  prepareDebugLevels();
   prepareSoql();
+  prepareDescribe();
   prepareApex();
-  $("#test").click();
+  //$("#test").click();
+  $("#describe").click();
 };
 
 $(document).ready(main);

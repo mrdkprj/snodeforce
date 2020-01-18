@@ -66,11 +66,10 @@
     }
 
     hideMessageArea();
-    var soql = $("#soqlArea #inputSoql").val();
-    var tooling = $("#soqlArea #useTooling").is(":checked");
-    _selectedTabId = $(".tab-area .ui-tabs-panel:visible").attr("tabId");
+    const soql = $("#soqlArea #inputSoql").val();
+    const tooling = $("#soqlArea #useTooling").is(":checked");
 
-    const val = {soql: soql, tooling: tooling};
+    const val = {soql: soql, tooling: tooling, tabId: getActiveTabElementId()};
     const options = $.getAjaxOptions("/soql", POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
     const callbacks = $.getAjaxCallbacks(displayQueryResult, displayError, null);
     $.executeAjax(options, callbacks);
@@ -80,14 +79,17 @@
   // Query callbacks
   //------------------------------------------------
   const displayQueryResult = (json) => {
-    //const selectedTabId = json.soql_info.tab_id;
-    //$("#soqlArea #soql-info" + selectedTabId).html(json.soql_info.timestamp);
-    const elementId = "#soqlArea #grid" + _selectedTabId;
+    const selectedTabId = json.soqlInfo.tabId;
+    $("#soqlArea #soql-info" + selectedTabId).html(json.soqlInfo.timestamp);
+    $("#soqlHistory ul").append('<li>' + json.soqlInfo.soql + '</li>');
+
+    const elementId = "#soqlArea #soqlGrid" + json.soqlInfo.tabId;
+
+    if(_grids[elementId]){
+      _grids[elementId].destroy();
+    }
 
     _grids[elementId] = new GridTable(document.querySelector(elementId), json);
-
-    //$("#soqlHistory ul").append('<li>' + json.soql_info.soql + '</li>');
-
   };
 
   //------------------------------------------------
@@ -149,7 +151,7 @@
     const newTabId = _currentTabIndex;
 
     $("#soqlArea .tab-area ul li:last").before(
-      '<li class="noselect"><a href="#tab' + newTabId + '">Grid' + newTabId + '</a>' +
+      '<li class="noselect"><a href="#soqlTab' + newTabId + '">Grid' + newTabId + '</a>' +
       '<span class="ui-icon ui-icon-close ui-closable-tab"></span>' +
       '</li>'
     );
@@ -162,14 +164,14 @@
     soqlArea += '<div id="soql' + newTabId + '">';
     soqlArea += '<button name="rerunBtn" type="button" class="rerun btn btn-xs btn-default grid-btn">Rerun</button>';
     soqlArea += '</div>';
-    soqlArea += '<div id="soql-info" + newTabId + "">0 rows</div>';
+    soqlArea += '<div id="soql-info' + newTabId + '">0 rows</div>';
     soqlArea += '</div>';
 
     $("#soqlArea .tab-area").append(
-      '<div id="tab' + newTabId + '" class="result-tab" tabId="' + newTabId + '">' +
+      '<div id="soqlTab' + newTabId + '" class="result-tab" tabId="' + newTabId + '">' +
       //inputArea +
       soqlArea +
-      '<div id="grid' + newTabId + '" class="result-grid" tabId="' + newTabId + '"></div>' +
+      '<div id="soqlGrid' + newTabId + '" class="result-grid" tabId="' + newTabId + '"></div>' +
       '</div>'
     );
 
@@ -178,7 +180,7 @@
     setSortableAttribute();
 
     const newTabIndex = $("#soqlArea .tab-area ul li").length - 2;
-    const selectedTabId = newTabIndex;
+
     $("#soqlArea .tab-area").tabs({ active: newTabIndex});
   };
 
@@ -194,11 +196,11 @@
   // Active grid
   //------------------------------------------------
   const getActiveTabElementId = () => {
-    return $("#apexArea .tab-area .ui-tabs-panel:visible").attr("tabId");
+    return $("#soqlArea .tab-area .ui-tabs-panel:visible").attr("tabId");
   };
 
   const getActiveGridElementId = () => {
-    return "#apexArea #apexGrid" + getActiveTabElementId();
+    return "#soqlArea #soqlGrid" + getActiveTabElementId();
   };
 
   const getActiveGrid = () => {

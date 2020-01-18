@@ -45,6 +45,10 @@
     _logNames[elementId] = json.logName;
     $("#apexArea #logInfo" + _selectedTabId).html(getLogResult(json));
 
+    if(_grids[elementId]){
+      _grids[elementId].destroy();
+    }
+
     _grids[elementId] = new GridTable(document.querySelector(elementId), json);
   };
 
@@ -53,17 +57,6 @@
   }
 
   //------------------------------------------------
-  // Debug options
-  //------------------------------------------------
-  $("#apexArea #debugOptionBtn").on("click", (e) => {
-    if ($("#debugOptions").is(":visible")) {
-      $("#debugOptions").hide();
-    } else {
-      $("#debugOptions").show();
-    }
-  });
-
-    //------------------------------------------------
   // Filter debug only
   //------------------------------------------------
   $("#apexArea").on("click", "input.debug-only", function(e) {

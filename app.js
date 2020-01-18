@@ -21,6 +21,9 @@
                 case '/soql':
                     onPostRequest(request, body => client.query(body, response, parseQueryResult));
                     break;
+                case '/sobjectlist':
+                    onPostRequest(request, body => client.getSObjectList(body, response, parseSObjectList));
+                    break;
                 case '/apex':
                     onPostRequest(request, body => client.executeAnonymous(body, response, parseApexResult));
                     break;
@@ -57,7 +60,6 @@
         });
 
         request.on('end', function () {
-            //client.query(JSON.parse(body), response, parseQueryResult);
             callback(JSON.parse(body));
         });
     };
@@ -68,7 +70,7 @@
         response.end(text);
     };
 
-    const parseQueryResult = (response, result) => {
+    const parseQueryResult = (request, response, result) => {
         if(result.error){
             response.writeHead(400, {'Content-Type': 'text/json'});
             response.end(JSON.stringify(result));
@@ -81,19 +83,48 @@
                 const txt = csv.CSVToArray(result, ",");
                 txt.pop();
                 response.writeHead(200, {'Content-Type': 'text/json'});
-                response.end(JSON.stringify({header:txt[0],rows:txt.slice(1)}));
+                const json = JSON.stringify({
+                        header:txt[0],
+                        rows:txt.slice(1),
+                        soqlInfo: {
+                            soql: request.soql,
+                            tabId: request.tabId,
+                            timestamp: txt.length - 1 + " rows@" + new Date().toLocaleString('ja-JP')
+                        }
+                    });
+                response.end(json);
             }
 
         }
     };
 
+    const parseSObjectList = (response, result) => {
+        if(result.error){
+            response.writeHead(400, {'Content-Type': 'text/json'});
+            response.end(JSON.stringify(result));
+        }else{
+            response.writeHead(200, {'Content-Type': 'text/json'});
+            response.end(JSON.stringify({sobjectList: result}));
+        }
+    };
+
+    const parseDescribeResult = (response, result) => {
+        if(result.error){
+            response.writeHead(400, {'Content-Type': 'text/json'});
+            response.end(JSON.stringify(result));
+        }else{
+            response.writeHead(200, {'Content-Type': 'text/json'});
+            response.end(JSON.stringify({sobjectList: result}));
+        }
+    };
 
     const parseApexResult = (response, apexResult) => {
         if(apexResult.error){
             response.writeHead(400, {'Content-Type': 'text/json'});
             response.end(JSON.stringify(apexResult));
         }else{
-            let logs = JSON.parse(apexResult).result.logs.split("\n").map(str => splitLimit(str));
+            //let logs = JSON.parse(apexResult).result.logs.split("\n").map(str => splitLimit(str));
+            let logs = apexResult.split("\n").map(str => splitLimit(str));
             logs = logs.filter(log => log.length >= 1).map(log => fill_blank(log));
             response.writeHead(200, {'Content-Type': 'text/json'});
             response.end(JSON.stringify(
