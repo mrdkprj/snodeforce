@@ -2,6 +2,7 @@
     const fs = require('fs');
     const client = require("./client.js");
     const csv = require("./lib/csv.js");
+    const describeParser = require("./lib/describe/parser.js");
     const Log_split_char = "|";
     const Log_split_limit = 3;
     const Log_headers = ["Timestamp", "Event", "Details"];
@@ -23,6 +24,9 @@
                     break;
                 case '/sobjectlist':
                     onPostRequest(request, body => client.getSObjectList(body, response, parseSObjectList));
+                    break;
+                case '/describe':
+                    onPostRequest(request, body => client.describe(body, response, parseDescribeResult));
                     break;
                 case '/apex':
                     onPostRequest(request, body => client.executeAnonymous(body, response, parseApexResult));
@@ -113,8 +117,21 @@
             response.writeHead(400, {'Content-Type': 'text/json'});
             response.end(JSON.stringify(result));
         }else{
+            const hash = JSON.parse(result).result;
+            const fields = describeParser.parse(hash.fields);
+            console.log(fields)
             response.writeHead(200, {'Content-Type': 'text/json'});
-            response.end(JSON.stringify({sobjectList: result}));
+            response.end(JSON.stringify(
+                {
+                    label: hash.label,
+                    name: hash.name,
+                    prefix: hash.keyPrefix ? hash.keyPrefix : "",
+                    fields: {
+                        header: Object.keys(fields[0]),
+                        rows: fields.map(hash => Object.values(hash))
+                    }
+                }
+                ));
         }
     };
 

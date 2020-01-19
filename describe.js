@@ -1,11 +1,9 @@
   let _currentTabIndex = 0;
   let _selectedTabId = null;
-  let _suppressSObjectTypeChange = false;
   const _sObjects = {};
   const _grids = {};
   const DEFAULT_DATA_TYPE = "";
   const DEFAULT_CONTENT_TYPE = null;
-  const PLACEHOLDER = "Select an sObject";
   const POST = "post";
   let _sobjectList = null;
 
@@ -139,11 +137,11 @@
 
     hideMessageArea();
     _selectedTabId = getActiveTabElementId();
-    const sobject = $("#describeArea #sobject_selection").val();
+    const sobject = $("#describeArea #sobjectList").val();
     if (sobject) {
       disableOptions();
-      const val = {selected_sobject: sobject};
-      const action = $("#executeDescribeBtn").attr("action");
+      const val = {sobject: sobject};
+      const action = "/describe";
       const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
       const callbacks = $.getAjaxCallbacks(afterExecuteDescribe, displayError, null);
       $.executeAjax(options, callbacks);
@@ -168,15 +166,18 @@
   const afterExecuteDescribe = (json) => {
     $("#describeArea #overview" + _selectedTabId).html(getDescribeInfo(json));
     const elementId = "#describeArea #describeGrid" + _selectedTabId;
-    _sObjects[elementId] = json.sobject_name;
-    createGrid(elementId, json);
+    _sObjects[elementId] = json.name;
+    if(_grids[elementId]){
+      _grids[elementId].destroy();
+    }
+    _grids[elementId] = new GridTable(document.querySelector(elementId), json.fields);
     enableOptions();
   };
 
   const getDescribeInfo = (json) => {
-    return '<label class="noselect">Label：</label>' + json.sobject_label + '<br>' +
-           '<label class="noselect">API Name：</label>' + json.sobject_name + '<br>' +
-           '<label class="noselect">Prefix：</label>' + json.sobject_prefix;
+    return '<label class="noselect">Label：</label>' + json.label + '<br>' +
+           '<label class="noselect">API Name：</label>' + json.name + '<br>' +
+           '<label class="noselect">Prefix：</label>' + json.prefix;
   };
 
   //------------------------------------------------
