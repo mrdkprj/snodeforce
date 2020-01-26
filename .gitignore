@@ -1,6 +1,7 @@
 /test/*
 /resource/*
-
-/sample.json
-/run.bat
 !/resource/.code.txt
+
+sample.json
+run.bat
+
