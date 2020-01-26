@@ -1,12 +1,12 @@
-    const url = require('url');
-    const fs = require('fs');
-    const client = require("./client.js");
-    const csv = require("./lib/csv.js");
-    const describeParser = require("./lib/describe/parser.js");
-    const Log_split_char = "|";
-    const Log_split_limit = 3;
-    const Log_headers = ["Timestamp", "Event", "Details"];
-    const QUERY_NO_RESULT = "Your query returned no results.";
+const url = require('url');
+const fs = require('fs');
+const client = require("./client.js");
+const csv = require("./lib/csv.js");
+const describeParser = require("./lib/describe/parser.js");
+const Log_split_char = "|";
+const Log_split_limit = 3;
+const Log_headers = ["Timestamp", "Event", "Details"];
+const QUERY_NO_RESULT = "Your query returned no results.";
 
     module.exports = {
         handleRequest: function(request, response) {

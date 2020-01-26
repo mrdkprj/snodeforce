@@ -142,10 +142,10 @@ const main = function() {
   //------------------------------------------------
   prepareUser();
   prepareSoql();
-  prepareDescribe();
+  //prepareDescribe();
   prepareApex();
-  //$("#test").click();
-  $("#describe").click();
+  $("#soqlArea #test").click();
+  //$("#describe").click();
 };
 
 $(document).ready(main);
