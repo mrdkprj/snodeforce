@@ -1,5 +1,5 @@
 /test/*
 /resource/*
 !/resource/.code.txt
-
+sample.json
 run.bat
