@@ -119,7 +119,6 @@
         }else{
             const hash = JSON.parse(result).result;
             const fields = describeParser.parse(hash.fields);
-            console.log(fields)
             response.writeHead(200, {'Content-Type': 'text/json'});
             response.end(JSON.stringify(
                 {
