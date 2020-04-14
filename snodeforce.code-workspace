@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"salesforcedx-vscode-core.show-cli-success-msg": false
+	}
+}
