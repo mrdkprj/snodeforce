@@ -1,80 +1,43 @@
-/* ------------------------------
-    Table
------------------------------- */
 .gtbl{
     display:table;
     font-size: 12px;
     cursor: default;
     table-layout: fixed;
     position: relative;
-    /*width: 100%;*/
 }
 
 .gtbl-row {
     display:table-row;
 }
 
-/*
-.gtbl-row:before {
-    display: table;
-    content: "";
-    box-sizing: border-box;
-}
-.gtbl-row:after {
-    clear: both;
-    box-sizing: border-box;
-}
-*/
-
 .gtbl-row .gtbl-row-header-cell,
 .gtbl-row .gtbl-value-cell,
 .gtbl-row .gtbl-col-header-cell,
 .gtbl-row .gtbl-header-cell {
     display:table-cell;
-    /*max-width: 500px;*/
 }
-
-/*
-.gtbl-row-header{
-
-    position: sticky;
-    top: 0;
-    left: 0;
-
-    z-index: 9999;
-
-}
-*/
 
 .stick{
     position:sticky;
     top:0;
-    z-index: 9999;
+    z-index: 1000;
 }
-
 
 .gtbl-hidden-row-header{
     position: sticky;
     top: 0;
-    /*left: 0;
-    right: 0;
-    */
-    z-index: 9999;
+    z-index: 1000;
     font-size: 12px;
     height: 27px;
     table-layout: fixed;
-    /*width: 100%;*/
     display: table;
 }
 
 .gtbl-hidden-col-header{
-    /*position: sticky;
-    left: 0;*/
-    z-index: 9999;
+    z-index: 1000;
     font-size: 12px;
     width:20px;
     float: left;
-    /*height: 0px;*/
     display: block;
 }
 
@@ -84,7 +47,6 @@
     color: #000000;
     white-space: nowrap;
     height: 22px;
-    user-select: none;
 }
 
 .gtbl-col-header-cell{
@@ -98,6 +60,7 @@
     border-right: solid 1px #aaa;
     border-bottom: solid 1px #aaa;
     border-left: 1px solid #aaa;
+    user-select: none;
 }
 
 .gtbl-corner-cell{
@@ -105,7 +68,6 @@
     border-left: 1px solid #aaa;
     border-right: solid 1px #aaa;
     border-bottom: solid 1px #aaa;
-    /*min-width: 45px;*/
     z-index: 10001;
     top:0;
     left:0;
@@ -116,7 +78,6 @@
 }
 
 .gtbl-value-cell{
-
     border-top-width: 0;
     border-left-width: 0;
     border-right: 1px solid #ccc;
@@ -129,12 +90,7 @@
     vertical-align: top;
     overflow: hidden;
     outline-width: 0;
-
     white-space: pre-wrap;
-    /*
-    overflow-wrap: break-word;
-    word-break: break-word;
-    */
     user-select: none;
     background-clip: padding-box;
 }
@@ -156,4 +112,8 @@
 
 .highlight{
     background-color: rgb(112, 0, 255,0.1);
+}
+
+.sort-link{
+    cursor: pointer;
 }
