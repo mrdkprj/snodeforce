@@ -1,9 +1,9 @@
 .gtbl{
     display:table;
     font-size: 12px;
-    cursor: default;
     table-layout: fixed;
     position: relative;
+    width: 0;
 }
 
 .gtbl-row {
@@ -31,6 +31,7 @@
     height: 27px;
     table-layout: fixed;
     display: table;
+    width: 0;
 }
 
 .gtbl-hidden-col-header{
@@ -53,7 +54,8 @@
     border-top: solid 1px #aaa;
     border-right: solid 1px #aaa;
     border-bottom: solid 1px #aaa;
-    padding: 4px 16px;
+    /*padding: 4px 16px;*/
+    padding: 4px 4px;
 }
 
 .gtbl-row-header-cell{
@@ -90,7 +92,8 @@
     vertical-align: top;
     overflow: hidden;
     outline-width: 0;
-    white-space: pre-wrap;
+    /*white-space: pre-wrap;*/
+    white-space: pre;
     user-select: none;
     background-clip: padding-box;
 }
@@ -116,4 +119,29 @@
 
 .sort-link{
     cursor: pointer;
+}
+
+.slidebar{
+    cursor: col-resize;
+    /* border-right: 1px solid black; */
+    /* padding: 0; */
+    /* margin: 0; */
+    /* z-index: 99999; */
+    width: 5px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.slidebar:hover{
+    cursor:col-resize;
+    border-right:1px solid red;
+    border-left:1px solid red;
+    padding:0;
+    margin:0;
+}
+
+.noselect{
+    user-select: none;
 }

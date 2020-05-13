@@ -81,7 +81,7 @@
 
         hideProgress: function() {
             $("#progress-line").removeClass("progress-line");
-            $("#progress").css("visibility","hidden");            
+            $("#progress").css("visibility","hidden");
         },
 
         executeAjax: function (options, callbacks, raw = false) {
@@ -106,7 +106,6 @@
 
             _jqXHR.done(function (data, stat, xhr) {
                 _jqXHR = null;
-                console.log({ done: stat, data: data, xhr: xhr });
                 if (raw){
                     return callbacks.doneCallback(xhr.responseText, callbacks.doneCallbackParams);
                 }else{
@@ -116,7 +115,6 @@
 
             _jqXHR.fail(function (xhr, stat, err) {
                 _jqXHR = null;
-                console.log({ fail: stat, error: err, xhr: xhr });
                 if (stat === "abort"){
                     return;
                 }
@@ -130,7 +128,6 @@
 
             _jqXHR.always(function (res1, stat, res2) {
                 _jqXHR = null;
-                console.log({ always: stat, res1: res1, res2: res2 });
                 if(options.showProgress){
                     $.hideProgress();
                 }
