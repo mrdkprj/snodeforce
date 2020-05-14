@@ -21,6 +21,7 @@ const main = function() {
   const displayQueryResult3 = (json) => {
     var _selectedTabId = $("#soqlArea .tab-area .ui-tabs-panel:visible").attr("tabId");
     const elementId = "#soqlArea #soqlGrid" + _selectedTabId;
+    json.readOnly = [2,4];
     _grid = new GridTable(document.querySelector(elementId), json);
   };
   // -----------
