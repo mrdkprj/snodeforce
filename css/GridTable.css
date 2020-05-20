@@ -1,3 +1,8 @@
+.gtbl-container{
+    overflow: hidden;
+    display:inline-block;
+}
+
 .gtbl{
     display:table;
     font-size: 12px;
@@ -47,7 +52,6 @@
     text-align: center;
     color: #000000;
     white-space: nowrap;
-    height: 22px;
 }
 
 .gtbl-col-header-cell{
@@ -148,6 +152,13 @@
     user-select: none;
 }
 
+.focus-holder,
+.input-holder{
+    position: fixed;
+    top: -100px;
+    left: -100px;
+}
+
 .cell-editor{
     border: none;
     padding: 0px 3px 0 3px;
@@ -156,10 +167,22 @@
     line-height: 20px;
     font-family:Verdana,Arial,sans-serif !important;
     font-size: 12px !important;
+}
 
-    /*
-    			"font-family":"Verdana,Arial,sans-serif",
-			"line-height": "21px",
-            "font-size": "12px"
-            */
+.clone-header{
+    position: fixed;
+    top: -100px;
+    left: -100px;
+    display: table-cell;
+    background-color: #ddd;
+    text-align: center;
+    color: #000000;
+    border-right: solid 1px #aaa;
+    border-bottom: solid 1px #aaa;
+    border-left: 1px solid #aaa;
+    user-select: none;
+    white-space: nowrap;
+    font-family:Verdana,Arial,sans-serif !important;
+    font-size: 12px !important;
+    z-index: 999;
 }
