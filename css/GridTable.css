@@ -90,7 +90,6 @@
     border-right: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     height: 22px;
-    empty-cells: show;
     line-height: 21px;
     padding: 0 4px;
     background-color: #fff;
@@ -129,10 +128,6 @@
 
 .slidebar{
     cursor: col-resize;
-    /* border-right: 1px solid black; */
-    /* padding: 0; */
-    /* margin: 0; */
-    /* z-index: 99999; */
     width: 5px;
     height: 100%;
     position: absolute;
@@ -161,12 +156,20 @@
 
 .cell-editor{
     border: none;
-    padding: 0px 3px 0 3px;
+    padding: 0px 4px;
     resize: none;
     outline: none;
-    line-height: 20px;
+    line-height: 21px;
     font-family:Verdana,Arial,sans-serif !important;
     font-size: 12px !important;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+}
+
+.cell-editor:focus{
+    outline: 2px solid #4354ad;
+    outline-offset: -1px;
 }
 
 .clone-header{
