@@ -99,7 +99,6 @@
     /*white-space: pre-wrap;*/
     white-space: pre;
     user-select: none;
-    background-clip: padding-box;
 }
 
 .current {
@@ -180,9 +179,9 @@
     font-family:Verdana,Arial,sans-serif !important;
     font-size: 12px !important;
     overflow: hidden;
-    white-space: nowrap;
+    white-space: pre;
     display: block;
-    outline: 1px solid #7000ff;
+    outline: 2px solid #7000ff;
     outline-offset: -1px;
 }
 
@@ -202,4 +201,27 @@
     font-family:Verdana,Arial,sans-serif !important;
     font-size: 12px !important;
     z-index: 999;
+}
+
+.calc{
+    position: fixed;
+    top:-100px;
+    left:-100px;
+    display: inline-block;
+    font-family:Verdana,Arial,sans-serif !important;
+    font-size: 12px !important;
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    line-height: 21px;
+    padding: 0 4px;
+    vertical-align: top;
+    overflow: hidden;
+    outline-width: 0;
+    white-space: pre;
+}
+
+.row-number{
+    pointer-events: none;
 }
