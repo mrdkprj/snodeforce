@@ -89,7 +89,6 @@
     border-left-width: 0;
     border-right: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
-    /*height: 22px;*/
     line-height: 21px;
     padding: 0 4px;
     background-color: #fff;
@@ -111,10 +110,9 @@
 }
 
 .selectable{
-    /*
-    outline: 2px solid red !important;
-    outline-offset: -1px;*/
     user-select: text;
+    outline: 1px solid #7000ff;
+    outline-offset: -1px;
 }
 
 .highlight{
@@ -181,8 +179,8 @@
     overflow: hidden;
     white-space: pre;
     display: block;
-    outline: 2px solid #7000ff;
-    outline-offset: -1px;
+    /*outline: 2px solid #7000ff;
+    outline-offset: -1px;*/
 }
 
 .clone-header{
