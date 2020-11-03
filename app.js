@@ -1,8 +1,8 @@
 const url = require('url');
 const fs = require('fs');
 const client = require("./client.js");
+const soqlExecuter = require("./lib//soql/executer.js");
 const csv = require("./lib/csv.js");
-const describeParser = require("./lib/describe/parser.js");
 const Log_split_char = "|";
 const Log_split_limit = 3;
 const Log_headers = ["Timestamp", "Event", "Details"];
@@ -20,13 +20,8 @@ const QUERY_NO_RESULT = "Your query returned no results.";
                     parseQueryResultTest(response);
                     break;
                 case '/soql':
-                    onPostRequest(request, body => client.query(body, response, parseQueryResult));
-                    break;
-                case '/sobjectlist':
-                    onPostRequest(request, body => client.getSObjectList(body, response, parseSObjectList));
-                    break;
-                case '/describe':
-                    onPostRequest(request, body => client.describe(body, response, parseDescribeResult));
+                    //onPostRequest(request, body => client.query(body, response, parseQueryResult));
+                    onPostRequest(request, body => new soqlExecuter().execute(body, response));
                     break;
                 case '/apex':
                     onPostRequest(request, body => client.executeAnonymous(body, response, parseApexResult));
@@ -102,45 +97,20 @@ const QUERY_NO_RESULT = "Your query returned no results.";
         }
     };
 
-    const parseSObjectList = (response, result) => {
-        if(result.error){
-            response.writeHead(400, {'Content-Type': 'text/json'});
-            response.end(JSON.stringify(result));
-        }else{
-            response.writeHead(200, {'Content-Type': 'text/json'});
-            response.end(JSON.stringify({sobjectList: result}));
-        }
-    };
-
-    const parseDescribeResult = (response, result) => {
-        if(result.error){
-            response.writeHead(400, {'Content-Type': 'text/json'});
-            response.end(JSON.stringify(result));
-        }else{
-            const hash = JSON.parse(result).result;
-            const fields = describeParser.parse(hash.fields);
-            response.writeHead(200, {'Content-Type': 'text/json'});
-            response.end(JSON.stringify(
-                {
-                    label: hash.label,
-                    name: hash.name,
-                    prefix: hash.keyPrefix ? hash.keyPrefix : "",
-                    fields: {
-                        header: Object.keys(fields[0]),
-                        rows: fields.map(hash => Object.values(hash))
-                    }
-                }
-                ));
-        }
-    };
 
     const parseApexResult = (response, apexResult) => {
-        if(apexResult.error){
+
+        const result = apexResult.result;
+
+        if(result.success == false && result.compiled == false){
             response.writeHead(400, {'Content-Type': 'text/json'});
-            response.end(JSON.stringify(apexResult));
+            const location = "Line:" + result.line + ", Column: " + result.column;
+            const message = {
+                error: location + "\n" + result.compileProblem
+            }
+            response.end(JSON.stringify(message));
         }else{
-            //let logs = JSON.parse(apexResult).result.logs.split("\n").map(str => splitLimit(str));
-            let logs = apexResult.split("\n").map(str => splitLimit(str));
+            let logs = result.logs.split("\n").map(str => splitLimit(str));
             logs = logs.filter(log => log.length >= 1).map(log => fill_blank(log));
             response.writeHead(200, {'Content-Type': 'text/json'});
             response.end(JSON.stringify(

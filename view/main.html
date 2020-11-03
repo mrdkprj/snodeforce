@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
+	<meta charset="UTF-8">
 	<head>
 		<link rel="stylesheet" media="all" href="../css/bootstrap.css"/>
 		<link rel="stylesheet" media="all" href="../css/smoothness/jquery-ui-1.9.2.custom.css">
 		<link rel="stylesheet" media="all" href="../css/common.css"/>
 		<link rel="stylesheet" media="all" href="../css/main.css"/>
 		<link rel="stylesheet" media="all" href="../css/soql.css">
-		<link rel="stylesheet" media="all" href="../css/describe.css">
 		<link rel="stylesheet" media="all" href="../css/apex.css">
 		<link rel="stylesheet" media="all" href="../css/GridTable.css">
 		<script src="../js/jquery-1.11.2.min.js"></script>
@@ -37,7 +37,6 @@
             </div>
 		            <ul id="menus">
 		                <li><a id="soql" href="javascript:void(0)" class="menu-item displayed">SOQL</a></li>
-		                <li><a id="describe" href="javascript:void(0)" class="menu-item">Describe</a></li>
 		                <li><a id="apex" href="javascript:void(0)" class="menu-item">Apex</a></li>
 		            </ul>
 		        </div>
@@ -57,7 +56,6 @@
             		</div>
 
             		<div id="soqlArea">
-
             			<div class="form-area soql-form">
             				<div>
             					<textarea id="inputSoql" class="code-input" spellcheck="false" cols="120" rows="5">select id,name,MailingPostalCode, MailingState,MailingCity, MyExtID__c,MailingStreet from contact</textarea>
@@ -80,58 +78,6 @@
             			</div>
             		</div>
             	</div>
-
-		        <div id="describeContent">
-					<div id="describeArea">
-						<div class="form-area">
-							<div id="filterSObjectList">
-								<label class="sobjectTypeCheckBoxLabel"><input type="radio" name="sobjectTypeCheckBox" id="sobjectTypeCheckBox_all" value="all" class="sobjectTypeCheckBox" checked="checked">All</label>
-								<label class="sobjectTypeCheckBoxLabel"><input type="radio" name="sobjectTypeCheckBox" id="sobjectTypeCheckBox_standard" value="standard" class="sobjectTypeCheckBox">Standard</label>
-								<label class="sobjectTypeCheckBoxLabel"><input type="radio" name="sobjectTypeCheckBox" id="sobjectTypeCheckBox_custom" value="custom" class="sobjectTypeCheckBox">Custom</label>
-								<span style="margin-left: 10px;">
-									<button type="button" id="refreshSObjectListBtn" class="btn btn-xs btn-default">Refresh</button>
-								</span >
-							</div>
-
-							<div class="tbl">
-								<div class="row">
-									<div class="describe-sobject-label">
-										<label>sObjects: </label>
-									</div>
-									<div class="sobject-list describe-sobject-list input-sm">
-										<select id="sobjectList"></select>
-									</div>
-									<div></div>
-								</div>
-								<div class="row">
-									<div>
-										<button type="button" id="executeDescribeBtn" class="btn btn-sm btn-primary" >Describe</button>
-									</div>
-									<div></div>
-									<div>
-
-									</div>
-								</div>
-							</div>
-							<p><div class="message-area"></div></p>
-						</div>
-
-						<div class="tab-area">
-							<div class="export-btn-area">
-								<button type="button" class="btn btn-xs btn-default ex-small-btn export-btn">Export</button>
-							</div>
-
-							<ul id="describeTabs">
-								<li></li>
-								<!--<li class="add-tab-li">
-									<div class="add-tab-btn icon-plus"></div>
-								</li>
-							-->
-							</ul>
-						</div>
-
-					</div>
-				</div>
 
 		        <div id="apexContent">
 					<div id="apexArea">

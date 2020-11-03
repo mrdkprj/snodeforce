@@ -3,13 +3,10 @@ const fs = require('fs');
 
 const QUERY_COMMAND = "sfdx force:data:soql:query";
 const APEX_COMMAND = "sfdx force:apex:execute";
-const LIST_COMMAND = "sfdx force:schema:sobject:list -c all";
-const DESCRIBE_COMMAND = "sfdx force:schema:sobject:describe";
-const DESCRIBE_FILE = "./resource/sobjects.json";
 const CODE_FILE = "./resource/code.txt";
 
 module.exports = {
-
+/*
     query: function(req, res, callback) {
         const query = req.soql.replace(/\r|\n|\r\n/gi, " ").replace(";", "");
 
@@ -23,44 +20,16 @@ module.exports = {
             }
         });
     },
+*/
+    query: function(req, res, callback) {
 
-    getSObjectList: function(req, res, callback){
-
-        if(req.init){
-            try{
-                const sobjects = JSON.parse(fs.readFileSync(DESCRIBE_FILE, 'utf8'));
-                if(sobjects.username == req.username){
-                    return callback(res, sobjects.result);
-                }else{
-                    return callback(res, {result:[]});
-                }
-            }catch(err){
-                return callback(res, {result:[]});
-            }
-        }
-
-        const command = `${ LIST_COMMAND } -u ${ req.username } --json`;
+        const command = `${ QUERY_COMMAND } -q "${ req.soql }" -u ${ req.username } ${ req.tooling ? "-t" : ""} --json`;
 
         exec(command, (error, stdout, stderr) => {
             if (error) {
-                return callback(res, {error:stderr});
+                return callback(req, res, {error:stderr});
             }else{
-                const result = JSON.parse(stdout);
-                fs.writeFileSync(DESCRIBE_FILE, JSON.stringify({username: req.username, result:result.result}));
-                return callback(res, result.result);
-            }
-        });
-    },
-
-    describe: function(req, res, callback){
-
-        const command = `${ DESCRIBE_COMMAND } -s ${ req.sobject } -u ${ req.username } ${ req.tooling ? "-t" : ""} --json`;
-
-        exec(command, (error, stdout, stderr) => {
-            if (error) {
-                return callback(res, {error:stderr})
-            }else{
-                return callback(res, stdout);
+                return callback(req, res, JSON.parse(stdout));
             }
         });
     },
@@ -68,15 +37,10 @@ module.exports = {
     executeAnonymous: function(req, res, callback){
         fs.writeFileSync("./resource/code.txt", req.code);
 
-        const command = `${ APEX_COMMAND } -f ${ CODE_FILE } -u ${ req.username } --loglevel debug`;
+        const command = `${ APEX_COMMAND } -f ${ CODE_FILE } -u ${ req.username } --loglevel debug --json`;
 
         exec(command,{maxBuffer: 1024*1024*100}, (error, stdout, stderr) => {
-            if (error) {
-                //return callback(res, {error:JSON.parse(stderr).message})
-                return callback(res, {error:stderr})
-            }else{
-                return callback(res, stdout);
-            }
+            return callback(res, JSON.parse(stdout));
         });
     }
 

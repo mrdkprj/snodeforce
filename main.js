@@ -1,6 +1,5 @@
 import * as constants from "./lib/constants.js";
 import { prepareSoql, executeSoql } from "./soql.js";
-import { prepareDescribe, executeDescribe } from "./describe.js";
 import { prepareApex, executeAnonymous } from "./apex.js";
 
 const main = function() {
@@ -62,14 +61,6 @@ const main = function() {
     if (e.keyCode === 9) {
       if (e.target.id === "inputSoql" || e.target.id === "apexCode") {
         insertTab(e);
-        return false;
-      }
-    }
-
-    if ($("#describeArea").is(":visible")) {
-
-      if (e.ctrlKey && (e.key === "r" || e.keyCode === 13)) {
-        executeDescribe();
         return false;
       }
     }
@@ -143,10 +134,8 @@ const main = function() {
   //------------------------------------------------
   prepareUser();
   prepareSoql();
-  //prepareDescribe();
   prepareApex();
   $("#soqlArea #test").click();
-  //$("#describe").click();
 };
 
 $(document).ready(main);
