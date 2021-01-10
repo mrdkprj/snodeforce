@@ -1,5 +1,7 @@
 //const soql = function() {
 
+//import { info } from "console";
+
   let _selectedTabId = null;
   let _currentTabIndex = 0;
   const _grids = {};
@@ -146,10 +148,11 @@
     createTab();
   });
 
+  const tab = new Tab();
   const createTab = () => {
     _currentTabIndex = _currentTabIndex + 1;
     const newTabId = _currentTabIndex;
-
+/*
     $("#soqlArea .tab-area ul li:last").before(
       '<li class="noselect"><a href="#soqlTab' + newTabId + '">Grid' + newTabId + '</a>' +
       '<span class="ui-icon ui-icon-close ui-closable-tab"></span>' +
@@ -182,6 +185,52 @@
     const newTabIndex = $("#soqlArea .tab-area ul li").length - 2;
 
     $("#soqlArea .tab-area").tabs({ active: newTabIndex});
+    */
+
+    const nm = "Grid" + newTabId ;
+    var el = $("#soqlArea .tab-area")[0]
+    tab.create(el, nm, nm);
+
+    var t = tab.addTab(nm);
+    tab.activate(t.tabIndex);
+
+    const parent = document.createElement("div");
+    parent.id = "soqlTab" + newTabId;
+    parent.classList.add("result-tab");
+    parent.setAttribute("tabId", newTabId)
+
+    const resultDiv = document.createElement("div");
+    resultDiv.classList.add("result-info");
+    resultDiv.setAttribute("tabId", newTabId);
+    const soqlInfoDiv = document.createElement("div");
+    soqlInfoDiv.id = "soql" + newTabId;
+    const btn = document.createElement("button");
+    btn.name = "rerunBtn"
+    btn.classList.add("rerun");
+    btn.classList.add("btn");
+    btn.classList.add("btn-xs");
+    btn.classList.add("btn-default");
+    btn.classList.add("grid-btn");
+    btn.innerText = "Rerun";
+    soqlInfoDiv.appendChild(btn);
+    const infoDiv = document.createElement("div");
+    infoDiv.id = "soql-info"+ newTabId;
+    infoDiv.innerText = "0 rows";
+
+    resultDiv.appendChild(soqlInfoDiv)
+    resultDiv.appendChild(infoDiv)
+
+    const gridDiv = document.createElement("div");
+    gridDiv.id = "soqlGrid" + newTabId;
+    gridDiv.classList.add("result-grid")
+    gridDiv.setAttribute("tabId",newTabId)
+
+    parent.appendChild(resultDiv)
+    parent.appendChild(gridDiv)
+
+    t.content.appendChild(parent);
+
+
   };
 
   const setSortableAttribute = () => {
@@ -196,7 +245,8 @@
   // Active grid
   //------------------------------------------------
   const getActiveTabElementId = () => {
-    return $("#soqlArea .tab-area .ui-tabs-panel:visible").attr("tabId");
+    //return $("#soqlArea .tab-area .ui-tabs-panel:visible").attr("tabId");
+    return tab.activeTabIndex;
   };
 
   const getActiveGridElementId = () => {

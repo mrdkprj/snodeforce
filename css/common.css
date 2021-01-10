@@ -186,7 +186,8 @@ span.select2-selection.select2-selection--single {
 }
 
 .result-grid {
-    background: white;
+    background-color: white;
+    background: none;
     outline: 0;
     border: 0px solid gray;
     /*min-height: 500px;*/
