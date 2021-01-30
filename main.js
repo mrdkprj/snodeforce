@@ -116,7 +116,7 @@
 
 
     $(document).on("click", ".dropdown-menu a", function(e){
-        console.log(1)
+
         if ($(this).hasClass("checkmark")){
             return false;
         }
@@ -126,8 +126,6 @@
         $(this).addClass("checkmark");
 
         $("#username").html($(this).html());
-
-        //$("#dropdownMenu").hide();
 
     });
 
