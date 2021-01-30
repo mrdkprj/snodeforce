@@ -2,8 +2,7 @@
 <html>
 	<meta charset="UTF-8">
 	<head>
-		<link rel="stylesheet" media="all" href="../css/bootstrap.css"/>
-		<link rel="stylesheet" media="all" href="../css/smoothness/jquery-ui-1.9.2.custom.css">
+		<link rel="stylesheet" media="all" href="../css/bootstrap0.css"/>
 		<link rel="stylesheet" media="all" href="../css/common.css"/>
 		<link rel="stylesheet" media="all" href="../css/main.css"/>
 		<link rel="stylesheet" media="all" href="../css/soql.css">
@@ -12,14 +11,13 @@
 		<link rel="stylesheet" media="all" href="../css/tab.css">
 		<script src="../js/jquery-1.11.2.min.js"></script>
 		<script src="../js/bootstrap.js"></script>
-		<script src="../js/jquery-ui-1.11.3.min.js"></script>
 		<script type="module" src="../main.js"></script>
 		<script src="../js/ajaxUtils.js"></script>
 		<script src="../lib/GridTable.js"></script>
 		<script src="../lib/tab.js"></script>
 	</head>
 	<body>
-		<div id="mainArea" class="soql" current-locale-option="">
+		<div id="mainArea" class="soql">
 
 		    <div id="overlay" class="requesting-overlay">
 		        <div id="overlayContent" class="overlay-content noselect">Requesting...</div>
@@ -33,7 +31,7 @@
 
 		        <div id="menuList">
             <div class="btn-group">
-                <button id="username" class="btn btn-secondary btn-sm dropdown-toggle dropdown-btn paper-raise" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <button id="username" class="btn btn-secondary btn-sm dropdown-btn paper-raise dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                 <ul id="dropdownMenu" class="dropdown-menu">
                 </ul>
             </div>
@@ -44,7 +42,7 @@
 		        </div>
 		    </div>
 
-		    <div id="contentsArea">
+		    <div class="contentsArea">
 
         		<div id="soqlContent">
                     <div id="soqlHistory" class="sidenav">
@@ -67,19 +65,11 @@
 								<button type="button" id="test" class="btn btn-sm btn-primary">Test</button>
             					<label class="soql-options"><input type="checkbox" id="useTooling"/> Use Tooling API</label>
             				</div>
-							<p><div class="message-area"></div></p>
+							<div class="message-area"><div class="message"></div></div>
             			</div>
             			<div id="soqlTabArea" class="tab-area">
-
 							<button type="button" id="soqlHistoryBtn" class="btn btn-xs btn-default">History</button>
 							<button type="button" class="btn btn-xs btn-default export">Export</button>
-							<!--
-            				<ul id="soqlTabs">
-            					<li class="add-tab-li">
-            						<div class="add-tab-btn icon-plus"></div>
-            					</li>
-							</ul>
-							-->
             			</div>
             		</div>
             	</div>
@@ -93,16 +83,11 @@
 							<div>
 								<button type="button" id="executeAnonymousBtn" class="btn btn-sm btn-primary">Execute Anonymous</button>
 							</div>
-							<p><div class="message-area"></div></p>
+							<div class="message-area"><div class="message"></div></div>
 						</div>
 
-						<div class="tab-area">
+						<div id="apexTabArea" class="tab-area">
 							<button type="button" class="btn btn-xs btn-default export">Export</button>
-							<ul id="apexTabs">
-								<li class="add-tab-li">
-									<div class="add-tab-btn icon-plus"></div>
-								</li>
-							</ul>
 						</div>
 					</div>
 		        </div>

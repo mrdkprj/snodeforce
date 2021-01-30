@@ -1,136 +1,119 @@
-//const apex = function() {
+    //const apex = function() {
 
-  let _selectedTabId = 0;
-  let _currentTabIndex = 0;
-  const _grids = {};
-  const _logNames = {};
-  const DEFAULT_DATA_TYPE = "";
-  const DEFAULT_CONTENT_TYPE = null;
-  const EVENT_COLUMN_INDEX = 1;
-  const USER_DEBUG = "USER_DEBUG";
-  const POST = "post";
+    let _selectedTabId = 0;
+    let _currentTabIndex = 0;
+    const tabComponent = new Tab();
+    const _grids = {};
+    const _logNames = {};
+    const DEFAULT_DATA_TYPE = "";
+    const DEFAULT_CONTENT_TYPE = null;
+    const EVENT_COLUMN_INDEX = 1;
+    const USER_DEBUG = "USER_DEBUG";
+    const POST = "post";
 
-  //------------------------------------------------
-  // Execute Anonymous
-  //------------------------------------------------
-  $("#apexArea #executeAnonymousBtn").on("click", (e) => {
-    if ($.isAjaxBusy() || !$("#apexArea #apexCode").val()) {
-      return false;
-    }
+    //------------------------------------------------
+    // Execute Anonymous
+    //------------------------------------------------
+    $("#apexArea #executeAnonymousBtn").on("click", (e) => {
+        if ($.isAjaxBusy() || !$("#apexArea #apexCode").val()) {
+            return false;
+        }
 
-    e.preventDefault();
-    executeAnonymous();
-  });
-
-  export const executeAnonymous = () => {
-    hideMessageArea();
-    _selectedTabId = $("#apexArea .tab-area .ui-tabs-panel:visible").attr("tabId");
-
-    const debugOptions = {};
-    $("#debugOptions option:selected").each(function() {
-      const category = $(this).parent().attr("id");
-      const level = $(this).val();
-      debugOptions[category] = level;
+        e.preventDefault();
+        executeAnonymous();
     });
 
-    const val = {code: $("#apexArea #apexCode").val(), debug_options: debugOptions};
-    const action = "/apex";
-    const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
-    const callbacks = $.getAjaxCallbacks(afterExecuteAnonymous, displayError, null);
-    $.executeAjax(options, callbacks);
-  };
+    export const executeAnonymous = () => {
+        hideMessageArea();
+        _selectedTabId = getActiveTabElementId();
 
-  const afterExecuteAnonymous = (json) => {
-    const elementId = "#apexArea #apexGrid" + _selectedTabId;
-    _logNames[elementId] = json.logName;
-    $("#apexArea #logInfo" + _selectedTabId).html(getLogResult(json));
+        const debugOptions = {};
+        $("#debugOptions option:selected").each(function() {
+            const category = $(this).parent().attr("id");
+            const level = $(this).val();
+            debugOptions[category] = level;
+        });
 
-    if(_grids[elementId]){
-      _grids[elementId].destroy();
-    }
+        const val = {code: $("#apexCode").val(), debug_options: debugOptions};
+        const action = "/apex";
+        const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
+        const callbacks = $.getAjaxCallbacks(afterExecuteAnonymous, displayError, null);
+        $.executeAjax(options, callbacks);
+    };
 
-    _grids[elementId] = new GridTable(document.querySelector(elementId), json);
-  };
+    const afterExecuteAnonymous = (json) => {
+        const elementId = " apexGrid" + _selectedTabId;
+        _logNames[elementId] = json.logName;
+        $("#logInfo" + _selectedTabId).html(getLogResult(json));
 
-  const getLogResult = (json) => {
-    return json.logName + '&nbsp;&nbsp;<label><input type="checkbox" class="debug-only"/>&nbsp;Debug only</label>';
-  }
+        if(_grids[elementId]){
+            _grids[elementId].destroy();
+        }
 
-  //------------------------------------------------
-  // Filter debug only
-  //------------------------------------------------
-  $("#apexArea").on("click", "input.debug-only", function(e) {
-    if ($(this).prop("checked")) {
-      filterLog();
-    } else {
-      clearFilter();
-    }
-  });
+        _grids[elementId] = new GridTable(document.getElementById(elementId), json);
+        };
 
-  const filterLog = () => {
-    const elementId = getActiveGridElementId();
-    const hotElement = _grids[elementId];
-    hotElement.filter(EVENT_COLUMN_INDEX,USER_DEBUG);
-  };
+        const getLogResult = (json) => {
+        return json.logName + '&nbsp;&nbsp;<label><input type="checkbox" class="debug-only"/>&nbsp;Debug only</label>';
+        }
 
-  const clearFilter = () => {
-    const elementId = getActiveGridElementId();
-    const hotElement = _grids[elementId];
-    hotElement.clearFilter();
-  };
+    //------------------------------------------------
+    // Filter debug only
+    //------------------------------------------------
+    $("#apexArea").on("click", "input.debug-only", function(e) {
+        if ($(this).prop("checked")) {
+            filterLog();
+        } else {
+            clearFilter();
+        }
+    });
 
-  //------------------------------------------------
-  // Export
-  //------------------------------------------------
-  $("#apexArea .export").on("click", (e) => {
-    const elementId = getActiveGridElementId();
-    const grid = _grids[elementId];
-    if(grid){
-      grid.export({
-        fileName: _logNames[elementId],
-        bom: true
-      });
-    }
-  });
+    const filterLog = () => {
+        const elementId = getActiveGridElementId();
+        const hotElement = _grids[elementId];
+        hotElement.filter(EVENT_COLUMN_INDEX,USER_DEBUG);
+    };
 
-  //------------------------------------------------
-  // Close tab
-  //------------------------------------------------
-  $(document).on("click", "#apexArea .ui-closable-tab", function(e) {
+    const clearFilter = () => {
+        const elementId = getActiveGridElementId();
+        const hotElement = _grids[elementId];
+        hotElement.clearFilter();
+    };
 
-    if ($("#apexArea .tab-area ul li").length <= 2) {
-      return;
-    }
+    //------------------------------------------------
+    // Export
+    //------------------------------------------------
+    $("#apexArea .export").on("click", (e) => {
+        const elementId = getActiveGridElementId();
+        const grid = _grids[elementId];
+        if(grid){
+            grid.export({
+                fileName: _logNames[elementId],
+                bom: true
+            });
+        }
+    });
 
-    const panelId = $(this).closest("#apexArea li").remove().attr("aria-controls");
-    $("#apexArea #" + panelId ).remove();
-    $("#apexArea .tab-area").tabs("refresh");
-  });
-
-  //------------------------------------------------
-  // Create tab
-  //------------------------------------------------
-  $("#apexArea .add-tab-btn").on("click", (e) => {
-    createTab();
-  });
-
-  const createTab = () => {
-    _currentTabIndex = _currentTabIndex + 1;
-    const newTabId = _currentTabIndex;
-
+    //------------------------------------------------
+    // Create tab
+    //------------------------------------------------
+    const createTab = (newTab) => {
+        _currentTabIndex = _currentTabIndex + 1;
+        const newTabId = _currentTabIndex;
+/*
     $("#apexArea .tab-area ul li:last").before(
-      '<li class="noselect"><a href="#apexTab' + newTabId + '">Grid' + newTabId + '</a>' +
-      '<span class="ui-icon ui-icon-close ui-closable-tab"></span>' +
-      '</li>'
+        '<li class="noselect"><a href="#apexTab' + newTabId + '">Grid' + newTabId + '</a>' +
+        '<span class="ui-icon ui-icon-close ui-closable-tab"></span>' +
+        '</li>'
     );
 
     const logInfoArea = '<div id="logInfo' + newTabId + '" class="result-info" tabId="' + newTabId + '"></div>';
 
     $("#apexArea .tab-area").append(
-      '<div id="apexTab' + newTabId + '" class="result-tab" tabId="' + newTabId + '">' +
-      logInfoArea +
-      '<div id="apexGrid' + newTabId + '" class="result-grid" tabId="' + newTabId + '"></div>' +
-      '</div>'
+        '<div id="apexTab' + newTabId + '" class="result-tab" tabId="' + newTabId + '">' +
+        logInfoArea +
+        '<div id="apexGrid' + newTabId + '" class="result-grid" tabId="' + newTabId + '"></div>' +
+        '</div>'
     );
 
     $("#apexArea .tab-area").tabs("refresh");
@@ -140,54 +123,63 @@
     const newTabIndex = $("#apexArea .tab-area ul li").length - 2;
     _selectedTabId = newTabIndex;
     $("#apexArea .tab-area").tabs({ active: newTabIndex});
-  };
+    */
 
-  const setSortableAttribute = () => {
-    if ($("#apexTabs li" ).length > 2) {
-      $("#apexTabs").sortable("enable");
-    } else {
-      $("#apexTabs").sortable("disable");
-    }
-  };
+        tabComponent.activate(newTab.tabIndex);
 
-  //------------------------------------------------
-  // Active grid
-  //------------------------------------------------
-  const getActiveTabElementId = () => {
-    return $("#apexArea .tab-area .ui-tabs-panel:visible").attr("tabId");
-  };
+        const parent = document.createElement("div");
+        parent.classList.add("result-tab");
+        parent.setAttribute("tabId", newTabId)
 
-  const getActiveGridElementId = () => {
-    return "#apexArea #apexGrid" + getActiveTabElementId();
-  };
+        const resultDiv = document.createElement("div");
+        resultDiv.classList.add("result-info");
+        resultDiv.setAttribute("tabId", newTabId);
 
-  const getActiveGrid = () => {
-    const elementId = getActiveGridElementId();
-    return _grids[elementId];
-  };
+        const gridDiv = document.createElement("div");
+        gridDiv.id = "apexGrid" + newTabId;
+        gridDiv.classList.add("result-grid")
+        gridDiv.setAttribute("tabId",newTabId)
 
-  //------------------------------------------------
-  // message
-  //------------------------------------------------
-  const displayError = (json) => {
-    $("#apexArea .message-area").html(json.error);
-    $("#apexArea .message-area").show();
-  };
+        parent.appendChild(resultDiv)
+        parent.appendChild(gridDiv)
 
-  const hideMessageArea = () => {
-    $("#apexArea .message-area").empty();
-    $("#apexArea .message-area").hide();
-  };
+        newTab.content.appendChild(parent);
+    };
 
-  //------------------------------------------------
-  // page load actions
-  //------------------------------------------------
-  export const prepareApex = () => {
-    $("#apexArea .tab-area").tabs();
-    $("#apexTabs").sortable({items: "li:not(.add-tab-li)", delay: 150});
-    createTab();
-  };
-//};
+    //------------------------------------------------
+    // Active grid
+    //------------------------------------------------
+    const getActiveTabElementId = () => {
+        return tabComponent.activeTabIndex;
+    };
 
-//$(document).ready(apex);
-//$(document).on("page:load", apex);
+    const getActiveGridElementId = () => {
+        return "apexGrid" + getActiveTabElementId();
+    };
+
+
+    //------------------------------------------------
+    // message
+    //------------------------------------------------
+    const displayError = (json) => {
+        $("#apexArea .message").html(json.error);
+        $("#apexArea .message").show();
+    };
+
+    const hideMessageArea = () => {
+        $("#apexArea .message").empty();
+        $("#apexArea .message").hide();
+    };
+
+    //------------------------------------------------
+    // page load actions
+    //------------------------------------------------
+    export const prepareApex = () => {
+        tabComponent.afterAddTab(createTab);
+        tabComponent.create(document.getElementById("apexTabArea"), "apexTab", "Grid");
+        tabComponent.addTab();
+    };
+    //};
+
+    //$(document).ready(apex);
+    //$(document).on("page:load", apex);

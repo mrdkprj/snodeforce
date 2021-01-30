@@ -2,19 +2,14 @@
 
     //import { info } from "console";
 
-    let _selectedTabId = null;
     let _currentTabIndex = 0;
     const _grids = {};
     const tabComponent = new Tab();
     const _sObjects = {};
-    const THIS_AREA = "soqlArea";
     const DEFAULT_DATA_TYPE = "";
     const DEFAULT_CONTENT_TYPE = null;
-    const SOBJECT_LIST_DEF_ZINDEX = "1051"
-    const SOBJECT_LIST_DISP_ZINDEX = "4010"
     const HISTORY_DISP_WIDTH = "250px"
     const HISTORY_DISP_MARGIN = "150px"
-    const PLACEHOLDER = "Select an sObject"
     const POST = "post";
 
     //------------------------------------------------
@@ -127,56 +122,14 @@
     //------------------------------------------------
     // Create tab
     //------------------------------------------------
-    $("#soqlArea .add-tab-btn").on("click", (e) => {
-        createTab();
-    });
 
-    const createTab = () => {
+    const createTab = (newTab) => {
         _currentTabIndex = _currentTabIndex + 1;
         const newTabId = _currentTabIndex;
-    /*
-        $("#soqlArea .tab-area ul li:last").before(
-        '<li class="noselect"><a href="#soqlTab' + newTabId + '">Grid' + newTabId + '</a>' +
-        '<span class="ui-icon ui-icon-close ui-closable-tab"></span>' +
-        '</li>'
-        );
 
-        let inputArea = '<div class="inputSoql" style="margin-bottom:-2px;" tabId="' + newTabId + '">';
-        inputArea += '<textarea name="inputSoql" id="inputSoql' + newTabId + '" style="width:100%" rows="5"></textarea>';
-        inputArea += '</div>';
-
-        let soqlArea = '<div class="result-info" tabId="' + newTabId + '">';
-        soqlArea += '<div id="soql' + newTabId + '">';
-        soqlArea += '<button name="rerunBtn" type="button" class="rerun btn btn-xs btn-default grid-btn">Rerun</button>';
-        soqlArea += '</div>';
-        soqlArea += '<div id="soqlInfo' + newTabId + '">0 rows</div>';
-        soqlArea += '</div>';
-
-        $("#soqlArea .tab-area").append(
-        '<div id="soqlTab' + newTabId + '" class="result-tab" tabId="' + newTabId + '">' +
-        //inputArea +
-        soqlArea +
-        '<div id="soqlGrid' + newTabId + '" class="result-grid" tabId="' + newTabId + '"></div>' +
-        '</div>'
-        );
-
-        $("#soqlArea .tab-area").tabs("refresh");
-
-        setSortableAttribute();
-
-        const newTabIndex = $("#soqlArea .tab-area ul li").length - 2;
-
-        $("#soqlArea .tab-area").tabs({ active: newTabIndex});
-        */
-
-        const nm = "Grid" + newTabId ;
-        tabComponent.create(document.getElementById("soqlTabArea"), nm, nm);
-
-        const newTab = tabComponent.addTab(nm);
         tabComponent.activate(newTab.tabIndex);
 
         const parent = document.createElement("div");
-        parent.id = "soqlTab" + newTabId;
         parent.classList.add("result-tab");
         parent.setAttribute("tabId", newTabId)
 
@@ -215,19 +168,10 @@
         newTab.content.appendChild(parent);
     };
 
-    const setSortableAttribute = () => {
-        if ($("#soqlTabs li" ).length > 2) {
-        $("#soqlTabs").sortable("enable");
-        } else {
-        $("#soqlTabs").sortable("disable");
-        }
-    };
-
     //------------------------------------------------
     // Active grid
     //------------------------------------------------
     const getActiveTabElementId = () => {
-        //return $("#soqlArea .tab-area .ui-tabs-panel:visible").attr("tabId");
         return tabComponent.activeTabIndex;
     };
 
@@ -235,31 +179,26 @@
         return "soqlGrid" + getActiveTabElementId();
     };
 
-    const getActiveGrid = () => {
-        const elementId = getActiveGridElementId();
-        return _grids[elementId];
-    };
-
     //------------------------------------------------
     // message
     //------------------------------------------------
     const displayError = (json) => {
-        $("#soqlArea .message-area").html(json.error);
-        $("#soqlArea .message-area").show();
+        $("#soqlArea .message").html(json.error);
+        $("#soqlArea .message").show();
     };
 
     const hideMessageArea = () => {
-        $("#soqlArea .message-area").empty();
-        $("#soqlArea .message-area").hide();
+        $("#soqlArea .message").empty();
+        $("#soqlArea .message").hide();
     };
 
     //------------------------------------------------
     // page load actions
     //------------------------------------------------
     export const prepareSoql = () =>{
-        $("#soqlArea .tab-area").tabs();
-        $("#soqlTabs").sortable({items: "li:not(.add-tab-li)", delay: 150});
-        createTab();
+        tabComponent.afterAddTab(createTab);
+        tabComponent.create(document.getElementById("soqlTabArea"), "soqlTab", "Grid");
+        tabComponent.addTab();
     }
 //};
 

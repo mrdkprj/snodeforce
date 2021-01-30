@@ -1,65 +1,12 @@
 /* ------------------------------
-   Table
------------------------------- */
-.tbl{
-    display: table;
-}
-
-.row{
-    display: table-row;
-}
-
-.row>div{
-    display: table-cell;
-}
-
-/* ------------------------------
-   #Areas
------------------------------- */
-#mainArea .ui-tabs-anchor{
-    font-size:12px !important;
-}
-
-#localeArea{
-    display: none;
-}
-
-#contentsArea{
-    width:100%;
-    position:absolute;
-    top: 45px;
-    left: 0px;
-    bottom: 10px;
-    overflow-y: auto;
-    padding-top: 30px;
-}
-
-#userLocalOption{
-    display: none;
-}
-
-.error-page{
-  text-align:center;
-  white-space: pre;
-  color: red;
-  font-weight: bold;
-}
-
-/* ------------------------------
    Menu display
 ------------------------------ */
 #soqlContent,
-#describeContent,
-#metadataContent,
-#toolingContent,
 #apexContent{
     display:none;
 }
 
 .soql #soqlContent,
-.describe #describeContent,
-.metadata #metadataContent,
-.tooling #toolingContent,
 .apex #apexContent{
     display:block;
 }
@@ -193,6 +140,48 @@
     line-height: 1.35 !important;
 }
 
+.open > .dropdown-menu{
+    display: block;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 12px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+    box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+}
+
+.dropdown-menu > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+}
+
 .dropdown-item-font{
     font-size: 0.875rem;
 }
@@ -208,6 +197,7 @@
 .header{
     position: fixed;
     top:0px;
+    left: 0px;
     height: 45px;
     z-index: 3000;
     width: 100%;
@@ -220,58 +210,6 @@
     border-radius: 12px;
     border: #aaa 1px solid;
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, .175);
-}
-
-.dropdown-submenu {
-  position: relative;
-}
-
-.dropdown-submenu>.dropdown-menu {
-    top: 5px;
-    left: 100%;
-    margin-top: -6px;
-    margin-left: -1px;
-    -webkit-border-radius: 0 6px 6px 6px;
-    -moz-border-radius: 0 6px 6px;
-    border-radius: 0 6px 6px 6px;
-}
-
-.dropdown-submenu:hover>.dropdown-menu {
-    display: block;
-}
-
-.dropdown-submenu>a:after {
-    display: block;
-    content: " ";
-    float: right;
-    width: 0;
-    height: 0;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 5px 0 5px 5px;
-    border-left-color: #000;
-    margin-top: 2px;
-    margin-right: -10px;
-}
-
-.dropdown-submenu:hover>a:after {
-    border-left-color: #aaa;
-}
-
-.dropdown-submenu.pull-left {
-    float: none;
-}
-
-.dropdown-submenu.pull-left>.dropdown-menu {
-    left: -100%;
-    margin-left: 10px;
-    -webkit-border-radius: 6px 0 6px 6px;
-    -moz-border-radius: 6px 0 6px 6px;
-    border-radius: 6px 0 6px 6px;
-}
-
-.dropdown-submenu>.dropdown-menu a{
-    padding-left: 25px;
 }
 
 .checkmark{
@@ -287,7 +225,6 @@
     display: inline-block;
 }
 
-/*Outer box of the fake checkbox*/
 .checkmark:before{
     height: 5px;
     width: 9px;
@@ -298,7 +235,6 @@
     top: 7px;
 }
 
-/*Checkmark of the fake checkbox*/
 .checkmark:after {
     height: 5px;
     width: 9px;

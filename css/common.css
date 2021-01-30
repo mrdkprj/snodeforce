@@ -1,6 +1,24 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
 /* ------------------------------
    Overrides
 ------------------------------ */
+a{
+    text-decoration: none;
+}
+
 label {
     font-weight: normal !important;
     margin-bottom: 0 !important;
@@ -10,101 +28,40 @@ button:disabled {
   cursor: default !important;
 }
 
-
-
-/* ------------------------------
-   #JQuery UI
------------------------------- */
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
-    font-size: 9.5pt;
-    font-family:Arial;
-    margin-bottom: 2px;
-}
-.ui-tabs .ui-tabs-panel {
-    padding: 0;
-    margin: 0;
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 
-.ui-tabs .ui-tabs-nav li a {
-    font-size:10pt !important;
-}
-
-.noselect {
-    -webkit-user-select: none; /* Safari */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
-}
-
-#soqlArea .ui-tabs .ui-tabs-nav .ui-tabs-anchor,
-#describeArea .ui-tabs .ui-tabs-nav .ui-tabs-anchor,
-#apexArea .ui-tabs .ui-tabs-nav .ui-tabs-anchor{
-    float: left;
-    padding: .5em .5em .5em 1em;
-    text-decoration: none;
-}
-
-.ui-tabs .ui-tabs-nav:focus {
-    padding-left: 0px;
-    background: transparent;
-    border-width: 0px 0px 1px 0px;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
-}
-
-.tab-area ul li a {
-    outline: none;
-}
-
-.tab-area ul li {
-    outline: none;
-}
-
-.ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor,
-.ui-tabs .ui-tabs-nav li.ui-state-disabled .ui-tabs-anchor,
-.ui-tabs .ui-tabs-nav li.ui-tabs-loading .ui-tabs-anchor {
-     cursor: pointer;
-}
-
-.add-tab-li{
-    height: 28px;
-}
-/* ------------------------------
-   #Handontable
------------------------------- */
-.ht_master tr td {
-    font-size:12px;
-}
-
-.handsontable th {
-    font-size:12px;
-}
-
-.handsontable span.data{
-    color: black;
-    font-style:bold;
-}
-
-.changed-cell-border {
-    box-shadow: inset 0 -2px 0 red;
+button:hover,
+button:focus,
+button:active{
+    outline: 0px;
 }
 
 /* ------------------------------
    #Areas
 ------------------------------ */
+.contentsArea{
+    width:100%;
+    position:absolute;
+    top: 45px;
+    left: 0px;
+    bottom: 10px;
+    overflow-y: auto;
+    padding-top: 30px;
+}
+
 .form-area{
     width: 80%;
     margin: 0 auto;
 }
 
-.form-area .export-btn-area .btn{
-    font-size:9.5pt;
-    display: inline;
+.message-area{
+    margin: 5px;
 }
 
-.message-area{
+.message{
     width: 100%;
     display: none;
     color: red;
@@ -116,56 +73,7 @@ button:disabled {
 .tab-area{
     width: 80%;
     border: 0px solid lightgray;
-    margin: 0 auto;
-}
-
-.tab-area li .ui-icon-close {
-    float: left;
-    margin: 0.4em 0.2em 0 0;
-    cursor: pointer;
-}
-
-
-/* ------------------------------
-   #select2
------------------------------- */
-.select2-results__options{
-    font-size:12px !important;
-    -webkit-box-shadow: none !important;
-    box-shadow:none !important;
- }
-
-span.select2-selection.select2-selection--single {
-    outline: none;
- }
-
-.select2-results {
-    max-height: 290px;
-}
-
-.select2-selection__rendered{
-    max-width: 500px;
-    overflow-y: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.select2-container--default .select2-results > .select2-results__options {
-    max-height: 290px;
-    min-height: 150px;
-    overflow-y: auto;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__clear {
-    margin-left: 10px !important;
-}
-
-.select2-container {
-    min-width:140px;
-}
-
-.ex-small-btn{
-    font-size: 12px !important;
+    margin: 15px auto;
 }
 
 /* ------------------------------
@@ -195,47 +103,6 @@ span.select2-selection.select2-selection--single {
     height: 0;
 }
 
-
-/* ------------------------------
-    Add tab button
------------------------------- */
-.icon-plus {
-    border:1px solid #aaa;
-    background-color: #fff;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    width: 27px;
-    height: 20px;
-    position: relative;
-    top: 8px;
-    left: 0px;
-    margin-bottom:0px;
-    border-bottom: 0px;
-    cursor: pointer;
-}
-
-.icon-plus:after {
-    background-color: #aaa;
-    width: 16px;
-    height: 2px;
-    border-radius: 1px;
-    position: absolute;
-    top:9px;
-    left: 5px;
-    content:"";
-}
-
-.icon-plus:before {
-    background-color: #aaa;
-    width: 2px;
-    height: 16px;
-    border-radius: 1px;
-    position: absolute;
-    top:2px;
-    left: 12px;
-    content:"";
-}
-
 /* ------------------------------
    Textarea
 ------------------------------ */
@@ -243,5 +110,90 @@ span.select2-selection.select2-selection--single {
 	font-family: Consolas;
 }
 
+/* ------------------------------
+   Button
+------------------------------ */
+.btn-group, .btn-group-vertical {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.btn{
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.btn:active, .btn.active {
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: inset 0 3px 5px rgb(0 0 0 / 13%);
+    box-shadow: inset 0 3px 5px rgb(0 0 0 / 13%);
+}
+
+.btn:hover, .btn:focus, .btn.focus {
+    color: #333;
+    text-decoration: none;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn-default:hover {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.btn-xs {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.form-area .export-btn-area .btn{
+    font-size:9.5pt;
+    display: inline;
+}
 
 
