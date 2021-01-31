@@ -1,18 +1,15 @@
-    import * as constants from "./lib/constants.js";
-    import { prepareSoql, executeSoql } from "./soql.js";
-    import { prepareApex, executeAnonymous } from "./apex.js";
+import * as constants from "./lib/constants.js";
+import { prepareSoql, executeSoql } from "./soql.js";
+import { prepareApex, executeAnonymous } from "./apex.js";
 
-    const main = function() {
+const main = function() {
     let _selectedAnchor = null;
     let _anchorObject = null;
-    const DEFAULT_DATA_TYPE = "";
-    const DEFAULT_CONTENT_TYPE = null;
-    const POST = "post";
 
     // --test
     let _grid = null;
     $("#test").on("click", function(e){
-        const options = $.getAjaxOptions("/test", POST, {}, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
+        const options = $.getAjaxOptions("/test", "post", {}, "", null);
         const callbacks = $.getAjaxCallbacks(displayQueryResult3, displayQueryResult3, null);
         $.executeAjax(options, callbacks);
     });
@@ -27,21 +24,7 @@
     // -----------
 
     //------------------------------------------------
-    // grid
-    //------------------------------------------------
-    const prepareUser = () => {
-        $("#username").html(constants.defaultUser);
-        constants.users.forEach(user => {
-            if(user == constants.defaultUser){
-                $("#dropdownMenu").append('<li class="user"><a href="javascript:void(0)" class="checkmark">' + user + '</a></li>');
-            }else{
-                $("#dropdownMenu").append('<li class="user"><a href="javascript:void(0)">' + user + '</a></li>');
-            }
-        });
-    }
-
-    //------------------------------------------------
-    // Shortcut keys
+    // Events
     //------------------------------------------------
     $(document).on("keydown", (e) => {
 
@@ -68,23 +51,9 @@
 
     });
 
-    //------------------------------------------------
-    // Insert Tab
-    //------------------------------------------------
-    const insertTab = (e) => {
-        const elem = e.target;
-        const start = elem.selectionStart;
-        const end = elem.selectionEnd;
-        elem.value = "" + (elem.value.substring(0, start)) + "\t" + (elem.value.substring(end));
-        elem.selectionStart = elem.selectionEnd = start + 1;
-    };
-
-    //------------------------------------------------
-    // Menu list
-    //------------------------------------------------
     $("#menus").on("click", "a", function(e) {
 
-        const clickedAnchor = $(this).prop("id");
+        const clickedAnchor = e.target.id;
 
         if (_selectedAnchor === clickedAnchor) {
             return;
@@ -97,45 +66,78 @@
 
     });
 
-    const changeDisplayDiv = (target) => {
-
-        changeAnchorClass(_anchorObject);
-
-        $("div#mainArea").prop("class", target);
-    };
-
-    const changeAnchorClass = (target) => {
-        $(".menu-item").not(target).removeClass("displayed");
-
-        if ($(target).hasClass("displayed")) {
-            $(target).removeClass("displayed");
-        } else {
-            $(target).addClass("displayed");
-        }
-    };
-
-
     $(document).on("click", ".dropdown-menu a", function(e){
 
-        if ($(this).hasClass("checkmark")){
-            return false;
+        if(e.target.classList.contains("checkmark")){
+            return;
         }
 
-        $(".dropdown-menu a").not(this).removeClass("checkmark");
+        document.querySelectorAll(".dropdown-menu a").forEach(element => element.classList.remove("checkmark"));
 
-        $(this).addClass("checkmark");
+        e.target.classList.add("checkmark");
 
-        $("#username").html($(this).html());
+        document.getElementById("username").textContent = e.target.textContent;
 
     });
 
     $("#username").on("click", function(e){
-        $("#dropdownMenu").addClass("open");
+        document.getElementById("dropdownMenu").classList.add("open");
     })
 
     $("#username").on("blur", function(e){
-        $("#dropdownMenu").removeClass("open");
+        document.getElementById("dropdownMenu").classList.remove("open");
     })
+
+    //------------------------------------------------
+    // grid
+    //------------------------------------------------
+    function prepareUser(){
+
+        document.getElementById("username").textContent = constants.defaultUser;
+
+        const dropdown = document.getElementById("dropdownMenu");
+
+        constants.users.forEach(user => {
+            const list = document.createElement("li");
+            list.classList.add("user");
+            const checkmark = document.createElement("a");
+            checkmark.href = "javascript:void(0)";
+            checkmark.textContent = user;
+            if(user == constants.defaultUser){
+                checkmark.classList.add("checkmark");
+            }
+            list.appendChild(checkmark);
+            dropdown.appendChild(list);
+        });
+    }
+
+    //------------------------------------------------
+    // Insert Tab
+    //------------------------------------------------
+    function insertTab(e) {
+        const elem = e.target;
+        const start = elem.selectionStart;
+        const end = elem.selectionEnd;
+        elem.value = "" + (elem.value.substring(0, start)) + "\t" + (elem.value.substring(end));
+        elem.selectionStart = elem.selectionEnd = start + 1;
+    };
+
+    //------------------------------------------------
+    // Menu list
+    //------------------------------------------------
+    function changeDisplayDiv(target){
+
+        changeAnchorClass(_anchorObject);
+
+        document.getElementById("mainArea").className = "";
+        document.getElementById("mainArea").classList.add(target);
+
+    };
+
+    function changeAnchorClass(target){
+        document.querySelectorAll(".menu-item").forEach(element => element.classList.remove("displayed"));
+        target.classList.add("displayed");
+    };
 
     //------------------------------------------------
     // page load actions
