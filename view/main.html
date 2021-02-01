@@ -2,7 +2,6 @@
 <html>
 	<meta charset="UTF-8">
 	<head>
-		<link rel="stylesheet" media="all" href="../css/bootstrap0.css"/>
 		<link rel="stylesheet" media="all" href="../css/common.css"/>
 		<link rel="stylesheet" media="all" href="../css/main.css"/>
 		<link rel="stylesheet" media="all" href="../css/soql.css">
@@ -10,7 +9,6 @@
 		<link rel="stylesheet" media="all" href="../css/GridTable.css">
 		<link rel="stylesheet" media="all" href="../css/tab.css">
 		<script src="../js/jquery-1.11.2.min.js"></script>
-		<script src="../js/bootstrap.js"></script>
 		<script type="module" src="../main.js"></script>
 		<script src="../js/ajaxUtils.js"></script>
 		<script src="../lib/GridTable.js"></script>
@@ -30,11 +28,11 @@
 		        </div>
 
 		        <div id="menuList">
-            <div class="btn-group">
-                <button id="username" class="btn btn-secondary btn-sm dropdown-btn paper-raise dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                <ul id="dropdownMenu" class="dropdown-menu">
-                </ul>
-            </div>
+					<div id="userList" class="user-list">
+						<button id="username" class="btn dropdown-btn" type="button"></button>
+						<ul id="dropdownMenu" class="dropdown-menu">
+						</ul>
+					</div>
 		            <ul id="menus">
 		                <li><a id="soql" href="javascript:void(0)" class="menu-item displayed">SOQL</a></li>
 		                <li><a id="apex" href="javascript:void(0)" class="menu-item">Apex</a></li>
@@ -61,15 +59,15 @@
             					<textarea id="inputSoql" class="code-input" spellcheck="false" cols="120" rows="5">select id,name,MailingPostalCode, MailingState,MailingCity, MyExtID__c,MailingStreet from contact</textarea>
             				</div>
             				<div>
-            					<button type="button" id="executeSoqlBtn" class="btn btn-sm btn-primary">Execute</button>
-								<button type="button" id="test" class="btn btn-sm btn-primary">Test</button>
+            					<button type="button" id="executeSoqlBtn" class="btn btn-main">Execute</button>
+								<button type="button" id="test" class="btn btn-main">Test</button>
             					<label class="soql-options"><input type="checkbox" id="useTooling"/> Use Tooling API</label>
             				</div>
 							<div class="message-area"><div class="message"></div></div>
             			</div>
             			<div id="soqlTabArea" class="tab-area">
-							<button type="button" id="soqlHistoryBtn" class="btn btn-xs btn-default">History</button>
-							<button type="button" class="btn btn-xs btn-default export">Export</button>
+							<button type="button" id="soqlHistoryBtn" class="btn btn-sub">History</button>
+							<button type="button" class="btn btn-sub export">Export</button>
             			</div>
             		</div>
             	</div>
@@ -81,13 +79,13 @@
 								<textarea id="apexCode" class="code-input" spellcheck="false" cols="120" rows="5">string x = 'a'; system.debug(x);</textarea>
 							</div>
 							<div>
-								<button type="button" id="executeAnonymousBtn" class="btn btn-sm btn-primary">Execute Anonymous</button>
+								<button type="button" id="executeAnonymousBtn" class="btn btn-main">Execute Anonymous</button>
 							</div>
 							<div class="message-area"><div class="message"></div></div>
 						</div>
 
 						<div id="apexTabArea" class="tab-area">
-							<button type="button" class="btn btn-xs btn-default export">Export</button>
+							<button type="button" class="btn btn-sub export">Export</button>
 						</div>
 					</div>
 		        </div>

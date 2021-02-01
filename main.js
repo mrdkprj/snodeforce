@@ -66,7 +66,7 @@ const main = function() {
 
     });
 
-    $(document).on("click", ".dropdown-menu a", function(e){
+    $(document).on("mousedown", ".dropdown-menu a", function(e){
 
         if(e.target.classList.contains("checkmark")){
             return;
@@ -81,12 +81,18 @@ const main = function() {
     });
 
     $("#username").on("click", function(e){
-        document.getElementById("dropdownMenu").classList.add("open");
+        const userList = document.getElementById("userList");
+        if(userList.classList.contains("open")){
+            userList.classList.remove("open");
+        }else{
+            userList.classList.add("open");
+        }
     })
 
     $("#username").on("blur", function(e){
-        document.getElementById("dropdownMenu").classList.remove("open");
+        document.getElementById("userList").classList.remove("open");
     })
+
 
     //------------------------------------------------
     // grid

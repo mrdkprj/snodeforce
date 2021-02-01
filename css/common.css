@@ -40,18 +40,23 @@ button:active{
 }
 
 /* ------------------------------
-   #Areas
+   Table
 ------------------------------ */
-.contentsArea{
-    width:100%;
-    position:absolute;
-    top: 45px;
-    left: 0px;
-    bottom: 10px;
-    overflow-y: auto;
-    padding-top: 30px;
+.tbl{
+    display: table;
 }
 
+.row{
+    display: table-row;
+}
+
+.row > div{
+    display: teble-cell;
+}
+
+/* ------------------------------
+   Areas
+------------------------------ */
 .form-area{
     width: 80%;
     margin: 0 auto;
@@ -113,7 +118,7 @@ button:active{
 /* ------------------------------
    Button
 ------------------------------ */
-.btn-group, .btn-group-vertical {
+.user-list {
     position: relative;
     display: inline-block;
     vertical-align: middle;
@@ -141,54 +146,49 @@ button:active{
     border-radius: 4px;
 }
 
-.btn:active, .btn.active {
+.btn:active{
     background-image: none;
     outline: 0;
     -webkit-box-shadow: inset 0 3px 5px rgb(0 0 0 / 13%);
     box-shadow: inset 0 3px 5px rgb(0 0 0 / 13%);
 }
 
-.btn:hover, .btn:focus, .btn.focus {
+.btn:hover,
+.btn:focus{
     color: #333;
     text-decoration: none;
 }
 
-.btn-primary {
+.btn-main {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
     color: #fff;
     background-color: #337ab7;
     border-color: #2e6da4;
 }
 
-.btn-primary:hover {
+.btn-main:hover {
     color: #fff;
     background-color: #286090;
     border-color: #204d74;
 }
 
-.btn-default {
+.btn-sub {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
     color: #333;
     background-color: #fff;
     border-color: #ccc;
 }
 
-.btn-default:hover {
+.btn-sub:hover {
     color: #333;
     background-color: #e6e6e6;
     border-color: #adadad;
-}
-
-.btn-sm {
-    padding: 5px 10px;
-    font-size: 12px;
-    line-height: 1.5;
-    border-radius: 3px;
-}
-
-.btn-xs {
-    padding: 1px 5px;
-    font-size: 12px;
-    line-height: 1.5;
-    border-radius: 3px;
 }
 
 .form-area .export-btn-area .btn{

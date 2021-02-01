@@ -144,8 +144,7 @@
         btn.name = "rerunBtn"
         btn.classList.add("rerun");
         btn.classList.add("btn");
-        btn.classList.add("btn-xs");
-        btn.classList.add("btn-default");
+        btn.classList.add("btn-sub");
         btn.classList.add("grid-btn");
         btn.innerText = "Rerun";
         soqlInfoDiv.appendChild(btn);
