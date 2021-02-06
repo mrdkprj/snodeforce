@@ -26,11 +26,7 @@ module.exports = {
         const command = `${ QUERY_COMMAND } -q "${ req.soql }" -u ${ req.username } ${ req.tooling ? "-t" : ""} --json`;
 
         exec(command, (error, stdout, stderr) => {
-            if (error) {
-                return callback(req, res, {error:stderr});
-            }else{
-                return callback(req, res, JSON.parse(stdout));
-            }
+            return callback(req, res, JSON.parse(stdout));
         });
     },
 

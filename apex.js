@@ -1,7 +1,6 @@
     //const apex = function() {
 
     let _selectedTabId = 0;
-    let _currentTabIndex = 0;
     const tabComponent = new Tab();
     const _grids = {};
     const _logNames = {};
@@ -11,9 +10,6 @@
     const USER_DEBUG = "USER_DEBUG";
     const POST = "post";
 
-    //------------------------------------------------
-    // Execute Anonymous
-    //------------------------------------------------
     $("#apexArea #executeAnonymousBtn").on("click", (e) => {
         if ($.isAjaxBusy() || !$("#apexArea #apexCode").val()) {
             return false;
@@ -23,7 +19,22 @@
         executeAnonymous();
     });
 
-    export const executeAnonymous = () => {
+    $("#apexArea").on("click", "input.debug-only", function(e) {
+        if ($(this).prop("checked")) {
+            filterLog();
+        } else {
+            clearFilter();
+        }
+    });
+
+    $("#apexArea .export").on("click", (e) => {
+        exportLog();
+    });
+
+    //------------------------------------------------
+    // Execute Anonymous
+    //------------------------------------------------
+    export function executeAnonymous(){
         hideMessageArea();
         _selectedTabId = getActiveTabElementId();
 
@@ -41,8 +52,8 @@
         $.executeAjax(options, callbacks);
     };
 
-    const afterExecuteAnonymous = (json) => {
-        const elementId = " apexGrid" + _selectedTabId;
+    function afterExecuteAnonymous(json){
+        const elementId = "apexGrid" + _selectedTabId;
         _logNames[elementId] = json.logName;
         $("#logInfo" + _selectedTabId).html(getLogResult(json));
 
@@ -60,14 +71,6 @@
     //------------------------------------------------
     // Filter debug only
     //------------------------------------------------
-    $("#apexArea").on("click", "input.debug-only", function(e) {
-        if ($(this).prop("checked")) {
-            filterLog();
-        } else {
-            clearFilter();
-        }
-    });
-
     const filterLog = () => {
         const elementId = getActiveGridElementId();
         const hotElement = _grids[elementId];
@@ -83,7 +86,7 @@
     //------------------------------------------------
     // Export
     //------------------------------------------------
-    $("#apexArea .export").on("click", (e) => {
+    function exportLog(){
         const elementId = getActiveGridElementId();
         const grid = _grids[elementId];
         if(grid){
@@ -92,38 +95,14 @@
                 bom: true
             });
         }
-    });
+    }
 
     //------------------------------------------------
     // Create tab
     //------------------------------------------------
     const createTab = (newTab) => {
-        _currentTabIndex = _currentTabIndex + 1;
-        const newTabId = _currentTabIndex;
-/*
-    $("#apexArea .tab-area ul li:last").before(
-        '<li class="noselect"><a href="#apexTab' + newTabId + '">Grid' + newTabId + '</a>' +
-        '<span class="ui-icon ui-icon-close ui-closable-tab"></span>' +
-        '</li>'
-    );
 
-    const logInfoArea = '<div id="logInfo' + newTabId + '" class="result-info" tabId="' + newTabId + '"></div>';
-
-    $("#apexArea .tab-area").append(
-        '<div id="apexTab' + newTabId + '" class="result-tab" tabId="' + newTabId + '">' +
-        logInfoArea +
-        '<div id="apexGrid' + newTabId + '" class="result-grid" tabId="' + newTabId + '"></div>' +
-        '</div>'
-    );
-
-    $("#apexArea .tab-area").tabs("refresh");
-
-    setSortableAttribute();
-
-    const newTabIndex = $("#apexArea .tab-area ul li").length - 2;
-    _selectedTabId = newTabIndex;
-    $("#apexArea .tab-area").tabs({ active: newTabIndex});
-    */
+        const newTabId = newTab.tabIndex;
 
         tabComponent.activate(newTab.tabIndex);
 
@@ -132,6 +111,7 @@
         parent.setAttribute("tabId", newTabId)
 
         const resultDiv = document.createElement("div");
+        resultDiv.id = "logInfo" + newTabId;
         resultDiv.classList.add("result-info");
         resultDiv.setAttribute("tabId", newTabId);
 

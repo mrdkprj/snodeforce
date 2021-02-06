@@ -103,7 +103,6 @@ button:active{
     background: none;
     outline: 0;
     border: 0px solid gray;
-    /*min-height: 500px;*/
     overflow: auto;
     height: 0;
 }
@@ -112,7 +111,8 @@ button:active{
    Textarea
 ------------------------------ */
 .code-input{
-	font-family: Consolas;
+    font-family: Consolas;
+    font-size: 14px;
 }
 
 /* ------------------------------
@@ -153,9 +153,12 @@ button:active{
     box-shadow: inset 0 3px 5px rgb(0 0 0 / 13%);
 }
 
-.btn:hover,
-.btn:focus{
+.btn:hover{
     color: #333;
+    text-decoration: none;
+}
+
+.btn:focus{
     text-decoration: none;
 }
 

@@ -1,34 +1,44 @@
 //const soql = function() {
-
-    //import { info } from "console";
-
-    let _currentTabIndex = 0;
     const _grids = {};
     const tabComponent = new Tab();
     const _sObjects = {};
     const DEFAULT_DATA_TYPE = "";
     const DEFAULT_CONTENT_TYPE = null;
-    const HISTORY_DISP_WIDTH = "250px"
-    const HISTORY_DISP_MARGIN = "150px"
     const POST = "post";
 
-    //------------------------------------------------
-    // SOQL History
-    //------------------------------------------------
-    $("#soqlArea #soqlHistoryBtn").on("click", (e) => {
-        if ($("#soqlHistory").width() > 0) {
-            closeSoqlHistory();
-        } else {
-            openSoqlHistory();
-        }
+
+    $("#executeSoqlBtn").on("click", function(e){
+        executeSoql();
     });
 
-    $("#soqlHistory .closebtn").on("click", (e) => {
+    $("#soqlArea .rerun").on("click", ".rerun", function(e){
+        rerun();
+    });
+
+    $("#soqlArea .export").on("click", function(e){
+        exportResult();
+    });
+
+    $("#soqlHistoryBtn").on("click", function(e){
+
+        if (document.getElementById("soqlContent").classList.contains("history-opened")) {
+
+            document.getElementById("soqlContent").classList.remove("history-opened");
+
+        } else {
+
+            document.getElementById("soqlContent").classList.add("history-opened");
+
+        }
+
+    });
+
+    $("#closeHistoryBtn").on("click", function(e){
         closeSoqlHistory();
     });
 
     $("#soqlHistory").on("mouseover", "li", function(e) {
-        e.target.setAttribute("title", e.target.innerText);
+        e.target.setAttribute("title", e.target.textContent);
     });
 
     $("#soqlHistory").on("mouseout", "li", function(e) {
@@ -36,50 +46,37 @@
     });
 
     $("#soqlHistory").on("dblclick", "li", function(e) {
-        document.getElementById("inputSoql").value = e.target.innerText;
+        document.getElementById("inputSoql").value = e.target.textContent;
     });
-
-    const openSoqlHistory = () => {
-        $("#closeHistoryBtn").show();
-        $("#soqlHistory").width(HISTORY_DISP_WIDTH);
-        $("#soqlArea").css("margin-left",HISTORY_DISP_MARGIN);
-    };
-
-    const closeSoqlHistory = () => {
-        $("#closeHistoryBtn").hide();
-        $("#soqlHistory").width("0");
-        $("#soqlArea").css("margin-left","0");
-    };
 
     //------------------------------------------------
     // Execute SOQL
     //------------------------------------------------
-    $("#executeSoqlBtn").on("click", function(e){
-        executeSoql();
-    });
-
     export function executeSoql() {
+
         if ($.isAjaxBusy()) {
-            return false;
+            return;
         }
 
         hideMessageArea();
-        const soql = $("#inputSoql").val();
-        const tooling = $("#useTooling").is(":checked");
 
-        const val = {soql: soql, tooling: tooling, tabId: getActiveTabElementId()};
-        const options = $.getAjaxOptions("/soql", POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
+        const soql = document.getElementById("inputSoql").value;
+        const tooling = document.getElementById("useTooling").checked;
+
+        const params = {soql: soql, tooling: tooling, tabId: getActiveTabElementId()};
+        const options = $.getAjaxOptions("/soql", POST, params, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
         const callbacks = $.getAjaxCallbacks(displayQueryResult, displayError, null);
+
         $.executeAjax(options, callbacks);
     };
 
-    //------------------------------------------------
-    // Query callbacks
-    //------------------------------------------------
-    const displayQueryResult = (json) => {
+    function displayQueryResult(json){
+
         const selectedTabId = json.soqlInfo.tabId;
-        $("#soqlArea #soqlInfo" + selectedTabId).html(json.soqlInfo.timestamp);
-        $("#soqlHistory ul").append('<li>' + json.soqlInfo.soql + '</li>');
+        document.getElementById("soqlInfo" + selectedTabId).textContent = json.soqlInfo.timestamp;
+        const history = document.createElement("li");
+        history.textContent = json.soqlInfo.soql;
+        document.getElementById("soqlList").appendChild(history);
 
         const elementId = "soqlGrid" + json.soqlInfo.tabId;
 
@@ -93,7 +90,7 @@
     //------------------------------------------------
     // Rerun SOQL
     //------------------------------------------------
-    $("#soqlArea").on("click", ".rerun", (e) => {
+    function rerun(){
         if ($.isAjaxBusy()) {
             return;
         }
@@ -103,29 +100,28 @@
         if (_sObjects[elementId]) {
             executeSoql({soql_info:_sObjects[elementId].soql_info, afterCrud: false});
         }
-    });
+    }
 
     //------------------------------------------------
     // Export
     //------------------------------------------------
-    $("#soqlArea .export").on("click", (e) => {
+    function exportResult(){
         const elementId = getActiveGridElementId();
         const grid = _grids[elementId];
+
         if(grid){
             grid.export({
                 fileName: "query_result",
                 bom: true
             });
         }
-    });
+    }
 
     //------------------------------------------------
     // Create tab
     //------------------------------------------------
-
-    const createTab = (newTab) => {
-        _currentTabIndex = _currentTabIndex + 1;
-        const newTabId = _currentTabIndex;
+    function createTab(newTab){
+        const newTabId = newTab.tabIndex;
 
         tabComponent.activate(newTab.tabIndex);
 
@@ -170,31 +166,33 @@
     //------------------------------------------------
     // Active grid
     //------------------------------------------------
-    const getActiveTabElementId = () => {
+    function getActiveTabElementId(){
         return tabComponent.activeTabIndex;
     };
 
-    const getActiveGridElementId = () => {
+    function getActiveGridElementId(){
         return "soqlGrid" + getActiveTabElementId();
     };
 
     //------------------------------------------------
     // message
     //------------------------------------------------
-    const displayError = (json) => {
-        $("#soqlArea .message").html(json.error);
-        $("#soqlArea .message").show();
+    function displayError(json){
+        const messageArea = document.getElementById("soqlArea").querySelector(".message");
+        messageArea.textContent = json.error;
+        messageArea.style.display = "block";
     };
 
-    const hideMessageArea = () => {
-        $("#soqlArea .message").empty();
-        $("#soqlArea .message").hide();
+    function hideMessageArea(){
+        const messageArea = document.getElementById("soqlArea").querySelector(".message");
+        messageArea.textContent = "";
+        messageArea.style.display = "none";
     };
 
     //------------------------------------------------
     // page load actions
     //------------------------------------------------
-    export const prepareSoql = () =>{
+    export function prepareSoql(){
         tabComponent.afterAddTab(createTab);
         tabComponent.create(document.getElementById("soqlTabArea"), "soqlTab", "Grid");
         tabComponent.addTab();

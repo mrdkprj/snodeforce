@@ -1,7 +1,12 @@
 #soqlArea{
   	position:relative;
-  	top:0;
-  	right:0;
+  	top:0px;
+    right:0px;
+    margin-left:0px;
+}
+
+.history-opened #soqlArea{
+    margin-left: 150px;
 }
 
 /* ------------------------------
@@ -21,72 +26,25 @@
 }
 
 /* ------------------------------
-   Create dialog
------------------------------- */
-.create-dialog {
-    width: 600px;
-    position: relative;
-    z-index: 4005;
-    top: 20%;
-    background-color: #408080;
-    overflow-x: auto;
-    border-radius: 12px;
-    box-shadow: 9px 9px 9px rgba(0, 0, 0, .125);
-    padding: 35px;
-    margin: 0 auto;
-}
-
-#sobjectFields{
-    color: black;
-}
-
-.sobject-fields-textarea{
-    width: 400px;
-    height: 150px;
-}
-
-#creatGridArea{
-    font-size:12px;
-}
-
-#createGridBtn{
-    margin-right: 5px;
-}
-
-#sobjectFieldsSeparator{
-    color: black;
-}
-
-.soql-grid-table{
-    display: table;
-    position: relative;
-    top: 25%;
-    color: white;
-    margin: 0 auto;
-}
-
-.sobject-label{
-    padding-right: 10px;
-    text-align: right;
-    vertical-align: middle;
-}
-
-.fields-label{
-    padding-right: 10px;
-    text-align: right;
-    vertical-align: top;
-}
-
-.soql-sobject-list{
-    height: 30px;
-    font-size: 12px;
-    line-height: 1.5;
-    border-radius: 3px;
-}
-
-/* ------------------------------
    Side navigation
 ------------------------------ */
+
+#soqlHistory{
+    width: 0px;
+}
+
+.history-opened #soqlHistory{
+    width: 250px;
+}
+
+#closeHistoryBtn{
+    display: none;
+}
+
+.history-opened #closeHistoryBtn{
+    display: block;
+}
+
 .sidenav {
     height: 100%;
     width: 0;
@@ -160,7 +118,7 @@
 	height:40px;
 }
 
-.soql-list{
+.soql-list-area{
     overflow-y: auto;
     overflow-y: auto;
     position: absolute;
