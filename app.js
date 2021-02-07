@@ -2,11 +2,9 @@ const url = require('url');
 const fs = require('fs');
 const client = require("./client.js");
 const soqlExecuter = require("./lib//soql/executer.js");
-const csv = require("./lib/csv.js");
 const Log_split_char = "|";
 const Log_split_limit = 3;
 const Log_headers = ["Timestamp", "Event", "Details"];
-const QUERY_NO_RESULT = "Your query returned no results.";
 
     module.exports = {
         handleRequest: function(request, response) {
@@ -20,7 +18,6 @@ const QUERY_NO_RESULT = "Your query returned no results.";
                     parseQueryResultTest(response);
                     break;
                 case '/soql':
-                    //onPostRequest(request, body => client.query(body, response, parseQueryResult));
                     onPostRequest(request, body => new soqlExecuter().execute(body, response));
                     break;
                 case '/apex':
@@ -68,35 +65,6 @@ const QUERY_NO_RESULT = "Your query returned no results.";
         response.writeHead(200, {'Content-Type': 'text/json'});
         response.end(text);
     };
-
-    const parseQueryResult = (request, response, result) => {
-        if(result.error){
-            response.writeHead(400, {'Content-Type': 'text/json'});
-            response.end(JSON.stringify(result));
-        }else{
-
-            if(result.startsWith(QUERY_NO_RESULT)){
-                response.writeHead(400, {'Content-Type': 'text/json'});
-                response.end(JSON.stringify({error:result}));
-            }else{
-                const txt = csv.CSVToArray(result, ",");
-                txt.pop();
-                response.writeHead(200, {'Content-Type': 'text/json'});
-                const json = JSON.stringify({
-                        header:txt[0],
-                        rows:txt.slice(1),
-                        soqlInfo: {
-                            soql: request.soql,
-                            tabId: request.tabId,
-                            timestamp: txt.length - 1 + " rows@" + new Date().toLocaleString('ja-JP')
-                        }
-                    });
-                response.end(json);
-            }
-
-        }
-    };
-
 
     const parseApexResult = (response, apexResult) => {
 
