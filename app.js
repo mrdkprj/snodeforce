@@ -1,7 +1,7 @@
 const url = require('url');
 const fs = require('fs');
 const client = require("./client.js");
-const soqlExecuter = require("./lib//soql/executer.js");
+const queryResultParser = require("./lib/soql/query-result-parser.js");
 const Log_split_char = "|";
 const Log_split_limit = 3;
 const Log_headers = ["Timestamp", "Event", "Details"];
@@ -18,10 +18,10 @@ const Log_headers = ["Timestamp", "Event", "Details"];
                     parseQueryResultTest(response);
                     break;
                 case '/soql':
-                    onPostRequest(request, body => new soqlExecuter().execute(body, response));
+                    onPostRequest(request, requestBody => executeQuery(requestBody, response));
                     break;
                 case '/apex':
-                    onPostRequest(request, body => client.executeAnonymous(body, response, parseApexResult));
+                    onPostRequest(request, requestBody => client.executeAnonymous(requestBody, response, parseApexResult));
                     break;
                 default:
                     response.writeHead(404, {'Content-Type': 'application/json'});
@@ -59,6 +59,28 @@ const Log_headers = ["Timestamp", "Event", "Details"];
             callback(JSON.parse(body));
         });
     };
+
+    const executeQuery = (request, response) => {
+
+        const query = request.soql.replace(/\r|\n|\r\n/gi, " ").replace(";", "");
+
+        request.soql = query;
+
+        client.query(request, response, afterExecuteQuery);
+    }
+
+    const afterExecuteQuery = (request, response, queryResult) => {
+
+        const result = new queryResultParser().parse(request, queryResult);
+
+        if(result.done == false){
+            response.writeHead(400, {'Content-Type': 'text/json'});
+        }else{
+            response.writeHead(200, {'Content-Type': 'text/json'});
+        }
+
+        response.end(result.data);
+    }
 
     const parseQueryResultTest  = (response) => {
         const text = fs.readFileSync("sample.json");
