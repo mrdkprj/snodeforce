@@ -250,25 +250,35 @@ a:focus{
 }
 
 .dialog{
+    display: flex;
     position: fixed;
     top: 250px;
     left: 300px;
-    width: 200px;
-    height: 40px;
+    width: 250px;
+    height: 45px;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
+    justify-content: left;
+    align-items: center;
 }
 
-.dialog-txt{
-    position: absolute;
-    width: 80%;
-    height: 80%;
-    margin: 5px;
+.dialog-txt {
+    height: 25px;
+    margin: 10px;
     outline: none;
     border: none;
     resize: none;
     font-size: 12px;
-    font-family: Verdana;
+    font-family: Verdana,Arial,sans-serif;
     line-height: 2;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.search-result{
+    font-size: 13px;
+    font-family: Verdana,Arial,sans-serif;
+    color: #888;
+    margin-left:5px;
 }
