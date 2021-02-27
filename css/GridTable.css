@@ -36,13 +36,7 @@ a:focus{
     font-family:Verdana,Arial,sans-serif
 }
 
-.stick{
-    position:sticky;
-    top:0;
-    z-index: 1000;
-}
-
-.gtbl-hidden-row-header{
+.gtbl-row-header{
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -53,13 +47,6 @@ a:focus{
     width: 0;
 }
 
-.gtbl-hidden-col-header{
-    z-index: 1000;
-    font-size: 12px;
-    width:20px;
-    float: left;
-    display: block;
-}
 
 .gtbl-header-cell {
     background-color: #eee;
@@ -75,6 +62,9 @@ a:focus{
     /*padding: 4px 16px;*/
     padding: 4px 4px;
     overflow: hidden;
+    position:sticky;
+    top:0;
+    z-index: 1000;
 }
 
 .gtbl-row-header-cell{
@@ -95,6 +85,7 @@ a:focus{
     z-index: 10001;
     top:0;
     left:0;
+    position:sticky;
 }
 
 .node-container{
@@ -201,44 +192,6 @@ a:focus{
     z-index: 800;
 }
 
-.clone-header{
-    position: fixed;
-    top: -100px;
-    left: -100px;
-    display: table-cell;
-    background-color: #ddd;
-    text-align: center;
-    color: #000000;
-    border-right: solid 1px #aaa;
-    border-bottom: solid 1px #aaa;
-    border-left: 1px solid #aaa;
-    user-select: none;
-    white-space: nowrap;
-    font-family:Verdana,Arial,sans-serif !important;
-    font-size: 12px !important;
-    z-index: 999;
-    box-sizing: border-box;
-}
-
-.calc{
-    position: fixed;
-    top:-100px;
-    left:-100px;
-    display: inline-block;
-    font-family:Verdana,Arial,sans-serif !important;
-    font-size: 12px !important;
-    border-top-width: 0;
-    border-left-width: 0;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    line-height: 21px;
-    padding: 0 4px;
-    vertical-align: top;
-    overflow: hidden;
-    outline-width: 0;
-    white-space: pre;
-}
-
 .row-number{
     pointer-events: none;
     position: absolute;
@@ -250,21 +203,16 @@ a:focus{
 }
 
 .dialog{
+    visibility: hidden;
     display: flex;
     position: fixed;
     height: 0px;
-    /*
-    top: 340px;
-    left: 1030px;
-    */
     width: 250px;
-    /*height: 40px;*/
     background-color: #fff;
     border: 1px solid #ccc;
     justify-content: left;
     align-items: center;
     z-index: 9999;
-    /* border-radius: 4px; */
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     box-shadow: 1px 3px 6px rgb(0 0 0 / 13%);
@@ -273,6 +221,7 @@ a:focus{
 }
 
 .dialog.open{
+    visibility: visible;
     height:40px;
 }
 
@@ -307,4 +256,8 @@ a:focus{
 
 .dialog.open .search-result{
     display: block;
+}
+
+.found{
+    color: red;
 }

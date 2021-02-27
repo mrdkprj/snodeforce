@@ -107,7 +107,8 @@ const Log_headers = ["Timestamp", "Event", "Details"];
                 {
                     logName: "executeAnonymous@" + new Date().toLocaleString('ja-JP'),
                     header:Log_headers,
-                    rows:logs
+                    rows:logs,
+                    readOnly: true,
                 }
             ));
         }
@@ -126,10 +127,10 @@ const Log_headers = ["Timestamp", "Event", "Details"];
 
     const fill_blank = (log) => {
         if(log.length == 1){
-            return ["","",csv.escapeXml(log[0])];
+            return ["","",log[0]];
         }else if(log.length == 2){
             return [log[0],log[1],""];
         }else{
-            return log.map(item => csv.escapeXml(item));
+            return log;
         }
     };
