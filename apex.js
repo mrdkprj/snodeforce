@@ -38,14 +38,7 @@
         hideMessageArea();
         _selectedTabId = getActiveTabElementId();
 
-        const debugOptions = {};
-        $("#debugOptions option:selected").each(function() {
-            const category = $(this).parent().attr("id");
-            const level = $(this).val();
-            debugOptions[category] = level;
-        });
-
-        const val = {code: $("#apexCode").val(), debug_options: debugOptions};
+        const val = {code: document.getElementById("apexCode").value};
         const action = "/apex";
         const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
         const callbacks = $.getAjaxCallbacks(afterExecuteAnonymous, displayError, null);
@@ -55,7 +48,7 @@
     function afterExecuteAnonymous(json){
         const elementId = "apexGrid" + _selectedTabId;
         _logNames[elementId] = json.logName;
-        $("#logInfo" + _selectedTabId).html(getLogResult(json));
+        writeLogInfo(json);
 
         if(_grids[elementId]){
             _grids[elementId].destroy();
@@ -64,23 +57,36 @@
         _grids[elementId] = new GridTable(document.getElementById(elementId), json);
         };
 
-        const getLogResult = (json) => {
-        return json.logName + '&nbsp;&nbsp;<label><input type="checkbox" class="debug-only"/>&nbsp;Debug only</label>';
-        }
+    function writeLogInfo(json){
+        const infoArea = document.getElementById("logInfo" + _selectedTabId);
+
+        const log = document.createElement("span");
+        log.textContent = json.logName;
+        log.style["margin-right"] = "10px";
+        const debugOnly = document.createElement("label");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList.add("debug-only");
+        debugOnly.append(checkbox,"Debug only");
+
+        infoArea.appendChild(log);
+        infoArea.appendChild(debugOnly);
+
+    }
 
     //------------------------------------------------
     // Filter debug only
     //------------------------------------------------
-    const filterLog = () => {
+    function filterLog(){
         const elementId = getActiveGridElementId();
-        const hotElement = _grids[elementId];
-        hotElement.filter(EVENT_COLUMN_INDEX,USER_DEBUG);
+        const grid = _grids[elementId];
+        grid.filter(EVENT_COLUMN_INDEX,USER_DEBUG);
     };
 
-    const clearFilter = () => {
+    function clearFilter(){
         const elementId = getActiveGridElementId();
-        const hotElement = _grids[elementId];
-        hotElement.clearFilter();
+        const grid = _grids[elementId];
+        grid.clearFilter();
     };
 
     //------------------------------------------------
@@ -100,7 +106,7 @@
     //------------------------------------------------
     // Create tab
     //------------------------------------------------
-    const createTab = (newTab) => {
+    function createTab(newTab){
 
         const newTabId = newTab.tabIndex;
 
@@ -129,11 +135,11 @@
     //------------------------------------------------
     // Active grid
     //------------------------------------------------
-    const getActiveTabElementId = () => {
+    function getActiveTabElementId(){
         return tabComponent.activeTabIndex;
     };
 
-    const getActiveGridElementId = () => {
+    function getActiveGridElementId(){
         return "apexGrid" + getActiveTabElementId();
     };
 
@@ -141,20 +147,22 @@
     //------------------------------------------------
     // message
     //------------------------------------------------
-    const displayError = (json) => {
-        $("#apexArea .message").html(json.error);
-        $("#apexArea .message").show();
+    function displayError(json){
+        const messageArea = document.getElementById("apexArea").querySelector(".message");
+        messageArea.textContent = json.error;
+        messageArea.style.display = "block";
     };
 
-    const hideMessageArea = () => {
-        $("#apexArea .message").empty();
-        $("#apexArea .message").hide();
+    function hideMessageArea(){
+        const messageArea = document.getElementById("apexArea").querySelector(".message");
+        messageArea.textContent = "";
+        messageArea.style.display = "none";
     };
 
     //------------------------------------------------
     // page load actions
     //------------------------------------------------
-    export const prepareApex = () => {
+    export function prepareApex(){
         tabComponent.afterAddTab(createTab);
         tabComponent.create(document.getElementById("apexTabArea"), "apexTab", "Grid");
         tabComponent.addTab();
