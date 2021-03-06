@@ -1,52 +1,40 @@
-    //const apex = function() {
+const describe = new function() {
 
     let _selectedTabId = 0;
     const tabComponent = new Tab();
+    const pulldown = new Pulldown();
     const _grids = {};
     const _logNames = {};
     const DEFAULT_DATA_TYPE = "";
     const DEFAULT_CONTENT_TYPE = null;
-    const EVENT_COLUMN_INDEX = 1;
-    const USER_DEBUG = "USER_DEBUG";
     const POST = "post";
-
-    $("#apexArea #executeAnonymousBtn").on("click", (e) => {
-        if ($.isAjaxBusy() || !$("#apexArea #apexCode").val()) {
-            return false;
-        }
-
-        e.preventDefault();
-        executeAnonymous();
-    });
-
-    $("#apexArea").on("click", "input.debug-only", function(e) {
-        if ($(this).prop("checked")) {
-            filterLog();
-        } else {
-            clearFilter();
-        }
-    });
-
-    $("#apexArea .export").on("click", (e) => {
-        exportLog();
-    });
 
     //------------------------------------------------
     // Execute Anonymous
     //------------------------------------------------
-    export function executeAnonymous(){
+    this.executeAnonymous = function(){
+        if ($.isAjaxBusy()) {
+            return false;
+        }
+
+        const describeCode = document.getElementById("describeCode").value;
+
+        if(describeCode == ""){
+            return;
+        }
+
         hideMessageArea();
         _selectedTabId = getActiveTabElementId();
 
-        const val = {code: document.getElementById("apexCode").value};
-        const action = "/apex";
+        const val = {code: describeCode};
+        const action = "/describe";
         const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
         const callbacks = $.getAjaxCallbacks(afterExecuteAnonymous, displayError, null);
         $.executeAjax(options, callbacks);
     };
 
     function afterExecuteAnonymous(json){
-        const elementId = "apexGrid" + _selectedTabId;
+        const elementId = "describeGrid" + _selectedTabId;
         _logNames[elementId] = json.logName;
         writeLogInfo(json);
 
@@ -55,44 +43,12 @@
         }
 
         _grids[elementId] = new GridTable(document.getElementById(elementId), json);
-        };
-
-    function writeLogInfo(json){
-        const infoArea = document.getElementById("logInfo" + _selectedTabId);
-
-        const log = document.createElement("span");
-        log.textContent = json.logName;
-        log.style["margin-right"] = "10px";
-        const debugOnly = document.createElement("label");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.classList.add("debug-only");
-        debugOnly.append(checkbox,"Debug only");
-
-        infoArea.appendChild(log);
-        infoArea.appendChild(debugOnly);
-
-    }
-
-    //------------------------------------------------
-    // Filter debug only
-    //------------------------------------------------
-    function filterLog(){
-        const elementId = getActiveGridElementId();
-        const grid = _grids[elementId];
-        grid.filter(EVENT_COLUMN_INDEX,USER_DEBUG);
-    };
-
-    function clearFilter(){
-        const elementId = getActiveGridElementId();
-        const grid = _grids[elementId];
-        grid.clearFilter();
     };
 
     //------------------------------------------------
     // Export
     //------------------------------------------------
-    function exportLog(){
+    this.exportLog = function(){
         const elementId = getActiveGridElementId();
         const grid = _grids[elementId];
         if(grid){
@@ -117,12 +73,12 @@
         parent.setAttribute("tabId", newTabId)
 
         const resultDiv = document.createElement("div");
-        resultDiv.id = "logInfo" + newTabId;
+        resultDiv.id = "sobjectInfo" + newTabId;
         resultDiv.classList.add("result-info");
         resultDiv.setAttribute("tabId", newTabId);
 
         const gridDiv = document.createElement("div");
-        gridDiv.id = "apexGrid" + newTabId;
+        gridDiv.id = "describeGrid" + newTabId;
         gridDiv.classList.add("result-grid")
         gridDiv.setAttribute("tabId",newTabId)
 
@@ -140,9 +96,21 @@
     };
 
     function getActiveGridElementId(){
-        return "apexGrid" + getActiveTabElementId();
+        return "describeGrid" + getActiveTabElementId();
     };
 
+
+    this.listSobjects = function(){
+        const val = {};
+        const action = "/listsobjects";
+        const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
+        const callbacks = $.getAjaxCallbacks(afterListSobjects, displayError, null);
+        $.executeAjax(options, callbacks);
+    }
+
+    function afterListSobjects(json){
+        pulldown.create(json.lists);
+    }
 
     //------------------------------------------------
     // message
@@ -162,12 +130,11 @@
     //------------------------------------------------
     // page load actions
     //------------------------------------------------
-    export function prepareApex(){
+    this.prepare = function(){
         tabComponent.afterAddTab(createTab);
-        tabComponent.create(document.getElementById("apexTabArea"), "apexTab", "Grid");
+        tabComponent.create(document.getElementById("describeTabArea"), "describeTab", "Grid");
         tabComponent.addTab();
-    };
-    //};
-
-    //$(document).ready(apex);
-    //$(document).on("page:load", apex);
+        const parent = document.getElementById("sobjectList");
+        parent.appendChild(pulldown.pulldown);
+    }
+};

@@ -1,4 +1,5 @@
-//const soql = function() {
+const soql = new function() {
+
     const _grids = {};
     const tabComponent = new Tab();
     const _sObjects = {};
@@ -6,61 +7,38 @@
     const DEFAULT_CONTENT_TYPE = null;
     const POST = "post";
 
-
-    $("#executeSoqlBtn").on("click", function(e){
-        executeSoql();
-    });
-
-    $("#soqlArea .rerun").on("click", ".rerun", function(e){
-        rerun();
-    });
-
-    $("#soqlArea .export").on("click", function(e){
-        exportResult();
-    });
-
-    $("#soqlHistoryBtn").on("click", function(e){
-
+    this.toggleSoqlHistory = function(){
         if (document.getElementById("soqlContent").classList.contains("history-opened")) {
-
-            document.getElementById("soqlContent").classList.remove("history-opened");
-
+            this.closeSoqlHistory();
         } else {
-
-            document.getElementById("soqlContent").classList.add("history-opened");
-
+            this.openSoqlHistory();
         }
+    }
 
-    });
+    this.openSoqlHistory = function(){
+        document.getElementById("soqlContent").classList.add("history-opened");
+    }
 
-    $("#closeHistoryBtn").on("click", function(e){
-        closeSoqlHistory();
-    });
-
-    $("#soqlHistory").on("mouseover", "li", function(e) {
-        e.target.setAttribute("title", e.target.textContent);
-    });
-
-    $("#soqlHistory").on("mouseout", "li", function(e) {
-        e.target.setAttribute("title", "");
-    });
-
-    $("#soqlHistory").on("dblclick", "li", function(e) {
-        document.getElementById("inputSoql").value = e.target.textContent;
-    });
-
+    this.closeSoqlHistory = function(){
+        document.getElementById("soqlContent").classList.remove("history-opened");
+    }
     //------------------------------------------------
     // Execute SOQL
     //------------------------------------------------
-    export function executeSoql() {
+    this.executeSoql = function() {
 
         if ($.isAjaxBusy()) {
             return;
         }
 
+        const soql = document.getElementById("inputSoql").value;
+
+        if(soql == ""){
+            return;
+        }
+
         hideMessageArea();
 
-        const soql = document.getElementById("inputSoql").value;
         const tooling = document.getElementById("useTooling").checked;
 
         const params = {soql: soql, tooling: tooling, tabId: getActiveTabElementId()};
@@ -90,7 +68,7 @@
     //------------------------------------------------
     // Rerun SOQL
     //------------------------------------------------
-    function rerun(){
+    this.rerun = function(){
         if ($.isAjaxBusy()) {
             return;
         }
@@ -105,7 +83,7 @@
     //------------------------------------------------
     // Export
     //------------------------------------------------
-    function exportResult(){
+    this.exportResult = function(){
         const elementId = getActiveGridElementId();
         const grid = _grids[elementId];
 
@@ -192,12 +170,9 @@
     //------------------------------------------------
     // page load actions
     //------------------------------------------------
-    export function prepareSoql(){
+    this.prepare = function(){
         tabComponent.afterAddTab(createTab);
         tabComponent.create(document.getElementById("soqlTabArea"), "soqlTab", "Grid");
         tabComponent.addTab();
     }
-//};
-
- //   $(document).ready(soql);
-   // $(document).on("page:load", soql);
+};

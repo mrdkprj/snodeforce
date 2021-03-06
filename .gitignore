@@ -1,6 +1,7 @@
 /test/*
 /resource/*
 !/resource/.code.txt
+/lib/constants.js
 
 sample.json
 run.bat

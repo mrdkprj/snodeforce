@@ -23,6 +23,12 @@ const Log_headers = ["Timestamp", "Event", "Details"];
                 case '/apex':
                     onPostRequest(request, requestBody => client.executeAnonymous(requestBody, response, parseApexResult));
                     break;
+                case '/listsobjects':
+                    onPostRequest(request, requestBody => client.listSobjects(requestBody, response, parseListSobjects));
+                    break;
+                case '/describe':
+                    onPostRequest(request, requestBody => client.executeAnonymous(requestBody, response, parseApexResult));
+                    break;
                 default:
                     response.writeHead(404, {'Content-Type': 'application/json'});
                     response.write(JSON.stringify({error:'Route not defined'}));
@@ -134,3 +140,15 @@ const Log_headers = ["Timestamp", "Event", "Details"];
             return log;
         }
     };
+
+    const parseListSobjects = (response, apexResult) => {
+        if(apexResult.error){
+            response.writeHead(400, {'Content-Type': 'text/json'});
+            response.end(JSON.stringify(apexResult));
+            return;
+        }
+
+        response.writeHead(200, {'Content-Type': 'text/json'});
+        response.end(JSON.stringify({lists:apexResult.result}));
+
+    }
