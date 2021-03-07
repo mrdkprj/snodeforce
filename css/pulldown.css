@@ -1,0 +1,136 @@
+
+.pulldown{
+    position:relative;
+}
+
+.pulldown .holder{
+    height:30px;
+    min-width: 150px;
+}
+
+.pulldown .selection{
+    position: absolute;
+    top:0;
+    left:0;
+    display: inline-block;
+    vertical-align: middle;
+    min-width: 150px;
+}
+
+.pulldown .select-area{
+    width: 100%;
+}
+
+.pulldown .pulldown-btn{
+    display: inline-block;
+    font-size: 12px;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border: 1px solid #aaa;
+    width: 100%;
+    text-align: left;
+    z-index: 2000;
+    height:30px;
+    line-height: 30px;
+    text-indent: 10px;
+}
+
+.pulldown .open .pulldown-btn{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.pulldown .pulldown-area{
+    background-color: #fff;
+    position:fixed;
+    top:-1000px;
+    left:-1000px;
+    z-index: 2020;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+
+}
+
+.pulldown .search-text-area{
+    padding: 12px 10px;
+}
+
+.pulldown .search-text{
+    border:1px solid #ccc;
+    border-radius:3px;
+    padding: 5px;
+    width: 100%;
+    height: 27px;
+    line-height: 27px;
+}
+
+.pulldown .search-text:focus{
+    outline:none;
+}
+
+.pulldown .clear-text{
+    position: absolute;
+    top: 14px;
+    right: 15px;
+    font-size: 10px;
+    padding: 3px;
+    color: #888;
+    font-weight: bold;
+    cursor: pointer;
+    height: 24px;
+    background-color: transparent;
+}
+
+.pulldown .options {
+    position: relative;
+    top: 100%;
+    left: 0px;
+    z-index: 1000;
+    max-height: 300px;
+    margin: 2px 0 0;
+    font-size: 12px;
+    text-align: left;
+    list-style: none;
+    padding: 0;
+    list-style-type: none;
+    background-color: #fff;
+    width: 100%;
+    overflow:auto;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.pulldown .option{
+    line-height: 21px;
+    display: block;
+    padding: 3px 15px;
+    cursor: pointer;
+}
+
+.pulldown .option:hover{
+    background-color: rgb(219 217 217 / 30%);
+}
+
+.pulldown .selected{
+    background-color: rgb(219 217 217 / 30%);
+    border-left: 5px solid #aaa;
+    text-indent: -5px;
+}
+
+.pulldown a:hover{
+    text-decoration: none;
+}
