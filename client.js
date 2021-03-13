@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const QUERY_COMMAND = "sfdx force:data:soql:query";
 const LIST_COMMAND = "sfdx force:schema:sobject:list";
-const DESCRIBE_COMMAND = "";
+const DESCRIBE_COMMAND = "sfdx force:schema:sobject:describe";
 const APEX_COMMAND = "sfdx force:apex:execute";
 const CODE_FILE = "./resource/code.txt";
 
@@ -42,16 +42,18 @@ module.exports = {
         const command = `${ LIST_COMMAND } -u ${ req.username } -c ALL --json`;
 
         exec(command,{maxBuffer: 1024*1024*100}, (error, stdout, stderr) => {
-            if (error) {
-                return callback(res, {error:stderr})
-            }else{
-                fs.writeFileSync(fileName, stdout);
-                return callback(res, JSON.parse(stdout));
-            }
+            fs.writeFileSync(fileName, stdout);
+            return callback(res, JSON.parse(stdout));
         });
     },
 
     describe: function(req, res, callback){
+
+        const command = `${ DESCRIBE_COMMAND } -s ${ req.sobject } -u ${ req.username } --json`;
+
+        exec(command,{maxBuffer: 1024*1024*100}, (error, stdout, stderr) => {
+            return callback(res, JSON.parse(stdout));
+        });
 
     }
 };

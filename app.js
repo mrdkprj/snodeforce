@@ -7,7 +7,7 @@ const Log_split_limit = 3;
 const Log_headers = ["Timestamp", "Event", "Details"];
 
     module.exports = {
-        handleRequest: function(request, response) {
+        handleRequest: (request, response) => {
             response.writeHead(200, {'Content-Type': 'text/html'});
             const path = url.parse(request.url).pathname;
             switch (path) {
@@ -27,7 +27,7 @@ const Log_headers = ["Timestamp", "Event", "Details"];
                     onPostRequest(request, requestBody => client.listSobjects(requestBody, response, parseListSobjects));
                     break;
                 case '/describe':
-                    onPostRequest(request, requestBody => client.executeAnonymous(requestBody, response, parseApexResult));
+                    onPostRequest(request, requestBody => client.describe(requestBody, response, parseDescribeResult));
                     break;
                 default:
                     response.writeHead(404, {'Content-Type': 'application/json'});
@@ -50,9 +50,9 @@ const Log_headers = ["Timestamp", "Event", "Details"];
     };
 
     const onPostRequest = (request, callback) => {
-        let body = '';
+        let body = "";
 
-        request.on('data', function (data) {
+        request.on("data", (data) => {
             body += data;
 
             // Too much POST data, kill the connection!
@@ -61,7 +61,7 @@ const Log_headers = ["Timestamp", "Event", "Details"];
                 request.connection.destroy();
         });
 
-        request.on('end', function () {
+        request.on("end", () => {
             callback(JSON.parse(body));
         });
     };
@@ -121,9 +121,11 @@ const Log_headers = ["Timestamp", "Event", "Details"];
     };
 
     const splitLimit = (str) => {
-        let all = str.split("|");
+
+        const all = str.split("|");
+
         if(all.length > Log_split_limit){
-            let splits = all.slice(0, Log_split_limit - 1);
+            const splits = all.slice(0, Log_split_limit - 1);
             splits.push(all.slice(Log_split_limit).join(Log_split_char));
             return splits;
         }else{
@@ -142,9 +144,10 @@ const Log_headers = ["Timestamp", "Event", "Details"];
     };
 
     const parseListSobjects = (response, apexResult) => {
-        if(apexResult.error){
+
+        if(apexResult.status != 0){
             response.writeHead(400, {'Content-Type': 'text/json'});
-            response.end(JSON.stringify(apexResult));
+            response.end(JSON.stringify({error: apexResult.message}));
             return;
         }
 
@@ -152,3 +155,111 @@ const Log_headers = ["Timestamp", "Event", "Details"];
         response.end(JSON.stringify({lists:apexResult.result}));
 
     }
+
+    const parseDescribeResult = (response, describeResult) => {
+
+        if(describeResult.status != 0){
+            response.writeHead(400, {'Content-Type': 'text/json'});
+            response.end(JSON.stringify({error: describeResult.message}));
+            return;
+        }
+
+        const result = describeResult.result;
+        const rows = [];
+
+        const flatten = ([k,v]) => {
+
+            if(k == "picklistValues"){
+
+                const values = Array.from(v).map((obj) => obj["value"]).join("\n");
+                return [k, values];
+            }
+
+            if(Array.isArray(v)){
+                return [k, v.join("\n")];
+            }
+
+            return [k, v];
+        }
+
+        result.fields.forEach((field) => {
+
+            const row = Object.entries(field).sort(([a,],[b,]) => fields.indexOf(a) - fields.indexOf(b))
+            .filter(([k,v]) => fields.includes(k))
+            .map(([k,v]) => flatten([k,v]))
+            .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+
+            rows.push(Object.values(row));
+        })
+
+        response.writeHead(200, {'Content-Type': 'text/json'});
+        response.end(JSON.stringify(
+            {
+                name: result.name,
+                label: result.label,
+                prefix: result.keyPrefix,
+                header: fields,
+                rows: rows,
+            }
+        ));
+
+    }
+
+const fields = ["label",
+"name",
+"type",
+"custom",
+"length",
+"byteLength",
+"digits",
+"precision",
+"scale",
+"autoNumber",
+"calculated",
+"calculatedFormula",
+"formulaTreatNullNumberAsZero",
+"caseSensitive",
+"picklistValues",
+"controllerName",
+"dependentPicklist",
+"restrictedPicklist",
+"inlineHelpText",
+"referenceTo",
+"relationshipName",
+"relationshipOrder",
+"defaultValue",
+"defaultValueFormula",
+"encrypted",
+"externalId",
+"nillable",
+"unique",
+"aggregatable",
+"aiPredictionField",
+"cascadeDelete",
+"compoundFieldName",
+"createable",
+"defaultedOnCreate",
+"deprecatedAndHidden",
+"displayLocationInDecimal",
+"extraTypeInfo",
+"filterable",
+"filteredLookupInfo",
+"groupable",
+"highScaleNumber",
+"htmlFormatted",
+"idLookup",
+"mask",
+"maskType",
+"nameField",
+"namePointing",
+"permissionable",
+"polymorphicForeignKey",
+"queryByDistance",
+"referenceTargetField",
+"restrictedDelete",
+"searchPrefilterable",
+"sortable",
+"updateable",
+"writeRequiresMasterRead",
+"soapType"
+];

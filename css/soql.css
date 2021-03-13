@@ -9,6 +9,12 @@
     margin-left: 150px;
 }
 
+.soql-info-area{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* ------------------------------
    Overray
 ------------------------------ */

@@ -4,39 +4,53 @@ const describe = new function() {
     const tabComponent = new Tab();
     const pulldown = new Pulldown();
     const _grids = {};
-    const _logNames = {};
+    const _sobjects = {};
     const DEFAULT_DATA_TYPE = "";
     const DEFAULT_CONTENT_TYPE = null;
     const POST = "post";
 
     //------------------------------------------------
-    // Execute Anonymous
+    // Describe
     //------------------------------------------------
-    this.executeAnonymous = function(){
+    this.listSobjects = function(){
+        const val = {};
+        const action = "/listsobjects";
+        const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
+        const callbacks = $.getAjaxCallbacks(afterListSobjects, displayError, null);
+        $.executeAjax(options, callbacks);
+    }
+
+    function afterListSobjects(json){
+        pulldown.create(json.lists);
+    }
+
+    this.describe = function(){
         if ($.isAjaxBusy()) {
             return false;
         }
 
-        const describeCode = document.getElementById("describeCode").value;
+        const sobject = pulldown.value;
 
-        if(describeCode == ""){
+        if(sobject == "" || sobject == null){
             return;
         }
 
         hideMessageArea();
         _selectedTabId = getActiveTabElementId();
 
-        const val = {code: describeCode};
+        const val = {sobject: sobject};
         const action = "/describe";
         const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
-        const callbacks = $.getAjaxCallbacks(afterExecuteAnonymous, displayError, null);
+        const callbacks = $.getAjaxCallbacks(afterDescribe, displayError, null);
         $.executeAjax(options, callbacks);
     };
 
-    function afterExecuteAnonymous(json){
+    function afterDescribe(json){
         const elementId = "describeGrid" + _selectedTabId;
-        _logNames[elementId] = json.logName;
-        writeLogInfo(json);
+
+        _sobjects[elementId] = json.name;
+
+        writeSobjectInfo(json);
 
         if(_grids[elementId]){
             _grids[elementId].destroy();
@@ -45,16 +59,30 @@ const describe = new function() {
         _grids[elementId] = new GridTable(document.getElementById(elementId), json);
     };
 
+    function writeSobjectInfo(json){
+        const sobjectInfoArea = document.getElementById("sobjectInfo" + _selectedTabId);
+
+        sobjectInfoArea.innerHTML = "";
+        const name = document.createElement("div");
+        name.textContent = "Name: " + json.name;
+        const label = document.createElement("div");
+        label.textContent = "Label: " + json.label;
+        const prefix = document.createElement("div");
+        prefix.textContent = "Prefix: " + json.prefix;
+
+        sobjectInfoArea.append(name, label, prefix);
+    }
+
     //------------------------------------------------
     // Export
     //------------------------------------------------
-    this.exportLog = function(){
+    this.exportResult = function(){
         const elementId = getActiveGridElementId();
         const grid = _grids[elementId];
         if(grid){
             grid.export({
-                fileName: _logNames[elementId],
-                bom: true
+                fileName: _sobjects[elementId],
+                bom: false
             });
         }
     }
@@ -99,30 +127,17 @@ const describe = new function() {
         return "describeGrid" + getActiveTabElementId();
     };
 
-
-    this.listSobjects = function(){
-        const val = {};
-        const action = "/listsobjects";
-        const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
-        const callbacks = $.getAjaxCallbacks(afterListSobjects, displayError, null);
-        $.executeAjax(options, callbacks);
-    }
-
-    function afterListSobjects(json){
-        pulldown.create(json.lists);
-    }
-
     //------------------------------------------------
     // message
     //------------------------------------------------
     function displayError(json){
-        const messageArea = document.getElementById("apexArea").querySelector(".message");
+        const messageArea = document.getElementById("describeArea").querySelector(".message");
         messageArea.textContent = json.error;
         messageArea.style.display = "block";
     };
 
     function hideMessageArea(){
-        const messageArea = document.getElementById("apexArea").querySelector(".message");
+        const messageArea = document.getElementById("describeArea").querySelector(".message");
         messageArea.textContent = "";
         messageArea.style.display = "none";
     };

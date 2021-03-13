@@ -24,13 +24,19 @@
 #soqlContent,
 #describeContent,
 #apexContent{
-    display:none;
+    visibility: hidden;
+    overflow: hidden;
+    height: 0px;
+    opacity: 0;
 }
 
 .soql #soqlContent,
 .describe #describeContent,
 .apex #apexContent{
-    display:block;
+    visibility: visible;
+    overflow:auto;
+    height:100%;
+    opacity: 1;
 }
 
 /* ------------------------------

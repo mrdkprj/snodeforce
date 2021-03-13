@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0">
 	<head>
 		<link rel="stylesheet" media="all" href="../css/common.css"/>
 		<link rel="stylesheet" media="all" href="../css/main.css"/>
@@ -20,7 +21,7 @@
 		<script src="./view/apex.js"></script>
 	</head>
 	<body>
-		<div id="mainArea" class="describe">
+		<div id="mainArea" class="soql">
 
 		    <div id="overlay" class="requesting-overlay">
 		        <div id="overlayContent" class="overlay-content noselect">Requesting...</div>
@@ -79,15 +80,11 @@
             	</div>
 
 				<div id="describeContent">
-					<div id="describeOverlay" class="requesting-overlay">
-						<div class="overlay-content noselect">Refreshing...</div>
-						<div class="loader"></div>
-					</div>
 					<div id="describeArea">
 						<div class="form-area">
 							<div class="sobject-list-area">
 								<div id="sobjectList"></div>
-								<div><button id="listSobjectBtn" type="button" class="btn btn-sub">Refresh</button></div>
+								<div id="listSobjectBtn" class="refresh"><div class="refresh-btn"></div></div>
 							</div>
 							<div>
 								<button type="button" id="describeBtn" class="btn btn-main">Describe</button>

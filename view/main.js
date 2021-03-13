@@ -29,7 +29,7 @@ import * as constants from "../lib/constants.js";
             }
 
             if(e.target.id === "apexCode") {
-                executeAnonymous();
+                apex.executeAnonymous();
             }
         }
 
@@ -125,19 +125,18 @@ import * as constants from "../lib/constants.js";
         describe.listSobjects();
     });
 
-    $("#abc").on("click", function(e){
-        const pul = document.getElementById("pul");
-        if(pul.classList.contains("open")){
-            pul.classList.remove("open");
-        }else{
-            pul.classList.add("open")
-        }
+    $("#describeBtn").on("click", function(e){
+        describe.describe();
+    });
+
+    $("#describeArea .export").on("click", function(e) {
+        describe.exportResult();
     });
 
     //------------------------------------------------
     // Apex
     //------------------------------------------------
-    $("#apexArea #executeAnonymousBtn").on("click", (e) => {
+    $("#apexArea #executeAnonymousBtn").on("click", function(e){
         apex.executeAnonymous();
     });
 
@@ -145,7 +144,7 @@ import * as constants from "../lib/constants.js";
         apex.onDebugOnly(e.target);
     });
 
-    $("#apexArea .export").on("click", (e) => {
+    $("#apexArea .export").on("click", function(e) {
         apex.exportLog();
     });
 

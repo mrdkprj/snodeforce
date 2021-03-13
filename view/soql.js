@@ -112,23 +112,24 @@ const soql = new function() {
         resultDiv.setAttribute("tabId", newTabId);
 
         const soqlInfoDiv = document.createElement("div");
-        soqlInfoDiv.id = "soql" + newTabId;
-
-        const btn = document.createElement("button");
-        btn.name = "rerunBtn"
-        btn.classList.add("rerun");
-        btn.classList.add("btn");
-        btn.classList.add("btn-sub");
-        btn.classList.add("grid-btn");
-        btn.innerText = "Rerun";
-        soqlInfoDiv.appendChild(btn);
+        soqlInfoDiv.classList.add("soql-info-area");
 
         const infoDiv = document.createElement("div");
         infoDiv.id = "soqlInfo"+ newTabId;
         infoDiv.innerText = "0 rows";
 
+        const btnArea = document.createElement("div");
+        btnArea.classList.add("rerun");
+        btnArea.classList.add("refresh-sm");
+        const btn = document.createElement("div");
+        btn.classList.add("refresh-btn-sm");
+        btnArea.appendChild(btn);
+
+        soqlInfoDiv.appendChild(infoDiv);
+        soqlInfoDiv.appendChild(btnArea);
+
+
         resultDiv.appendChild(soqlInfoDiv)
-        resultDiv.appendChild(infoDiv)
 
         const gridDiv = document.createElement("div");
         gridDiv.id = "soqlGrid" + newTabId;

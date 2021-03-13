@@ -8,8 +8,6 @@ a:focus{
 }
 
 .gtbl-container{
-    /*overflow: hidden;
-    clip-path: inset(0);*/
     display:inline-block;
 }
 
@@ -59,7 +57,6 @@ a:focus{
     border-top: solid 1px #aaa;
     border-right: solid 1px #aaa;
     border-bottom: solid 1px #aaa;
-    /*padding: 4px 16px;*/
     padding: 4px 4px;
     overflow: hidden;
     position:sticky;
@@ -103,7 +100,6 @@ a:focus{
     vertical-align: top;
     overflow: hidden;
     outline-width: 0;
-    /*white-space: pre-wrap;*/
     white-space: pre;
     user-select: none;
 }
@@ -182,8 +178,8 @@ a:focus{
     resize: none;
     outline: none;
     line-height: 21px;
-    font-family:Verdana,Arial,sans-serif !important;
-    font-size: 12px !important;
+    font-family:Verdana,Arial,sans-serif;
+    font-size: 12px;
     overflow: hidden;
     white-space: pre;
     display: block;
