@@ -13,6 +13,7 @@ const describe = new function() {
     // Describe
     //------------------------------------------------
     this.listSobjects = function(){
+        xv();
         const val = {};
         const action = "/listsobjects";
         const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
@@ -26,7 +27,7 @@ const describe = new function() {
 
     this.describe = function(){
         if ($.isAjaxBusy()) {
-            return false;
+            return;
         }
 
         const sobject = pulldown.value;

@@ -1,6 +1,57 @@
 import * as constants from "../lib/constants.js";
 
+const main = new function(){
+    //------------------------------------------------
+    // Insert Tab
+    //------------------------------------------------
+    this.insertTab = function(e){
+        const elem = e.target;
+        const start = elem.selectionStart;
+        const end = elem.selectionEnd;
+        elem.value = "" + (elem.value.substring(0, start)) + "\t" + (elem.value.substring(end));
+        elem.selectionStart = elem.selectionEnd = start + 1;
+    };
+
+    //------------------------------------------------
+    // prepareUser
+    //------------------------------------------------
+    this.prepareUser = function(){
+
+        document.getElementById("username").textContent = constants.defaultUser;
+
+        const dropdown = document.getElementById("dropdownMenu");
+
+        constants.users.forEach(user => {
+            const list = document.createElement("li");
+            list.classList.add("user");
+            const checkmark = document.createElement("a");
+            checkmark.href = "javascript:void(0)";
+            checkmark.textContent = user;
+            if(user == constants.defaultUser){
+                checkmark.classList.add("checkmark");
+            }
+            list.appendChild(checkmark);
+            dropdown.appendChild(list);
+        });
+    }
+
+    //------------------------------------------------
+    // Menu list
+    //------------------------------------------------
+    this.changeDisplayDiv = function(target){
+
+        document.querySelectorAll(".menu-item").forEach(element => element.classList.remove("displayed"));
+        target.classList.add("displayed");
+
+        document.getElementById("mainArea").className = "";
+        document.getElementById("mainArea").classList.add(target.id);
+
+    };
+
+};
+
 (function(){
+
     // --test
     let _grid = null;
     $("#test").on("click", function(e){
@@ -10,8 +61,7 @@ import * as constants from "../lib/constants.js";
     });
 
     const displayQueryResult3 = (json) => {
-        var _selectedTabId = $("#soqlArea .tab-area .ui-tabs-panel:visible").attr("tabId");
-        _selectedTabId = 0;
+        const _selectedTabId = 0;
         const elementId = "#soqlArea #soqlGrid" + _selectedTabId;
         json.readOnly = [2,4];
         _grid = new GridTable(document.querySelector(elementId), json);
@@ -36,7 +86,7 @@ import * as constants from "../lib/constants.js";
         // tab
         if (e.keyCode === 9) {
             if (e.target.id === "inputSoql" || e.target.id === "apexCode") {
-                insertTab(e);
+                main.insertTab(e);
                 return false;
             }
         }
@@ -52,7 +102,7 @@ import * as constants from "../lib/constants.js";
             return;
         }
 
-        changeDisplayDiv(e.target);
+        main.changeDisplayDiv(e.target);
 
     });
 
@@ -90,7 +140,7 @@ import * as constants from "../lib/constants.js";
         soql.executeSoql();
     });
 
-    $("#soqlArea .rerun").on("click", ".rerun", function(e){
+    $("#soqlArea").on("click", ".rerun", function(e){
         soql.rerun();
     });
 
@@ -141,65 +191,16 @@ import * as constants from "../lib/constants.js";
     });
 
     $("#apexArea").on("click", "input.debug-only", function(e) {
-        apex.onDebugOnly(e.target);
+        apex.onDebugOnly(e);
     });
 
     $("#apexArea .export").on("click", function(e) {
         apex.exportLog();
     });
 
-    //------------------------------------------------
-    // Insert Tab
-    //------------------------------------------------
-    function insertTab(e) {
-        const elem = e.target;
-        const start = elem.selectionStart;
-        const end = elem.selectionEnd;
-        elem.value = "" + (elem.value.substring(0, start)) + "\t" + (elem.value.substring(end));
-        elem.selectionStart = elem.selectionEnd = start + 1;
-    };
-
-    //------------------------------------------------
-    // prepareUser
-    //------------------------------------------------
-    function prepareUser(){
-
-        document.getElementById("username").textContent = constants.defaultUser;
-
-        const dropdown = document.getElementById("dropdownMenu");
-
-        constants.users.forEach(user => {
-            const list = document.createElement("li");
-            list.classList.add("user");
-            const checkmark = document.createElement("a");
-            checkmark.href = "javascript:void(0)";
-            checkmark.textContent = user;
-            if(user == constants.defaultUser){
-                checkmark.classList.add("checkmark");
-            }
-            list.appendChild(checkmark);
-            dropdown.appendChild(list);
-        });
-    }
-
-    //------------------------------------------------
-    // Menu list
-    //------------------------------------------------
-    function changeDisplayDiv(target){
-
-        document.querySelectorAll(".menu-item").forEach(element => element.classList.remove("displayed"));
-        target.classList.add("displayed");
-
-        document.getElementById("mainArea").className = "";
-        document.getElementById("mainArea").classList.add(target.id);
-
-    };
-
-    //------------------------------------------------
-    // page load actions
-    //------------------------------------------------
-    prepareUser();
+    main.prepareUser();
     soql.prepare();
     describe.prepare();
     apex.prepare();
+
 }());

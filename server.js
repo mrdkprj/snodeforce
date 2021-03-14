@@ -3,7 +3,7 @@
     const path = require('path');
     const handleRequest = require('./app.js');
 
-    var mime = {
+    const mime = {
         html: 'text/html',
         css: 'text/css',
         gif: 'image/gif',
@@ -15,8 +15,8 @@
     // サーバーを生成
     const myServer = http.createServer(requestListener = (req, res) => {
 
-        var reqpath = req.url.toString().split('?')[0];
-        var type = mime[path.extname(reqpath).slice(1)] || 'text/html';
+        const reqPath = req.url.toString().split('?')[0];
+        const type = mime[path.extname(reqPath).slice(1)] || 'text/html';
 
         switch(type){
             case "text/html":
@@ -28,13 +28,13 @@
                     res.setHeader('Content-Type', 'text/plain');
                     return res.end('Method not implemented');
                 }
-                var file = path.join(__dirname, reqpath)
-                var s = fs.createReadStream(file);
-                s.on('open', function () {
+                const file = path.join(__dirname, reqPath)
+                const stream = fs.createReadStream(file);
+                stream.on('open', function () {
                     res.setHeader('Content-Type', type);
-                    s.pipe(res);
+                    stream.pipe(res);
                 });
-                s.on('error', function () {
+                stream.on('error', function () {
                     res.setHeader('Content-Type', 'text/plain');
                     res.statusCode = 404;
                     res.end('Not found');

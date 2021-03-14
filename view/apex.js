@@ -15,7 +15,7 @@ const apex = new function() {
     //------------------------------------------------
     this.executeAnonymous = function(){
         if ($.isAjaxBusy()) {
-            return false;
+            return;
         }
 
         const apexCode = document.getElementById("apexCode").value;
@@ -68,8 +68,8 @@ const apex = new function() {
     //------------------------------------------------
     // Filter debug only
     //------------------------------------------------
-    this.onDebugOnly = function(target){
-        if ($(target).prop("checked")) {
+    this.onDebugOnly = function(e){
+        if (e.target.checked == true) {
             filterLog();
         } else {
             clearFilter();

@@ -7,31 +7,16 @@ const soql = new function() {
     const DEFAULT_CONTENT_TYPE = null;
     const POST = "post";
 
-    this.toggleSoqlHistory = function(){
-        if (document.getElementById("soqlContent").classList.contains("history-opened")) {
-            this.closeSoqlHistory();
-        } else {
-            this.openSoqlHistory();
-        }
-    }
-
-    this.openSoqlHistory = function(){
-        document.getElementById("soqlContent").classList.add("history-opened");
-    }
-
-    this.closeSoqlHistory = function(){
-        document.getElementById("soqlContent").classList.remove("history-opened");
-    }
     //------------------------------------------------
     // Execute SOQL
     //------------------------------------------------
-    this.executeSoql = function() {
+    this.executeSoql = function(soqlInfo) {
 
         if ($.isAjaxBusy()) {
             return;
         }
 
-        const soql = document.getElementById("inputSoql").value;
+        const soql = soqlInfo == null ? document.getElementById("inputSoql").value : soqlInfo.soql
 
         if(soql == ""){
             return;
@@ -50,13 +35,14 @@ const soql = new function() {
 
     function displayQueryResult(json){
 
-        const selectedTabId = json.soqlInfo.tabId;
-        document.getElementById("soqlInfo" + selectedTabId).textContent = json.soqlInfo.timestamp;
+        const elementId = "soqlGrid" + json.soqlInfo.tabId;
+
+        _sObjects[elementId] = json;
+
+        document.getElementById("soqlInfo" + json.soqlInfo.tabId).textContent = json.soqlInfo.timestamp;
         const history = document.createElement("li");
         history.textContent = json.soqlInfo.soql;
         document.getElementById("soqlList").appendChild(history);
-
-        const elementId = "soqlGrid" + json.soqlInfo.tabId;
 
         if(_grids[elementId]){
             _grids[elementId].destroy();
@@ -69,15 +55,31 @@ const soql = new function() {
     // Rerun SOQL
     //------------------------------------------------
     this.rerun = function(){
-        if ($.isAjaxBusy()) {
-            return;
-        }
 
         const elementId = getActiveGridElementId();
 
         if (_sObjects[elementId]) {
-            executeSoql({soql_info:_sObjects[elementId].soql_info, afterCrud: false});
+            this.executeSoql(_sObjects[elementId].soql_info);
         }
+    }
+
+    //------------------------------------------------
+    // History
+    //------------------------------------------------
+    this.toggleSoqlHistory = function(){
+        if (document.getElementById("soqlContent").classList.contains("history-opened")) {
+            this.closeSoqlHistory();
+        } else {
+            this.openSoqlHistory();
+        }
+    }
+
+    this.openSoqlHistory = function(){
+        document.getElementById("soqlContent").classList.add("history-opened");
+    }
+
+    this.closeSoqlHistory = function(){
+        document.getElementById("soqlContent").classList.remove("history-opened");
     }
 
     //------------------------------------------------

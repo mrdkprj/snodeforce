@@ -28,7 +28,7 @@ module.exports = {
         });
     },
 
-    listSobjects: function(req, res, callback){
+    listSObjects: function(req, res, callback){
 
         const fileName = './resource/sobjects.json';
 
