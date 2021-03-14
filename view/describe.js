@@ -13,10 +13,8 @@ const describe = new function() {
     // Describe
     //------------------------------------------------
     this.listSobjects = function(){
-        xv();
-        const val = {};
         const action = "/listsobjects";
-        const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
+        const options = $.getAjaxOptions(action, POST, {}, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
         const callbacks = $.getAjaxCallbacks(afterListSobjects, displayError, null);
         $.executeAjax(options, callbacks);
     }
