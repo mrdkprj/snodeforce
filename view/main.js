@@ -40,7 +40,9 @@ const main = new function(){
     //------------------------------------------------
     this.changeDisplayDiv = function(target){
 
-        document.querySelectorAll(".menu-item").forEach(element => element.classList.remove("displayed"));
+        document.querySelectorAll(".menu-item").forEach(function(element){
+            element.classList.remove("displayed");
+        });
         target.classList.add("displayed");
 
         document.getElementById("mainArea").className = "";

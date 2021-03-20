@@ -72,7 +72,7 @@
     border-right: #aaa 1px solid;
 }
 
-#menus li a {
+.menu-item{
     height: 44px;
     line-height: 44px;
     display: block;
@@ -80,10 +80,12 @@
     transition: all 0.2s linear;
     text-decoration: none;
     color: #fff;
+    cursor: pointer;
 }
 
-#menus li:hover > a {
+.menu-item:hover {
     background-color: #1579c0;
+    text-decoration: none;
 }
 
 .displayed{

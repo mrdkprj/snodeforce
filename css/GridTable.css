@@ -7,6 +7,11 @@ a:focus{
     text-decoration: underline;
 }
 
+.gtbl-viewport{
+    position: relative;
+    overflow: auto;
+}
+
 .gtbl-container{
     display:inline-block;
 }
@@ -54,9 +59,9 @@ a:focus{
 }
 
 .gtbl-col-header-cell{
-    border-top: solid 1px #aaa;
-    border-right: solid 1px #aaa;
-    border-bottom: solid 1px #aaa;
+    border-top: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
     padding: 4px 4px;
     overflow: hidden;
     position:sticky;
@@ -65,8 +70,8 @@ a:focus{
 }
 
 .gtbl-row-header-cell{
-    border-right: solid 1px #aaa;
-    border-bottom: solid 1px #aaa;
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
     border-left: 1px solid #aaa;
     user-select: none;
     position: sticky;
@@ -75,10 +80,10 @@ a:focus{
 }
 
 .gtbl-corner-cell{
-    border-top: solid 1px #aaa;
+    border-top: 1px solid #aaa;
     border-left: 1px solid #aaa;
-    border-right: solid 1px #aaa;
-    border-bottom: solid 1px #aaa;
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
     z-index: 10001;
     top:0;
     left:0;
@@ -201,7 +206,7 @@ a:focus{
 .dialog{
     visibility: hidden;
     display: flex;
-    position: fixed;
+    position: absolute;
     height: 0px;
     width: 250px;
     background-color: #fff;

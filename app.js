@@ -76,7 +76,7 @@ const apexResultParser = require("./lib/parser/apex-result-parser.js");
 
     const afterExecuteQuery = (request, response, queryResult) => {
 
-        const result = new queryResultParser().parse(request, queryResult);
+        const result = queryResultParser.parse(request, queryResult);
 
         if(result.done == false){
             response.writeHead(400, {"Content-Type": "text/json"});
