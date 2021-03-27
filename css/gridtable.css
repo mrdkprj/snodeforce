@@ -128,10 +128,6 @@ a:focus{
     background-color: rgb(112, 0, 255,0.1);
 }
 
-.sort-link{
-    cursor: pointer;
-}
-
 .col-slidebar{
     cursor: col-resize;
     width: 5px;
@@ -261,4 +257,22 @@ a:focus{
 
 .found{
     color: red;
+}
+
+.sort-link{
+    cursor: pointer;
+}
+
+.sort-icon{
+    position: absolute;
+}
+
+.sorted-asc .sort-icon:after{
+    content: '\2191';
+    margin-left: 5px;
+}
+
+.sorted-desc .sort-icon:after{
+    content: '\2193';
+    margin-left: 5px;
 }
