@@ -20,12 +20,8 @@ a{
 }
 
 label {
-    font-weight: normal !important;
-    margin-bottom: 0 !important;
-}
-
-button:disabled {
-  cursor: default !important;
+    font-weight: normal;
+    margin-bottom: 0;
 }
 
 ul, ol {
