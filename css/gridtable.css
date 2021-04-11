@@ -306,7 +306,11 @@ a:focus{
 .filter-dropdown{
     position:absolute;
     z-index: 500;
+}
 
+.filter-dropdown:focus,
+.filter-dropdown:active{
+    outline: none;
 }
 
 .filter-dropdown .filter-dropdown-area{
@@ -353,7 +357,8 @@ a:focus{
     overflow: auto;
     height: 150px;
     position: relative;
-    border: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 .filter-dropdown .clear-text{
