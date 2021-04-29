@@ -65,6 +65,15 @@ const apex = new function() {
 
     }
 
+    this.openDebugOption = function(e){
+        e.preventDefault();
+        const parent = document.getElementById("debugOptionArea");
+        if(parent.classList.contains("open")){
+            parent.classList.remove("open");
+        }else{
+            parent.classList.add("open");
+        }
+    }
     //------------------------------------------------
     // Filter debug only
     //------------------------------------------------

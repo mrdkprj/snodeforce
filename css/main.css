@@ -276,4 +276,57 @@
     margin-right: 20px;
 }
 
+.apex-btn-area{
+    display: flex;
+    align-items: center;
+}
+
+.debug-option-area{
+    margin-left: 10px;
+    position: relative;
+}
+
+.debug-option-tbl{
+    position: absolute;
+    display:flex;
+    visibility:hidden;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: white;
+    z-index: 3000;
+    top: 25px;
+    flex-direction: column;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 23%);
+    font-size:12px;
+}
+
+.open .debug-option-tbl{
+    visibility:visible;
+}
+
+.debug-option-row{
+    display:flex;
+    justify-content: space-between;
+}
+
+.debug-option-row > div{
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 30px 10px 5px;
+    width: 50%;
+    align-items: center;
+}
+
+.debug-option-row span{
+    white-space: nowrap;
+    margin-right:10px;
+}
+
+.debug-option-row select{
+    border:1px solid #888;
+    border-radius:4px;
+    font-size:12px;
+    padding:3px;
+}
+
 

@@ -124,6 +124,7 @@ const apexResultParser = require("./lib/parser/apex-result-parser.js");
     }
 
     const afterExecuteAnonymous = (response, apexResult) => {
+
         const result = apexResultParser.parse(apexResult);
 
         if(result.done == false){

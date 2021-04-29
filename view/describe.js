@@ -2,7 +2,7 @@ const describe = new function() {
 
     let _selectedTabId = 0;
     const tabComponent = new Tab();
-    const pulldown = new Pulldown();
+    const pulldown = new Pulldown({multiselect:true});
     const _grids = {};
     const _sobjects = {};
     const DEFAULT_DATA_TYPE = "";

@@ -104,8 +104,33 @@
 							<div>
 								<textarea id="apexCode" class="code-input" spellcheck="false" cols="120" rows="5">string x = 'a'; system.debug(x);</textarea>
 							</div>
-							<div>
+							<div class="apex-btn-area">
 								<button type="button" id="executeAnonymousBtn" class="btn btn-main">Execute Anonymous</button>
+								<div id="debugOptionArea" class="debug-option-area">
+									<button type="button" id="debugOptionBtn" class="btn btn-sub">Debug option</button>
+									<div class="debug-option-tbl">
+										<div class="debug-option-row">
+											<div><span>Db</span><select><option>NONE</option></select></div>
+											<div><span>Workflow</span><select><option>NONE</option></select></div>
+										</div>
+										<div class="debug-option-row">
+											<div><span>Validation</span><select><option>NONE</option></select></div>
+											<div><span>Callout</span><select><option>NONE</option></select></div>
+										</div>
+										<div class="debug-option-row">
+											<div><span>Apex_code</span><select><option>NONE</option></select></div>
+											<div><span>Apex_profiling</span><select><option>NONE</option></select></div>
+										</div>
+										<div class="debug-option-row">
+											<div><span>Visualforce</span><select><option>NONE</option></select></div>
+											<div><span>System</span><select><option>NONE</option></select></div>
+										</div>
+										<div class="debug-option-row">
+											<div><span>All</span><select><option>NONE</option></select></div>
+											<div><span></span><span></span></div>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="message-area"><div class="message"></div></div>
 						</div>

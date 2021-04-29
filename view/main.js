@@ -192,6 +192,10 @@ const main = new function(){
         apex.executeAnonymous();
     });
 
+    $("#debugOptionBtn").on("click", function(e){
+        apex.openDebugOption(e);
+    });
+
     $("#apexArea").on("click", "input.debug-only", function(e) {
         apex.onDebugOnly(e);
     });

@@ -266,7 +266,7 @@ a:focus{
 .sort-icon{
     position: absolute;
 }
-
+/*
 .sorted-asc .sort-icon:after{
     content: '\2191';
     margin-left: 5px;
@@ -276,17 +276,7 @@ a:focus{
     content: '\2193';
     margin-left: 5px;
 }
-
-.arrow-down {
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #888;
-    pointer-events: none;
-
-}
-
+*/
 .filter-btn{
     width: 15px;
     height:15px;
@@ -301,6 +291,37 @@ a:focus{
     background-color: #fff;
 }
 
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #888;
+    pointer-events: none;
+}
+
+.sorted-asc .arrow-down:after{
+    content: '\2191';
+    position: absolute;
+    left: -8px;
+    top: -3px;
+}
+
+.sorted-desc .arrow-down:after{
+    content: '\2193';
+    position: absolute;
+    left: -8px;
+    top: -3px;
+}
+
+.filtered .filter-btn{
+    background-color: #888888;
+    border: none;
+}
+
+.filtered .arrow-down {
+    border-top: 5px solid #fff;
+}
 /*------------------------*/
 
 .filter-dropdown{
@@ -323,9 +344,8 @@ a:focus{
     display: flex;
     flex-direction: column;
     overflow: auto;
-    resize: both;
     width:200px;
-    height:250px;
+    height:300px;
     box-shadow: 1px 3px 6px rgb(0 0 0 / 13%);
 }
 
@@ -348,6 +368,7 @@ a:focus{
 
 .filter-dropdown .dropdown-viewport{
     overflow: hidden;
+    min-width: 100%;
 }
 
 .filter-dropdown .dropdown{
@@ -377,7 +398,7 @@ a:focus{
 .filter-dropdown .options {
     position: relative;
     z-index: 2000;
-    height: 150px;
+    height: 200px;
     text-align: left;
     list-style: none;
     padding: 0;
