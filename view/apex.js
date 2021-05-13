@@ -1,22 +1,17 @@
-const apex = new function() {
+export default function apex({request, GridTable, Tab, Message}) {
 
     let _selectedTabId = 0;
     const tabComponent = new Tab();
+    const message = new Message("apexArea");
     const _grids = {};
     const _logNames = {};
-    const DEFAULT_DATA_TYPE = "";
-    const DEFAULT_CONTENT_TYPE = null;
     const EVENT_COLUMN_INDEX = 1;
     const USER_DEBUG = "USER_DEBUG";
-    const POST = "post";
 
     //------------------------------------------------
     // Execute Anonymous
     //------------------------------------------------
-    this.executeAnonymous = function(){
-        if ($.isAjaxBusy()) {
-            return;
-        }
+    this.executeAnonymous = async function(){
 
         const apexCode = document.getElementById("apexCode").value;
 
@@ -24,14 +19,15 @@ const apex = new function() {
             return;
         }
 
-        hideMessageArea();
+        message.hide();
         _selectedTabId = getActiveTabElementId();
 
-        const val = {code: apexCode};
-        const action = "/apex";
-        const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
-        const callbacks = $.getAjaxCallbacks(afterExecuteAnonymous, displayError, null);
-        $.executeAjax(options, callbacks);
+        try{
+            const result = await request("/apex", {code: apexCode});
+            afterExecuteAnonymous(result);
+        }catch(ex){
+            message.display(ex.message);
+        }
     };
 
     function afterExecuteAnonymous(json){
@@ -149,22 +145,6 @@ const apex = new function() {
 
     function getActiveGridElementId(){
         return "apexGrid" + getActiveTabElementId();
-    };
-
-
-    //------------------------------------------------
-    // message
-    //------------------------------------------------
-    function displayError(json){
-        const messageArea = document.getElementById("apexArea").querySelector(".message");
-        messageArea.textContent = json.error;
-        messageArea.style.display = "block";
-    };
-
-    function hideMessageArea(){
-        const messageArea = document.getElementById("apexArea").querySelector(".message");
-        messageArea.textContent = "";
-        messageArea.style.display = "none";
     };
 
     //------------------------------------------------

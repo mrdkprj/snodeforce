@@ -1,32 +1,29 @@
-const describe = new function() {
+export default function describe({request, GridTable, Tab, Pulldown, Message}) {
 
     let _selectedTabId = 0;
     const tabComponent = new Tab();
-    const pulldown = new Pulldown({multiselect:true});
+    const pulldown = new Pulldown();
+    const message = new Message("describeArea");
     const _grids = {};
     const _sobjects = {};
-    const DEFAULT_DATA_TYPE = "";
-    const DEFAULT_CONTENT_TYPE = null;
-    const POST = "post";
 
     //------------------------------------------------
     // Describe
     //------------------------------------------------
-    this.listSobjects = function(){
-        const action = "/listsobjects";
-        const options = $.getAjaxOptions(action, POST, {}, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
-        const callbacks = $.getAjaxCallbacks(afterListSobjects, displayError, null);
-        $.executeAjax(options, callbacks);
+    this.listSobjects = async function(){
+        try{
+            const result = await request("/listsobjects", {});
+            afterListSobjects(result);
+        }catch(ex){
+            message.display(ex.message);
+        }
     }
 
     function afterListSobjects(json){
         pulldown.create(json.lists);
     }
 
-    this.describe = function(){
-        if ($.isAjaxBusy()) {
-            return;
-        }
+    this.describe = async function(){
 
         const sobject = pulldown.value;
 
@@ -34,14 +31,15 @@ const describe = new function() {
             return;
         }
 
-        hideMessageArea();
+        message.hide();
         _selectedTabId = getActiveTabElementId();
 
-        const val = {sobject: sobject};
-        const action = "/describe";
-        const options = $.getAjaxOptions(action, POST, val, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
-        const callbacks = $.getAjaxCallbacks(afterDescribe, displayError, null);
-        $.executeAjax(options, callbacks);
+        try{
+            const result = await request("/describe", {sobject: sobject});
+            afterDescribe(result);
+        }catch(ex){
+            message.display(ex.message);
+        }
     };
 
     function afterDescribe(json){
@@ -127,21 +125,6 @@ const describe = new function() {
     };
 
     //------------------------------------------------
-    // message
-    //------------------------------------------------
-    function displayError(json){
-        const messageArea = document.getElementById("describeArea").querySelector(".message");
-        messageArea.textContent = json.error;
-        messageArea.style.display = "block";
-    };
-
-    function hideMessageArea(){
-        const messageArea = document.getElementById("describeArea").querySelector(".message");
-        messageArea.textContent = "";
-        messageArea.style.display = "none";
-    };
-
-    //------------------------------------------------
     // page load actions
     //------------------------------------------------
     this.prepare = function(){
@@ -151,4 +134,5 @@ const describe = new function() {
         const parent = document.getElementById("sobjectList");
         parent.appendChild(pulldown.pulldown);
     }
+
 };

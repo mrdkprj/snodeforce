@@ -1,6 +1,6 @@
 const URL = require("url").URL;
 const fs = require("fs");
-const client = require("./client.js");
+const client = require("./api.js");
 const queryResultParser = require("./lib/parser/query-result-parser.js");
 const describeResultParser = require("./lib/parser/describe-result-parser.js");
 const apexResultParser = require("./lib/parser/apex-result-parser.js");
@@ -124,7 +124,6 @@ const apexResultParser = require("./lib/parser/apex-result-parser.js");
     }
 
     const afterExecuteAnonymous = (response, apexResult) => {
-
         const result = apexResultParser.parse(apexResult);
 
         if(result.done == false){

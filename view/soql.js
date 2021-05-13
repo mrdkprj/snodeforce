@@ -1,20 +1,14 @@
-const soql = new function() {
+export default function soql({request, GridTable, Tab, Message}) {
 
     const _grids = {};
     const tabComponent = new Tab();
+    const message = new Message("soqlArea");
     const _sObjects = {};
-    const DEFAULT_DATA_TYPE = "";
-    const DEFAULT_CONTENT_TYPE = null;
-    const POST = "post";
 
     //------------------------------------------------
     // Execute SOQL
     //------------------------------------------------
-    this.executeSoql = function(soqlInfo) {
-
-        if ($.isAjaxBusy()) {
-            return;
-        }
+    this.executeSoql = async function(soqlInfo) {
 
         const soql = soqlInfo == null ? document.getElementById("inputSoql").value : soqlInfo.soql
 
@@ -22,15 +16,19 @@ const soql = new function() {
             return;
         }
 
-        hideMessageArea();
+        message.hide();
 
         const tooling = document.getElementById("useTooling").checked;
 
         const params = {soql: soql, tooling: tooling, tabId: getActiveTabElementId()};
-        const options = $.getAjaxOptions("/soql", POST, params, DEFAULT_DATA_TYPE, DEFAULT_CONTENT_TYPE);
-        const callbacks = $.getAjaxCallbacks(displayQueryResult, displayError, null);
 
-        $.executeAjax(options, callbacks);
+        try{
+            const result = await request("/soql", params);
+            displayQueryResult(result);
+        }catch(ex){
+            message.display(ex.message);
+        }
+
     };
 
     function displayQueryResult(json){
@@ -41,7 +39,9 @@ const soql = new function() {
 
         document.getElementById("soqlInfo" + json.soqlInfo.tabId).textContent = json.soqlInfo.timestamp;
         const history = document.createElement("li");
+        history.classList.add("history");
         history.textContent = json.soqlInfo.soql;
+        history.title = json.soqlInfo.soql;
         document.getElementById("soqlList").appendChild(history);
 
         if(_grids[elementId]){
@@ -80,6 +80,10 @@ const soql = new function() {
 
     this.closeSoqlHistory = function(){
         document.getElementById("soqlContent").classList.remove("history-opened");
+    }
+
+    this.replaceSoql = function(e){
+        document.getElementById("inputSoql").value = e.target.textContent;
     }
 
     //------------------------------------------------
@@ -153,21 +157,6 @@ const soql = new function() {
 
     function getActiveGridElementId(){
         return "soqlGrid" + getActiveTabElementId();
-    };
-
-    //------------------------------------------------
-    // message
-    //------------------------------------------------
-    function displayError(json){
-        const messageArea = document.getElementById("soqlArea").querySelector(".message");
-        messageArea.textContent = json.error;
-        messageArea.style.display = "block";
-    };
-
-    function hideMessageArea(){
-        const messageArea = document.getElementById("soqlArea").querySelector(".message");
-        messageArea.textContent = "";
-        messageArea.style.display = "none";
     };
 
     //------------------------------------------------

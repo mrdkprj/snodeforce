@@ -1,22 +1,22 @@
-a{
+.gridtable a{
     color: black;
 }
 
-a:hover,
-a:focus{
+.gridtable a:hover,
+.gridtable a:focus{
     text-decoration: underline;
 }
 
-.gtbl-viewport{
+.gridtable .gtbl-viewport{
     position: relative;
     overflow: auto;
 }
 
-.gtbl-container{
+.gridtable .gtbl-container{
     display:inline-block;
 }
 
-.gtbl{
+.gridtable .gtbl{
     display:table;
     font-size: 12px;
     table-layout: fixed;
@@ -24,14 +24,14 @@ a:focus{
     width: 0;
 }
 
-.gtbl-row {
+.gridtable .gtbl-row {
     display:table-row;
 }
 
-.gtbl-row .gtbl-row-header-cell,
-.gtbl-row .gtbl-value-cell,
-.gtbl-row .gtbl-col-header-cell,
-.gtbl-row .gtbl-header-cell {
+.gridtable .gtbl-row .gtbl-row-header-cell,
+.gridtable .gtbl-row .gtbl-value-cell,
+.gridtable .gtbl-row .gtbl-col-header-cell,
+.gridtable .gtbl-row .gtbl-header-cell {
     display:table-cell;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -39,7 +39,7 @@ a:focus{
     font-family:Verdana,Arial,sans-serif
 }
 
-.gtbl-row-header{
+.gridtable .gtbl-row-header{
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -51,14 +51,14 @@ a:focus{
 }
 
 
-.gtbl-header-cell {
+.gridtable .gtbl-header-cell {
     background-color: #eee;
     text-align: center;
     color: #000000;
     white-space: nowrap;
 }
 
-.gtbl-col-header-cell{
+.gridtable .gtbl-col-header-cell{
     border-top: 1px solid #aaa;
     border-right: 1px solid #aaa;
     border-bottom: 1px solid #aaa;
@@ -69,7 +69,7 @@ a:focus{
     z-index: 1000;
 }
 
-.gtbl-row-header-cell{
+.gridtable .gtbl-row-header-cell{
     border-right: 1px solid #aaa;
     border-bottom: 1px solid #aaa;
     border-left: 1px solid #aaa;
@@ -79,7 +79,7 @@ a:focus{
     z-index: 900;
 }
 
-.gtbl-corner-cell{
+.gridtable .gtbl-corner-cell{
     border-top: 1px solid #aaa;
     border-left: 1px solid #aaa;
     border-right: 1px solid #aaa;
@@ -90,11 +90,7 @@ a:focus{
     position:sticky;
 }
 
-.node-container{
-    display: table-row-group;
-}
-
-.gtbl-value-cell{
+.gridtable .gtbl-value-cell{
     border-top-width: 0;
     border-left-width: 0;
     border-right: 1px solid #ccc;
@@ -109,26 +105,26 @@ a:focus{
     user-select: none;
 }
 
-.current {
+.gridtable .current {
     outline: 2px solid #7000ff;
     outline-offset: -1px;
 }
 
-.row-highlight{
+.gridtable .row-highlight{
     background-color: #ddd;
 }
 
-.selectable{
+.gridtable .selectable{
     user-select: text;
     outline: 1px solid #7000ff;
     outline-offset: -1px;
 }
 
-.highlight{
+.gridtable .highlight{
     background-color: rgb(112, 0, 255,0.1);
 }
 
-.col-slidebar{
+.gridtable .col-slidebar{
     cursor: col-resize;
     width: 5px;
     height: 100%;
@@ -137,7 +133,7 @@ a:focus{
     top: 0;
 }
 
-.col-slidebar:hover{
+.gridtable .col-slidebar:hover{
     cursor:col-resize;
     border-right:1px solid red;
     border-left:1px solid red;
@@ -145,7 +141,7 @@ a:focus{
     margin:0;
 }
 
-.row-slidebar{
+.gridtable .row-slidebar{
     cursor: row-resize;
     width: 100%;
     height: 3px;
@@ -154,7 +150,7 @@ a:focus{
     bottom: 0;
 }
 
-.row-slidebar:hover{
+.gridtable .row-slidebar:hover{
     cursor:row-resize;
     border-top:1px solid red;
     border-bottom:1px solid red;
@@ -162,18 +158,18 @@ a:focus{
     margin:0;
 }
 
-.noselect{
+.gridtable .noselect{
     user-select: none;
 }
 
-.focus-holder,
-.input-holder{
+.gridtable .focus-holder,
+.gridtable .input-holder{
     position: fixed;
     top: -100px;
     left: -100px;
 }
 
-.cell-editor{
+.gridtable .cell-editor{
     border: none;
     padding: 0px 4px;
     resize: none;
@@ -189,7 +185,7 @@ a:focus{
     z-index: 800;
 }
 
-.row-number{
+.gridtable .row-number{
     pointer-events: none;
     position: absolute;
     bottom: 0;
@@ -199,7 +195,7 @@ a:focus{
     height: 100%;
 }
 
-.dialog{
+.gridtable .dialog{
     visibility: hidden;
     display: flex;
     position: absolute;
@@ -217,12 +213,12 @@ a:focus{
     transition-duration: 0.15s;
 }
 
-.dialog.open{
+.gridtable .dialog.open{
     visibility: visible;
     height:40px;
 }
 
-.dialog-txt {
+.gridtable .dialog-txt {
     display: none;
     height: 25px;
     margin: 5px 0 5px 10px;
@@ -236,11 +232,11 @@ a:focus{
     white-space: nowrap;
 }
 
-.dialog.open .dialog-txt{
+.gridtable .dialog.open .dialog-txt{
     display: block;
 }
 
-.search-result{
+.gridtable .search-result{
     display: none;
     font-size: 13px;
     font-family: Verdana,Arial,sans-serif;
@@ -251,33 +247,19 @@ a:focus{
     line-height: 25px;
 }
 
-.dialog.open .search-result{
+.gridtable .dialog.open .search-result{
     display: block;
 }
 
-.found{
-    color: red;
-}
-
-.sort-link{
+.gridtable .sort-link{
     cursor: pointer;
 }
 
-.sort-icon{
+.gridtable .sort-icon{
     position: absolute;
 }
-/*
-.sorted-asc .sort-icon:after{
-    content: '\2191';
-    margin-left: 5px;
-}
 
-.sorted-desc .sort-icon:after{
-    content: '\2193';
-    margin-left: 5px;
-}
-*/
-.filter-btn{
+.gridtable .filter-btn{
     width: 15px;
     height:15px;
     border:1px solid #ccc;
@@ -291,7 +273,7 @@ a:focus{
     background-color: #fff;
 }
 
-.arrow-down {
+.gridtable .arrow-down {
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
@@ -300,198 +282,25 @@ a:focus{
     pointer-events: none;
 }
 
-.sorted-asc .arrow-down:after{
+.gridtable .sorted-asc .arrow-down:after{
     content: '\2191';
     position: absolute;
     left: -8px;
     top: -3px;
 }
 
-.sorted-desc .arrow-down:after{
+.gridtable .sorted-desc .arrow-down:after{
     content: '\2193';
     position: absolute;
     left: -8px;
     top: -3px;
 }
 
-.filtered .filter-btn{
+.gridtable .filtered .filter-btn{
     background-color: #888888;
     border: none;
 }
 
-.filtered .arrow-down {
+.gridtable .filtered .arrow-down {
     border-top: 5px solid #fff;
-}
-/*------------------------*/
-
-.filter-dropdown{
-    position:absolute;
-    z-index: 500;
-}
-
-.filter-dropdown:focus,
-.filter-dropdown:active{
-    outline: none;
-}
-
-.filter-dropdown .filter-dropdown-area{
-    position: relative;
-    background-color: #fff;
-    z-index: 2020;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border: 1px solid #aaa;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    width:200px;
-    height:300px;
-    box-shadow: 1px 3px 6px rgb(0 0 0 / 13%);
-}
-
-.filter-dropdown .search-text-area{
-    padding: 10px 10px 10px 10px;
-}
-
-.filter-dropdown .search-text{
-    border:1px solid #ccc;
-    border-radius:3px;
-    padding: 5px;
-    width: 100%;
-    height: 27px;
-    line-height: 27px;
-}
-
-.filter-dropdown .search-text:focus{
-    outline:none;
-}
-
-.filter-dropdown .dropdown-viewport{
-    overflow: hidden;
-    min-width: 100%;
-}
-
-.filter-dropdown .dropdown{
-    /*overflow: hidden;*/
-    padding-bottom: 10px;
-    flex: 1 1 auto;
-    overflow: auto;
-    height: 150px;
-    position: relative;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-}
-
-.filter-dropdown .clear-text{
-    position: absolute;
-    top: 12px;
-    right: 15px;
-    font-size: 10px;
-    padding: 3px;
-    color: #888;
-    font-weight: bold;
-    cursor: pointer;
-    height: 24px;
-    background-color: transparent;
-}
-
-.filter-dropdown .options {
-    position: relative;
-    z-index: 2000;
-    height: 200px;
-    text-align: left;
-    list-style: none;
-    padding: 0;
-    list-style-type: none;
-    background-color: #fff;
-    /*overflow:auto;*/
-    margin: 0 5px;
-    /*border: 1px solid #ccc;*/
-}
-
-.filter-dropdown .option{
-    font-size: 11px;
-    line-height: 11px;
-    display: block;
-    padding: 3px 15px 3px 20px;
-    cursor: pointer;
-}
-
-.filter-dropdown .option:hover{
-    background-color: rgb(219 217 217 / 30%);
-}
-
-.filter-dropdown .selected{
-    text-indent: 0px;
-}
-
-.filter-dropdown .selected:after{
-    content:"";
-    border-left: 2px solid red;
-    border-bottom: 2px solid red;
-    transform: rotate(-45deg);
-    position:absolute;
-    left:6px;
-    height:3px;
-    width:6px;
-}
-
-.filter-dropdown a:hover{
-    text-decoration: none;
-}
-
-.filter-dropdown .btn-area{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px 10px;
-}
-
-.filter-dropdown .btns button{
-    margin:0 3px;
-}
-
-.filter-dropdown .option-top{
-    font-weight:bold;
-}
-
-.filter-dropdown .option:before{
-    content: "";
-    position: absolute;
-    left: 17px;
-    border-top: 1px dotted black;
-    border-left: 1px dotted black;
-    height: 20px;
-    width: 8px;
-    top: 11px;
-}
-
-.filter-dropdown li:nth-last-child(2) .option::before{
-    content: "";
-    position: absolute;
-    left: 17px;
-    border-top: 1px dotted black;
-    border-left: 1px dotted black;
-    border-bottom: 1px dotted black;
-    height: 20px;
-    width: 8px;
-    top: 11px;
-}
-
-.filter-dropdown li:last-child .option::before{
-    content: "";
-    border:none;
-}
-
-.filter-dropdown .options input{
-    height:10px;
-}
-
-.filter-dropdown li{
-    position:relative;
-    height:20px
-}
-
-.filter-dropdown label{
-    white-space: nowrap;
 }
