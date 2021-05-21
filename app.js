@@ -6,8 +6,7 @@ const describeResultParser = require("./lib/parser/describe-result-parser.js");
 const apexResultParser = require("./lib/parser/apex-result-parser.js");
 
     module.exports = {
-        handleRequest: (request, response) => {
-            response.writeHead(200, {"Content-Type": "text/html"});
+        handleRequest: (request, response) => {            
             const path = new URL(request.url, "relative:///").pathname;
             switch (path) {
                 case "/":
@@ -37,6 +36,7 @@ const apexResultParser = require("./lib/parser/apex-result-parser.js");
     };
 
     const renderHTML = (path, response) => {
+        response.writeHead(200, {"Content-Type": "text/html"});
         fs.readFile(path, null, function(error, data) {
             if (error) {
                 response.writeHead(404);
